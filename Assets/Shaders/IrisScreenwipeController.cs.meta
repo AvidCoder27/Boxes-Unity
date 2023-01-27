@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 94b73722a4d08d9439b5f29063debce1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - IrisScreenwipeMaterial: {fileID: 2100000, guid: 697d2f7fa4a75f84e8ba6b1b8700b07e, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
