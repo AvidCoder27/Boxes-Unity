@@ -10,7 +10,7 @@ public class IrisScreenwipeController : MonoBehaviour
     [SerializeField] Material IrisScreenwipeMaterial;
     Action FadeDownDoneCallback;
     Action FadeUpDoneCallback;
-    float radius = 1;
+    float radius;
     
     float upTime;
     float intermediateTime;
@@ -21,6 +21,7 @@ public class IrisScreenwipeController : MonoBehaviour
     private void Start()
     {
         state = TransitionState.Finished;
+        radius = maxRadius;
         SetShaderRadius(radius);
     }
 
