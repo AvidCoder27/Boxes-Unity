@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b73722a4d08d9439b5f29063debce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 1
+  maxRadius: 1.2
   IrisScreenwipeMaterial: {fileID: 2100000, guid: 697d2f7fa4a75f84e8ba6b1b8700b07e, type: 2}
 --- !u!114 &89028142
 MonoBehaviour:
@@ -736,8 +736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveTime: 0.5
   distanceFromCircle: 4
-  queuedMove: 0
-  moving: 0
+  floor: 0
 --- !u!82 &519420034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3585,5 +3584,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99392e92f1c784c4a80d54bf860ed639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevelIndex: 1
+  currentLevelIndex: 2
   maxLevel: 2

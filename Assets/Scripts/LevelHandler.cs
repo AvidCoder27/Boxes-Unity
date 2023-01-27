@@ -94,7 +94,7 @@ public class LevelHandler : MonoBehaviour
                         new Column(false, false, Box.Contents.None, Box.Contents.Star),
                         new Column(true, true),
                         new Column(false, true),
-                        new Column(true, false)
+                        new Column(true, true, Box.Contents.None, Box.Contents.Ladder)
                     },
                     new List<Column>()
                     {

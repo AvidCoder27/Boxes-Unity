@@ -14,5 +14,5 @@ public static class Actions
     /// <summary>
     /// Pass in floor as x, column as y, row as z
     /// </summary>
-    public static Action<int3> OnTryOpenBox;
+    public static Action<int3> OnTryInteractBox;
 }

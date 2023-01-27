@@ -15,12 +15,11 @@ public class PlayerMovement: MonoBehaviour
     LevelHandler levelHandler;
     Level level;
     AudioSource moveSound;
-    Camera cam;
 
     [SerializeField] float moveTime; // 0.5f
     [SerializeField] float distanceFromCircle; // 4f
-    [SerializeField] Move queuedMove;
-    [SerializeField] bool moving;
+    Move queuedMove;
+    bool moving;
 
     float moveTimeElapsed;
     Quaternion orientPreMove;
@@ -34,7 +33,6 @@ public class PlayerMovement: MonoBehaviour
     {
         levelHandler = LevelHandler.GetInstance();
         playerInput = GetComponent<PlayerInput>();
-        cam = Camera.main;
 
         moveLeftAction = playerInput.actions["MoveLeft"];
         moveRightAction = playerInput.actions["MoveRight"];
@@ -71,11 +69,11 @@ public class PlayerMovement: MonoBehaviour
 
     void TryOpenBottomBox(InputAction.CallbackContext ctx)
     {
-        Actions.OnTryOpenBox.Invoke(new int3(floor, column,0));
+        Actions.OnTryInteractBox.Invoke(new int3(floor, column,0));
     }
     void TryOpenTopBox(InputAction.CallbackContext ctx)
     {
-        Actions.OnTryOpenBox.Invoke(new int3(floor, column, 1));
+        Actions.OnTryInteractBox.Invoke(new int3(floor, column, 1));
     }
     void QueueMoveLeft(InputAction.CallbackContext ctx) => queuedMove = Move.Left;
     void QueueMoveRight(InputAction.CallbackContext ctx) => queuedMove = Move.Right;
@@ -141,7 +139,7 @@ public class PlayerMovement: MonoBehaviour
         float yAngle = (float)level.CalculateCameraAngleForColumnInDegrees(column);
         float xAngle = transform.rotation.eulerAngles.x;
 
-        posSetpoint = new Vector3((float)newPosition.x, 2 + floor * Level.DistanceBetweenFloors, (float)newPosition.y);
+        posSetpoint = new Vector3((float)newPosition.x, 2 - floor * Level.DistanceBetweenFloors, (float)newPosition.y);
         orientSetpoint = Quaternion.Euler(xAngle, yAngle, 0);
 
         if (moveInstantly)

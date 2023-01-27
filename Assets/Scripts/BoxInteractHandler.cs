@@ -6,6 +6,6 @@ public class BoxInteractHandler : MonoBehaviour
 
     public void OnMouseDown()
     {
-        ParentBox.TryOpenBox();
+        ParentBox.TryInteractBox();
     }
 }

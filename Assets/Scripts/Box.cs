@@ -16,12 +16,14 @@ public class Box : MonoBehaviour
     public Contents contents;
 
     [SerializeField] GameObject starPrefab;
+    [SerializeField] GameObject ladderPrefab;
     GameHandler gameHandler;
-    GameObject starGO;
-    Star star;
     AudioSource BoxOpenSound;
     GameObject openedBox;
     GameObject closedBox;
+
+    Star star;
+    LadderAccessPoint ladder;
 
     private void Awake()
     {
@@ -33,10 +35,18 @@ public class Box : MonoBehaviour
 
     private void Start()
     {
-        if (contents == Contents.Star)
+        switch (contents)
         {
-            starGO = Instantiate(starPrefab, transform.position, transform.rotation);
-            star = starGO.GetComponent<Star>();
+            case Contents.Star:
+                GameObject starGO = Instantiate(starPrefab, transform.position, transform.rotation);
+                star = starGO.GetComponent<Star>();
+                break;
+
+            case Contents.Ladder:
+                ladder = Instantiate(ladderPrefab,
+                    transform.position + Vector3.down * (Level.DistanceBetweenFloors - 3),
+                    transform.rotation).GetComponent<LadderAccessPoint>();
+                break;
         }
     }
 
@@ -49,39 +59,49 @@ public class Box : MonoBehaviour
 
     private void OnEnable()
     {
-        Actions.OnTryOpenBox += HandleTryOpenBoxAction;
+        Actions.OnTryInteractBox += HandleTryInteractBoxAction;
     }
     private void OnDisable()
     {
-        Actions.OnTryOpenBox -= HandleTryOpenBoxAction;
+        Actions.OnTryInteractBox -= HandleTryInteractBoxAction;
     }
 
-    private void HandleTryOpenBoxAction(int3 attemptedBoxIndex)
+    private void HandleTryInteractBoxAction(int3 attemptedBoxIndex)
     {
         if (attemptedBoxIndex.x == boxIndex.x && attemptedBoxIndex.y == boxIndex.y && attemptedBoxIndex.z == boxIndex.z)
-            TryOpenBox();
+            TryInteractBox();
     }
 
-    public void TryOpenBox()
+    public void TryInteractBox()
     {
-        if (gameHandler.Stage == GameHandler.GameStage.Playing && !isOpen)
+        if (gameHandler.Stage == GameHandler.GameStage.Playing)
         {
-            BoxOpenSound.Play();
-            isOpen = true;
-            if (contents == Contents.Star) WinLevel();
-            else FailLevel();
+            if (isOpen) InteractedWhenOpen();
+            else InteractedWhenClosed();
         }
     }
 
-    void WinLevel()
+    private void InteractedWhenOpen()
     {
-        star.StartWinAnimation(this, null);
 
-        Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
     }
 
-    void FailLevel()
+    private void InteractedWhenClosed()
     {
-        Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
+        BoxOpenSound.Play();
+        isOpen = true;
+        switch (contents)
+        {
+            case Contents.Star:
+                star.StartWinAnimation(this, null);
+                Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
+                break;
+            case Contents.Ladder:
+                // climb down the ladder
+                break;
+            default:
+                Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
+                break;
+        }
     }
 }
