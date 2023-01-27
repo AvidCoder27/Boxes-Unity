@@ -58,23 +58,24 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameHandler.cs" />
     <Compile Include="Assets\Shaders\XrayDuringPreparation.cs" />
-    <Compile Include="Assets\Scripts\Level.cs" />
+    <Compile Include="Assets\Scripts\Playing\Level.cs" />
     <Compile Include="Assets\Scripts\LevelHandler.cs" />
-    <Compile Include="Assets\Scripts\BoxInteractHandler.cs" />
+    <Compile Include="Assets\Scripts\Playing\BoxInteractHandler.cs" />
     <Compile Include="Assets\Scripts\AudioHandler.cs" />
-    <Compile Include="Assets\Scripts\Box.cs" />
-    <Compile Include="Assets\Scripts\Interactable.cs" />
+    <Compile Include="Assets\Scripts\Playing\Box.cs" />
+    <Compile Include="Assets\Scripts\Preparation\Interactable.cs" />
     <Compile Include="Assets\Scripts\CharacterSwitcher.cs" />
     <Compile Include="Assets\Scripts\Actions.cs" />
-    <Compile Include="Assets\Scripts\Column.cs" />
-    <Compile Include="Assets\Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\SimpleCharacterController.cs" />
-    <Compile Include="Assets\Scripts\LadderAccessPoint.cs" />
-    <Compile Include="Assets\Scripts\WorldButton.cs" />
-    <Compile Include="Assets\Scripts\CharacterLook.cs" />
+    <Compile Include="Assets\Scripts\Playing\Column.cs" />
+    <Compile Include="Assets\Scripts\Playing\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Preparation\SimpleCharacterController.cs" />
+    <Compile Include="Assets\Scripts\Preparation\LadderAccessPoint.cs" />
+    <Compile Include="Assets\Scripts\Preparation\WorldButton.cs" />
+    <Compile Include="Assets\Scripts\Preparation\CharacterLook.cs" />
     <Compile Include="Assets\Shaders\IrisScreenwipeController.cs" />
     <Compile Include="Assets\Shaders\Blit.cs" />
-    <Compile Include="Assets\Scripts\Star.cs" />
+    <Compile Include="Assets\Scripts\Playing\Star.cs" />
+    <Compile Include="Assets\Scripts\Playing\PlayingLadder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

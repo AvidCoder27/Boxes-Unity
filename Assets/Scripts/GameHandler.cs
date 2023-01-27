@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class GameHandler : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] GameObject boxPrefab;
     [SerializeField] GameObject boxLightPrefab;
     LevelHandler levelHandler;
+    public Transform playingCharacter;
 
     public GameStage Stage { get; private set; }
     [SerializeField] float BottomBoxHeight, TopBoxHeight, BoxLightHeight;

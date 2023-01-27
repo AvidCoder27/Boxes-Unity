@@ -23,7 +23,7 @@ public class Box : MonoBehaviour
     GameObject closedBox;
 
     Star star;
-    LadderAccessPoint ladder;
+    PlayingLadder ladder;
 
     private void Awake()
     {
@@ -38,14 +38,13 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Star:
-                GameObject starGO = Instantiate(starPrefab, transform.position, transform.rotation);
-                star = starGO.GetComponent<Star>();
+                star = Instantiate(starPrefab, transform.position, transform.rotation).GetComponent<Star>();
                 break;
 
             case Contents.Ladder:
                 ladder = Instantiate(ladderPrefab,
-                    transform.position + Vector3.down * (Level.DistanceBetweenFloors - 3),
-                    transform.rotation).GetComponent<LadderAccessPoint>();
+                    transform.position + Vector3.down * (Level.DistanceBetweenFloors - 1),
+                    transform.rotation).GetComponentInChildren<PlayingLadder>();
                 break;
         }
     }
@@ -83,7 +82,12 @@ public class Box : MonoBehaviour
 
     private void InteractedWhenOpen()
     {
-
+        switch (contents)
+        {
+            case Contents.Ladder:
+                ladder.InteractedWith(gameHandler.playingCharacter, false);
+                break;
+        }
     }
 
     private void InteractedWhenClosed()
@@ -97,7 +101,7 @@ public class Box : MonoBehaviour
                 Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
                 break;
             case Contents.Ladder:
-                // climb down the ladder
+                // don't lose :)
                 break;
             default:
                 Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);

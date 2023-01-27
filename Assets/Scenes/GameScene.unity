@@ -736,7 +736,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveTime: 0.5
   distanceFromCircle: 4
-  floor: 0
 --- !u!82 &519420034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1449,6 +1448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxPrefab: {fileID: 7795001186577505085, guid: 1d6dcb711d1022b48950d8113a5a526b, type: 3}
   boxLightPrefab: {fileID: 1675247079116054521, guid: 47db15cefd7e33e4e973ed8ac6e502bd, type: 3}
+  playingCharacter: {fileID: 519420032}
   BottomBoxHeight: 0
   TopBoxHeight: 1.6
   BoxLightHeight: 0
@@ -2296,14 +2296,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521726037}
-  m_LocalRotation: {x: -0, y: 0.40418416, z: -0, w: 0.9146776}
+  m_LocalRotation: {x: 0.28641632, y: 0.28641632, z: 0.64650273, w: 0.64650273}
   m_LocalPosition: {x: -6.34, y: 14.52, z: -3.32}
   m_LocalScale: {x: 2.9983, y: 3, z: 0.11177}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 198706759}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 47.68, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 47.789, z: 90}
 --- !u!65 &1521726039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2337,7 +2337,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b288cb51a0113674facba4acfdca5b4d, type: 2}
+  - {fileID: 2100000, guid: 4ba26ecf392b2784eb43bd5932be8e5e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -201,7 +201,7 @@ MonoBehaviour:
   isOpen: 0
   contents: 0
   starPrefab: {fileID: 759781566634951549, guid: 8ba31b60fe94a224e8796d83a87e03eb, type: 3}
-  ladderPrefab: {fileID: 6917999190900948219, guid: cccc8dc4320751341bdcd4cb3088178a, type: 3}
+  ladderPrefab: {fileID: 6917999190900948219, guid: 023f585e0223ea8408997428ad7e7924, type: 3}
 --- !u!82 &2482545502050049450
 AudioSource:
   m_ObjectHideFlags: 0
