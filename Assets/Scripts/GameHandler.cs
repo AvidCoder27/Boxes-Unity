@@ -4,27 +4,22 @@ using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
-    private static GameHandler Instance;
     public enum GameStage { Preparation, Playing, Transitioning }
 
     [SerializeField] GameObject boxPrefab;
     [SerializeField] GameObject boxLightPrefab;
+    [SerializeField] Transform playingCharacter;
     LevelHandler levelHandler;
-    public Transform playingCharacter;
 
     public GameStage Stage { get; private set; }
     [SerializeField] float BottomBoxHeight, TopBoxHeight, BoxLightHeight;
 
     private void Awake()
     {
-        Instance = this;
-
         levelHandler = LevelHandler.GetInstance();
 
         Stage = GameStage.Preparation;
     }
-
-    public static GameHandler GetInstance() => Instance;
 
     private void Start()
     {
@@ -84,12 +79,12 @@ public class GameHandler : MonoBehaviour
         GameObject boxGO = Instantiate(boxPrefab, boxPosition, boxRotation);
 
         Box box = boxGO.GetComponent<Box>();
-        // give box its index
-        box.boxIndex = new int3(floor, column, row);
-        // find the current column of the current floor. Then get the state of the box based on current row
+        box.SetGameHandlerRef(this);
+        box.SetPlayingCharacterRef(playingCharacter);
+        box.boxIndex = new int3(floor, column, row);        
         box.isOpen = level.Floors[floor][column].GetIsOpenFromIndex(row);
-        // give box its contents
         box.contents = level.Floors[floor][column].GetContentsFromIndex(row);
+        box.allowOpening = true;
     }
 
     private void GenerateLevel()

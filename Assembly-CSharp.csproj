@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Actions.cs" />
     <Compile Include="Assets\Scripts\Playing\Column.cs" />
     <Compile Include="Assets\Scripts\Playing\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Playing\PlayingLadder.cs" />
     <Compile Include="Assets\Scripts\Preparation\SimpleCharacterController.cs" />
     <Compile Include="Assets\Scripts\Preparation\LadderAccessPoint.cs" />
     <Compile Include="Assets\Scripts\Preparation\WorldButton.cs" />
@@ -75,7 +76,6 @@
     <Compile Include="Assets\Shaders\IrisScreenwipeController.cs" />
     <Compile Include="Assets\Shaders\Blit.cs" />
     <Compile Include="Assets\Scripts\Playing\Star.cs" />
-    <Compile Include="Assets\Scripts\Playing\PlayingLadder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

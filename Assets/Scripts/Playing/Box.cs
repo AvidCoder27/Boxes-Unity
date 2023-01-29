@@ -14,10 +14,12 @@ public class Box : MonoBehaviour
     public int3 boxIndex;
     public bool isOpen;
     public Contents contents;
+    public bool allowOpening;
 
     [SerializeField] GameObject starPrefab;
     [SerializeField] GameObject ladderPrefab;
     GameHandler gameHandler;
+    Transform playingCharacter;
     AudioSource BoxOpenSound;
     GameObject openedBox;
     GameObject closedBox;
@@ -30,7 +32,15 @@ public class Box : MonoBehaviour
         openedBox = transform.Find("container/Box/opened").gameObject;
         closedBox = transform.Find("container/Box/closed").gameObject;
         BoxOpenSound = GetComponent<AudioSource>();
-        gameHandler = GameHandler.GetInstance();
+    }
+
+    public void SetGameHandlerRef(GameHandler g)
+    {
+        if (gameHandler == null) gameHandler = g;
+    }
+    public void SetPlayingCharacterRef(Transform t)
+    {
+        if (playingCharacter == null) playingCharacter = t;
     }
 
     private void Start()
@@ -42,9 +52,7 @@ public class Box : MonoBehaviour
                 break;
 
             case Contents.Ladder:
-                ladder = Instantiate(ladderPrefab,
-                    transform.position + Vector3.down * (Level.DistanceBetweenFloors - 1),
-                    transform.rotation).GetComponentInChildren<PlayingLadder>();
+                ladder = Instantiate(ladderPrefab, transform.position, transform.rotation, transform).GetComponentInChildren<PlayingLadder>();
                 break;
         }
     }
@@ -76,7 +84,7 @@ public class Box : MonoBehaviour
         if (gameHandler.Stage == GameHandler.GameStage.Playing)
         {
             if (isOpen) InteractedWhenOpen();
-            else InteractedWhenClosed();
+            else if (allowOpening) InteractedWhenClosed();
         }
     }
 
@@ -85,7 +93,7 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Ladder:
-                ladder.InteractedWith(gameHandler.playingCharacter, false);
+                ladder.InteractedWith(playingCharacter, false);
                 break;
         }
     }

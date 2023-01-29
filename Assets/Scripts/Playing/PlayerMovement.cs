@@ -46,6 +46,7 @@ public class PlayerMovement: MonoBehaviour
         moveRightAction.performed += QueueMoveRight;
         selectTopAction.performed += TryOpenTopBox;
         selectBottomAction.performed += TryOpenBottomBox;
+        Actions.OnGameEnd += HandleGameEnd;
     }
     private void OnDisable()
     {
@@ -53,6 +54,7 @@ public class PlayerMovement: MonoBehaviour
         moveRightAction.performed -= QueueMoveRight;
         selectTopAction.performed -= TryOpenTopBox;
         selectBottomAction.performed -= TryOpenBottomBox;
+        Actions.OnGameEnd -= HandleGameEnd;
     }
 
     void Start()
@@ -64,6 +66,19 @@ public class PlayerMovement: MonoBehaviour
 
         floor = 0;
         column = UnityEngine.Random.Range(0, level.NumberOfColumns);
+        StartMoving(moveInstantly: true);
+    }
+
+    void HandleGameEnd(Actions.GameEndState endState)
+    {
+        queuedMove = Move.None;
+        playerInput.DeactivateInput();
+    }
+
+    public void ChangeFloor(int delta)
+    {
+        floor += delta;
+        queuedMove = Move.None;
         StartMoving(moveInstantly: true);
     }
 

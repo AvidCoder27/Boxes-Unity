@@ -25,20 +25,6 @@ public class CharacterSwitcher : MonoBehaviour
         irisScreenwipeController = GetComponent<IrisScreenwipeController>();
     }
 
-    private void OnEnable()
-    {
-        Actions.OnGameEnd += HandleGameEnd;
-    }
-    private void OnDisable()
-    {
-        Actions.OnGameEnd -= HandleGameEnd;
-    }
-
-    private void HandleGameEnd(Actions.GameEndState gameEndState)
-    {
-        playingInput.DeactivateInput();
-    }
-
     public void StartStageSwitch()
     {
         preparationInput.DeactivateInput();

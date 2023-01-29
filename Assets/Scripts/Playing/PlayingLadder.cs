@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 public class PlayingLadder : MonoBehaviour
@@ -14,6 +13,8 @@ public class PlayingLadder : MonoBehaviour
     Transform topEntrance;
     Transform animatedParent;
     Animator animator;
+
+    float allowFinishMovementDelay;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class PlayingLadder : MonoBehaviour
         {
             playerInput = player.GetComponent<PlayerInput>();
             playerInput.DeactivateInput();
+            allowFinishMovementDelay = 0.05f;
             if (climbingUp)
             {
                 climbingState = ClimbState.Up;
@@ -45,25 +47,29 @@ public class PlayingLadder : MonoBehaviour
                 animator.SetTrigger("ClimbDown");
             }
             player.SetParent(animatedParent);
-            Debug.Log("parented player to animparent");
         }
     }
 
     private void Update()
     {
-        if (
-            climbingState != ClimbState.None &&
-            animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 &&
-            !animator.IsInTransition(0)
-            ) FinishedMovement();
+        if (climbingState != ClimbState.None)
+        {
+            if (allowFinishMovementDelay >= 0) allowFinishMovementDelay -= Time.deltaTime;
+            bool isAnimating = allowFinishMovementDelay > 0
+                || animator.IsInTransition(0)
+                || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
+            if (!isAnimating) FinishedMovement();
+        }
     }
 
     private void FinishedMovement()
     {
-        Debug.Log("move finished");
-        climbingState = ClimbState.None;
-        animator.SetTrigger("StopClimbing");
+        // change player floor: -1 if climbing up, else +1
+        player.GetComponent<PlayerMovement>().ChangeFloor(climbingState == ClimbState.Up ? -1 : +1);
         player.SetParent(null);
         playerInput.ActivateInput();
+
+        animator.SetTrigger("StopClimbing");
+        climbingState = ClimbState.None;
     }
 }
