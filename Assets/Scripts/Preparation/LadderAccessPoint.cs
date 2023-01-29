@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -67,6 +68,7 @@ public class LadderAccessPoint : Interactable
                 player.SetPositionAndRotation(
                     Vector3.Lerp(translationStart, entryPoint.position, timeRatio),
                     Quaternion.Slerp(rotationStart, entryPoint.rotation, timeRatio)
+                    //Quaternion.Euler(Vector3.Slerp(rotationStart.eulerAngles, entryPoint.eulerAngles + Vector3.right * 360, timeRatio))
                     );
 
                 cam.localEulerAngles = Vector3.Lerp(camEulerStart, Vector3.zero, timeRatio);

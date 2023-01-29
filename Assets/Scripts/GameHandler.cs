@@ -8,6 +8,9 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField] GameObject boxPrefab;
     [SerializeField] GameObject boxLightPrefab;
+    [SerializeField] GameObject viewingHoleSegmentPrefab;
+    [SerializeField] GameObject viewingHoleBottomPrefab;
+    [SerializeField] GameObject hideDuringPlay;
     [SerializeField] Transform playingCharacter;
     LevelHandler levelHandler;
 
@@ -23,6 +26,7 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
+        hideDuringPlay.SetActive(true);
         GenerateLevel();
     }
 
@@ -30,12 +34,14 @@ public class GameHandler : MonoBehaviour
     {
         Actions.OnGameEnd += HandleGameEnd;
         Actions.OnSceneSwitchStart += HandleSceneSwitchStart;
-        Actions.OnSceneSwitchEnd+= HandleSceneSwitchEnd;
+        Actions.OnSceneSwitchSetup += HandleSceneSwitchSetup;
+        Actions.OnSceneSwitchEnd += HandleSceneSwitchEnd;
     }
     private void OnDisable()
     {
         Actions.OnGameEnd -= HandleGameEnd;
         Actions.OnSceneSwitchStart -= HandleSceneSwitchStart;
+        Actions.OnSceneSwitchSetup -= HandleSceneSwitchSetup;
         Actions.OnSceneSwitchEnd -= HandleSceneSwitchEnd;
     }
 
@@ -43,11 +49,14 @@ public class GameHandler : MonoBehaviour
     {
         Stage = GameStage.Transitioning;
     }
+    private void HandleSceneSwitchSetup()
+    {
+        hideDuringPlay.SetActive(false);
+    }
     private void HandleSceneSwitchEnd()
     {
         Stage = GameStage.Playing;
     }
-
     private void HandleGameEnd(Actions.GameEndState gameEndState)
     {
         Stage = GameStage.Transitioning;
@@ -87,11 +96,20 @@ public class GameHandler : MonoBehaviour
         box.allowOpening = true;
     }
 
+    private void SpawnViewingHole(int floor, GameObject prefab)
+    {
+        Quaternion rot = floor % 2 == 0 ? Quaternion.identity : Quaternion.Euler(Vector3.up * 180);
+        Instantiate(prefab,
+            -hideDuringPlay.transform.position + (-floor * Level.DistanceBetweenFloors + 5) * Vector3.up,
+            rot, hideDuringPlay.transform);
+    }
+
     private void GenerateLevel()
     {
         Level level = levelHandler.GetCurrentLevel();
         for(int floor = 0; floor < level.NumberOfFloors; floor++)
         {
+            SpawnViewingHole(floor, viewingHoleSegmentPrefab);
             for (int column = 0; column < level.NumberOfColumns; column++)
             {
                 SpawnLight(level, floor, column);
@@ -102,5 +120,6 @@ public class GameHandler : MonoBehaviour
                 }
             }
         }
+        SpawnViewingHole(level.NumberOfFloors, viewingHoleBottomPrefab);
     }
 }

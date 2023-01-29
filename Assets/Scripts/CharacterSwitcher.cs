@@ -7,8 +7,6 @@ public class CharacterSwitcher : MonoBehaviour
     [SerializeField] Transform PlayCharacter;
     [SerializeField] Transform PrepCharacter;
 
-    [SerializeField] GameObject hideDuringPlay;
-
     PlayerInput playInput;
     PlayerInput prepInput;
     IrisScreenwipeController irisScreenwipeController;
@@ -29,7 +27,6 @@ public class CharacterSwitcher : MonoBehaviour
 
     private void Start()
     {
-        hideDuringPlay.SetActive(true);
         PrepCharacter.gameObject.SetActive(true);
         PlayCharacter.gameObject.SetActive(false);
         transform.SetParent(prepCamParent);
@@ -45,8 +42,6 @@ public class CharacterSwitcher : MonoBehaviour
 
     private void SetupPlayingStage()
     {
-        hideDuringPlay.SetActive(false);
-
         transform.SetParent(playCamParent, false);
         PrepCharacter.gameObject.SetActive(false);
         PlayCharacter.gameObject.SetActive(true);
