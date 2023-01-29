@@ -20,4 +20,6 @@ public static class Actions
     /// Pass in floor, column, and the player transform
     /// </summary>
     public static Action<int, int, Transform> OnTryClimbLadder;
+
+    public static Action OnInverterActivated;
 }

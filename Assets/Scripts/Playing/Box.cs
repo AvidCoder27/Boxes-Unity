@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Mathematics;
 using System;
+using System.Collections;
 
 public class Box : MonoBehaviour
 {
@@ -68,10 +69,12 @@ public class Box : MonoBehaviour
     private void OnEnable()
     {
         Actions.OnTryInteractBox += HandleTryInteractBoxAction;
+        Actions.OnInverterActivated += InvertIsOpen;
     }
     private void OnDisable()
     {
         Actions.OnTryInteractBox -= HandleTryInteractBoxAction;
+        Actions.OnInverterActivated -= InvertIsOpen;
     }
 
     private void HandleTryInteractBoxAction(int3 attemptedBoxIndex)
@@ -80,12 +83,25 @@ public class Box : MonoBehaviour
             TryInteractBox();
     }
 
+    private void InvertIsOpen()
+    {
+        if (isOpen)
+        {
+            isOpen = false;
+        } else
+        {
+            isOpen = true;
+            //float t = boxIndex.x * 3 + boxIndex.y * 2 + boxIndex.z;
+            //Invoke(nameof(PlayOpenSound), t/100);
+        }
+    }
+
     public void TryInteractBox()
     {
         if (gameHandler.Stage == GameHandler.GameStage.Playing)
         {
             if (isOpen) InteractedWhenOpen();
-            else if (allowOpening) InteractedWhenClosed();
+            else InteractedWhenClosed();
         }
     }
 
@@ -96,25 +112,37 @@ public class Box : MonoBehaviour
             case Contents.Ladder:
                 ladder.StartClimbing(playingCharacter, false);
                 break;
+            case Contents.Inverter:
+                PlayOpenSound();
+                Actions.OnInverterActivated?.Invoke();
+                break;
         }
     }
 
     private void InteractedWhenClosed()
     {
-        BoxOpenSound.Play();
-        isOpen = true;
-        switch (contents)
+        if (allowOpening)
         {
-            case Contents.Star:
-                star.StartWinAnimation(this, null);
-                Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
-                break;
-            case Contents.Ladder:
-                // don't lose :)
-                break;
-            default:
-                Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
-                break;
+            PlayOpenSound();
+            isOpen = true;
+            switch (contents)
+            {
+                case Contents.Star:
+                    star.StartWinAnimation(this, null);
+                    Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
+                    break;
+                case Contents.None:
+                    Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
+                    break;
+                default:
+                    // Don't lose
+                    break;
+            }
         }
+    }
+
+    private void PlayOpenSound()
+    {
+        BoxOpenSound.Play();
     }
 }

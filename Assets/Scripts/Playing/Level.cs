@@ -5,7 +5,7 @@ using Unity.Mathematics;
 public class Level
 {
     private const double PI = Math.PI;
-    private const float RadiusMultiplier = 3f;
+    private const float RadiusMultiplier = 3.8f;
     public static readonly float DistanceBetweenFloors = 7f;
 
     // Floors is a list of "floors." A floor is just a list of columns.

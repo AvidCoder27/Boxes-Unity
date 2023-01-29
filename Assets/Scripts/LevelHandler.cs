@@ -105,7 +105,48 @@ public class LevelHandler : MonoBehaviour
                         new Column(false, true)
                     }
                 }
-            )
+            ),
+            new Level(
+                new List<List<Column>>()
+                {
+                    new List<Column>()
+                    {
+                        new Column(true, false),
+                        new Column(false, true),
+                        new Column(false, false, Box.Contents.Star, Box.Contents.Ladder),
+                        new Column(false, true),
+                        new Column(true, false),
+                        new Column(false, false),
+                        new Column(true, false),
+                        new Column(false, true),
+                        new Column(false, false),
+                    },
+                    new List<Column>()
+                    {
+                        new Column(true, false),
+                        new Column(false, true),
+                        new Column(false, false, Box.Contents.Inverter, Box.Contents.Ladder),
+                        new Column(false, true),
+                        new Column(true, false),
+                        new Column(false, false),
+                        new Column(true, false),
+                        new Column(false, true),
+                        new Column(false, false),
+                    },
+                    new List<Column>()
+                    {
+                        new Column(true, true),
+                        new Column(true, true),
+                        new Column(true, true),
+                        new Column(true, true),
+                        new Column(true, true),
+                        new Column(true, true),
+                        new Column(true, true),
+                        new Column(true, true),
+                        new Column(true, true),
+                    }
+                }
+            ),
         };
     }
 
