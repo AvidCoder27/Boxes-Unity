@@ -4,30 +4,40 @@ using UnityEngine.InputSystem;
 
 public class CharacterSwitcher : MonoBehaviour
 {
-    [SerializeField] Transform PlayingCharacter;
-    [SerializeField] Transform PreparationCharacter;
+    [SerializeField] Transform PlayCharacter;
+    [SerializeField] Transform PrepCharacter;
 
     [SerializeField] GameObject hideDuringPlay;
 
-    PlayerInput playingInput;
-    PlayerInput preparationInput;
+    PlayerInput playInput;
+    PlayerInput prepInput;
     IrisScreenwipeController irisScreenwipeController;
 
     Transform playCamParent;
+    Transform prepCamParent;
 
     private void Awake()
     {
-        playCamParent = PlayingCharacter.Find("CameraParent");
+        playCamParent = PlayCharacter.Find("CameraParent");
+        prepCamParent = PrepCharacter.Find("CameraParent");
 
-        playingInput = PlayingCharacter.GetComponent<PlayerInput>();
-        preparationInput = PreparationCharacter.GetComponent<PlayerInput>();
+        playInput = PlayCharacter.GetComponent<PlayerInput>();
+        prepInput = PrepCharacter.GetComponent<PlayerInput>();
 
         irisScreenwipeController = GetComponent<IrisScreenwipeController>();
     }
 
+    private void Start()
+    {
+        hideDuringPlay.SetActive(true);
+        PrepCharacter.gameObject.SetActive(true);
+        PlayCharacter.gameObject.SetActive(false);
+        transform.SetParent(prepCamParent);
+    }
+
     public void StartStageSwitch()
     {
-        preparationInput.DeactivateInput();
+        prepInput.DeactivateInput();
         irisScreenwipeController.StartTransition(1, 0.5f, 1,
             SetupPlayingStage, StartPlayingStage);
         Actions.OnSceneSwitchStart?.Invoke();
@@ -38,17 +48,17 @@ public class CharacterSwitcher : MonoBehaviour
         hideDuringPlay.SetActive(false);
 
         transform.SetParent(playCamParent, false);
-        PreparationCharacter.gameObject.SetActive(false);
-        PlayingCharacter.gameObject.SetActive(true);
+        PrepCharacter.gameObject.SetActive(false);
+        PlayCharacter.gameObject.SetActive(true);
         transform.localEulerAngles = Vector3.zero;
 
-        playingInput.DeactivateInput();
+        playInput.DeactivateInput();
         Actions.OnSceneSwitchSetup?.Invoke();
     }
 
     private void StartPlayingStage()
     {
-        playingInput.ActivateInput();
+        playInput.ActivateInput();
         Actions.OnSceneSwitchEnd?.Invoke();
     }
 }

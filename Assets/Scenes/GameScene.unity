@@ -241,8 +241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6264cf79a15e6443b44ed47d9520c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayingCharacter: {fileID: 519420032}
-  PreparationCharacter: {fileID: 1949831793}
+  PlayCharacter: {fileID: 519420032}
+  PrepCharacter: {fileID: 1949831793}
   hideDuringPlay: {fileID: 198706758}
 --- !u!114 &89028143
 MonoBehaviour:
@@ -714,7 +714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0.12186928, y: 0, z: 0, w: 0.9925462}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -889,6 +889,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 91f2c435-d5fc-4e1a-bd06-02923a864eba
     m_ActionName: Playing Phase/SelectBottom[/Keyboard/downArrow,/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8fcd7399-d0ed-4f4a-9f72-225caa8edf93
+    m_ActionName: Playing Phase/Interact[/Keyboard/e,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e21f0df9-7392-45e0-ae83-b09f104d5efa
+    m_ActionName: Playing Phase/Climb[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Playing Phase
@@ -3410,6 +3418,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 91f2c435-d5fc-4e1a-bd06-02923a864eba
     m_ActionName: Playing Phase/SelectBottom[/Keyboard/downArrow,/Keyboard/s,/XInputControllerWindows/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8fcd7399-d0ed-4f4a-9f72-225caa8edf93
+    m_ActionName: Playing Phase/Interact[/Keyboard/e,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e21f0df9-7392-45e0-ae83-b09f104d5efa
+    m_ActionName: Playing Phase/Climb[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Preparation Phase
