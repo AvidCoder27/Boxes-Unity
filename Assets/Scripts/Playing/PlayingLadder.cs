@@ -1,7 +1,8 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayingLadder : MonoBehaviour
+public class PlayingLadder : Interactable
 {
     enum ClimbState { None, Up, Down }
 
@@ -15,6 +16,8 @@ public class PlayingLadder : MonoBehaviour
     Animator animator;
 
     float allowFinishMovementDelay;
+    int floorOfTop;
+    int column;
 
     private void Awake()
     {
@@ -23,9 +26,43 @@ public class PlayingLadder : MonoBehaviour
         animatedParent = transform.Find("Animated Parent");
         animator = animatedParent.GetComponent<Animator>();
         climbingState = ClimbState.None;
+        floorOfTop = -1;
+        column = -1;
     }
 
-    public void InteractedWith(Transform player, bool climbingUp)
+    private void OnEnable()
+    {
+        Actions.OnTryClimbLadder += HandleTryClimbLadder;
+    }
+
+    private void OnDisable()
+    {
+        Actions.OnTryClimbLadder -= HandleTryClimbLadder;
+    }
+
+    private void HandleTryClimbLadder(int floor, int column, Transform player)
+    {
+        if (floor == floorOfTop + 1 && column == this.column)
+        {
+            StartClimbing(player, true);
+        }
+    }
+
+    public override void InteractedWith(Transform player)
+    {
+        StartClimbing(player, true);
+    }
+
+    public void SetTopFloorAndColumn(int floorOfTop, int column)
+    {
+        if (this.floorOfTop == -1 || this.column == -1)
+        {
+            this.floorOfTop = floorOfTop;
+            this.column = column;
+        }
+    }
+
+    public void StartClimbing(Transform player, bool climbingUp)
     {
         this.player = player;
         if (climbingState == ClimbState.None)

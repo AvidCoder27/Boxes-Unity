@@ -53,6 +53,7 @@ public class Box : MonoBehaviour
 
             case Contents.Ladder:
                 ladder = Instantiate(ladderPrefab, transform.position, transform.rotation, transform).GetComponentInChildren<PlayingLadder>();
+                ladder.SetTopFloorAndColumn(boxIndex.x, boxIndex.y);
                 break;
         }
     }
@@ -93,7 +94,7 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Ladder:
-                ladder.InteractedWith(playingCharacter, false);
+                ladder.StartClimbing(playingCharacter, false);
                 break;
         }
     }

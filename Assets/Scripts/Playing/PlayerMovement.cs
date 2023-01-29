@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PlayerMovement: MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerMovement: MonoBehaviour
     InputAction moveRightAction;
     InputAction selectTopAction;
     InputAction selectBottomAction;
+    InputAction interactAction;
+    InputAction climbAction;
 
     LevelHandler levelHandler;
     Level level;
@@ -38,22 +41,29 @@ public class PlayerMovement: MonoBehaviour
         moveRightAction = playerInput.actions["MoveRight"];
         selectTopAction = playerInput.actions["SelectTop"];
         selectBottomAction = playerInput.actions["SelectBottom"];
+        interactAction = playerInput.actions["Interact"];
+        climbAction = playerInput.actions["Climb"];
     }
 
     private void OnEnable()
     {
         moveLeftAction.performed += QueueMoveLeft;
         moveRightAction.performed += QueueMoveRight;
-        selectTopAction.performed += TryOpenTopBox;
-        selectBottomAction.performed += TryOpenBottomBox;
+        selectTopAction.performed += TopAction_performed;
+        selectBottomAction.performed += BottomAction_performed;
+        interactAction.performed += InteractAction_performed;
+        climbAction.performed += ClimbAction_performed;
         Actions.OnGameEnd += HandleGameEnd;
     }
+
     private void OnDisable()
     {
         moveLeftAction.performed -= QueueMoveLeft;
         moveRightAction.performed -= QueueMoveRight;
-        selectTopAction.performed -= TryOpenTopBox;
-        selectBottomAction.performed -= TryOpenBottomBox;
+        selectTopAction.performed -= TopAction_performed;
+        selectBottomAction.performed -= BottomAction_performed;
+        interactAction.performed -= InteractAction_performed;
+        climbAction.performed -= ClimbAction_performed;
         Actions.OnGameEnd -= HandleGameEnd;
     }
 
@@ -69,6 +79,22 @@ public class PlayerMovement: MonoBehaviour
         StartMoving(moveInstantly: true);
     }
 
+    private void InteractAction_performed(InputAction.CallbackContext ctx)
+    {
+        if (playerInput.currentControlScheme == "Keyboard")
+        {
+            Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (Physics.Raycast(ray, out RaycastHit hit, 10))
+                if (hit.transform.TryGetComponent(out Interactable interactable))
+                    interactable.InteractedWith(transform);
+        }
+    }
+
+    private void ClimbAction_performed(InputAction.CallbackContext obj)
+    {
+        Actions.OnTryClimbLadder?.Invoke(floor, column, transform);
+    }
+
     void HandleGameEnd(Actions.GameEndState endState)
     {
         queuedMove = Move.None;
@@ -82,13 +108,13 @@ public class PlayerMovement: MonoBehaviour
         StartMoving(moveInstantly: true);
     }
 
-    void TryOpenBottomBox(InputAction.CallbackContext ctx)
+    void BottomAction_performed(InputAction.CallbackContext ctx)
     {
-        Actions.OnTryInteractBox.Invoke(new int3(floor, column,0));
+        if (!moving) Actions.OnTryInteractBox.Invoke(new int3(floor, column,0));
     }
-    void TryOpenTopBox(InputAction.CallbackContext ctx)
+    void TopAction_performed(InputAction.CallbackContext ctx)
     {
-        Actions.OnTryInteractBox.Invoke(new int3(floor, column, 1));
+        if (!moving) Actions.OnTryInteractBox.Invoke(new int3(floor, column, 1));
     }
     void QueueMoveLeft(InputAction.CallbackContext ctx) => queuedMove = Move.Left;
     void QueueMoveRight(InputAction.CallbackContext ctx) => queuedMove = Move.Right;

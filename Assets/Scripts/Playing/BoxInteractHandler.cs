@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class BoxInteractHandler : MonoBehaviour
+public class BoxInteractHandler : Interactable
 {
     [SerializeField] Box ParentBox;
 
-    public void OnMouseDown()
+    public override void InteractedWith(Transform player)
     {
         ParentBox.TryInteractBox();
     }

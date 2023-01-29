@@ -1,5 +1,6 @@
 using System;
 using Unity.Mathematics;
+using UnityEngine;
 
 public static class Actions
 {
@@ -15,4 +16,8 @@ public static class Actions
     /// Pass in floor as x, column as y, row as z
     /// </summary>
     public static Action<int3> OnTryInteractBox;
+    /// <summary>
+    /// Pass in floor, column, and the player transform
+    /// </summary>
+    public static Action<int, int, Transform> OnTryClimbLadder;
 }
