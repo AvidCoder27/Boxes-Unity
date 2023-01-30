@@ -14,7 +14,7 @@ public class LadderAccessPoint : Interactable
     float alignmentStartTime;
     Vector3 translationStart;
     Quaternion rotationStart;
-    Vector3 camEulerStart;
+    Quaternion camRotStart;
     Transform animatedParent;
     Transform entryPoint;
     Animator animator;
@@ -50,7 +50,7 @@ public class LadderAccessPoint : Interactable
         alignmentStartTime = Time.time;
         translationStart = player.position;
         rotationStart = player.rotation;
-        camEulerStart = cam.localEulerAngles;
+        camRotStart = cam.localRotation;
 
         playerInput.DeactivateInput();
         playerState = PlayerState.Aligning;
@@ -71,7 +71,7 @@ public class LadderAccessPoint : Interactable
                     //Quaternion.Euler(Vector3.Slerp(rotationStart.eulerAngles, entryPoint.eulerAngles + Vector3.right * 360, timeRatio))
                     );
 
-                cam.localEulerAngles = Vector3.Lerp(camEulerStart, Vector3.zero, timeRatio);
+                cam.localRotation = Quaternion.Slerp(camRotStart, Quaternion.identity, timeRatio);
 
                 if (timeRatio >= 1)
                 {
