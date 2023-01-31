@@ -109,6 +109,10 @@ public class Box : MonoBehaviour
     {
         switch (contents)
         {
+            case Contents.Star:
+                star.StartWinAnimation(this, null);
+                Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
+                break;
             case Contents.Ladder:
                 ladder.StartClimbing(playingCharacter, false);
                 break;
