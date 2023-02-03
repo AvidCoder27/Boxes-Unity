@@ -1,7 +1,5 @@
 using UnityEngine;
 using Unity.Mathematics;
-using System;
-using System.Collections;
 
 public class Box : MonoBehaviour
 {

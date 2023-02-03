@@ -109,11 +109,11 @@ public class PlayerMovement: MonoBehaviour
 
     void BottomAction_performed(InputAction.CallbackContext ctx)
     {
-        if (!moving) Actions.OnTryInteractBox.Invoke(new int3(floor, column,0));
+        if (!moving) Actions.OnTryInteractBox?.Invoke(new int3(floor, column,0));
     }
     void TopAction_performed(InputAction.CallbackContext ctx)
     {
-        if (!moving) Actions.OnTryInteractBox.Invoke(new int3(floor, column, 1));
+        if (!moving) Actions.OnTryInteractBox?.Invoke(new int3(floor, column, 1));
     }
     void QueueMoveLeft(InputAction.CallbackContext ctx) => queuedMove = Move.Left;
     void QueueMoveRight(InputAction.CallbackContext ctx) => queuedMove = Move.Right;
