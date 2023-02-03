@@ -88,8 +88,7 @@ public class GameHandler : MonoBehaviour
         GameObject boxGO = Instantiate(boxPrefab, boxPosition, boxRotation);
 
         Box box = boxGO.GetComponent<Box>();
-        box.SetGameHandlerRef(this);
-        box.SetPlayingCharacterRef(playingCharacter);
+        box.SetRefs(this, playingCharacter);
         box.boxIndex = new int3(floor, column, row);        
         box.isOpen = level.Floors[floor][column].GetIsOpenFromIndex(row);
         box.contents = level.Floors[floor][column].GetContentsFromIndex(row);

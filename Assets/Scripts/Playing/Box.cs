@@ -35,13 +35,10 @@ public class Box : MonoBehaviour
         BoxOpenSound = GetComponent<AudioSource>();
     }
 
-    public void SetGameHandlerRef(GameHandler g)
+    public void SetRefs(GameHandler gameHandler, Transform playingCharacter)
     {
-        if (gameHandler == null) gameHandler = g;
-    }
-    public void SetPlayingCharacterRef(Transform t)
-    {
-        if (playingCharacter == null) playingCharacter = t;
+        if (this.gameHandler == null) this.gameHandler = gameHandler;
+        if (this.playingCharacter == null) this.playingCharacter = playingCharacter;
     }
 
     private void Start()
