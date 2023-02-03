@@ -50,7 +50,8 @@ public class PlayingLadder : Interactable
 
     public override void InteractedWith(Transform player)
     {
-        StartClimbing(player, true);
+        if (player.TryGetComponent(out PlayerMovement _))
+            StartClimbing(player, true);
     }
 
     public void SetTopFloorAndColumn(int floorOfTop, int column)

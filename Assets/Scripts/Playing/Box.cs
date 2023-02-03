@@ -19,7 +19,6 @@ public class Box : MonoBehaviour
 
     [SerializeField] GameObject starPrefab;
     [SerializeField] GameObject ladderPrefab;
-    GameHandler gameHandler;
     Transform playingCharacter;
     AudioSource BoxOpenSound;
     GameObject openedBox;
@@ -35,9 +34,8 @@ public class Box : MonoBehaviour
         BoxOpenSound = GetComponent<AudioSource>();
     }
 
-    public void SetRefs(GameHandler gameHandler, Transform playingCharacter)
+    public void SetRefs(Transform playingCharacter)
     {
-        if (this.gameHandler == null) this.gameHandler = gameHandler;
         if (this.playingCharacter == null) this.playingCharacter = playingCharacter;
     }
 
@@ -65,49 +63,40 @@ public class Box : MonoBehaviour
 
     private void OnEnable()
     {
-        Actions.OnTryInteractBox += HandleTryInteractBoxAction;
+        Actions.OnTryInteractBox += TryInteract;
         Actions.OnInverterActivated += InvertIsOpen;
     }
     private void OnDisable()
     {
-        Actions.OnTryInteractBox -= HandleTryInteractBoxAction;
+        Actions.OnTryInteractBox -= TryInteract;
         Actions.OnInverterActivated -= InvertIsOpen;
-    }
-
-    private void HandleTryInteractBoxAction(int3 attemptedBoxIndex)
-    {
-        if (attemptedBoxIndex.x == boxIndex.x && attemptedBoxIndex.y == boxIndex.y && attemptedBoxIndex.z == boxIndex.z)
-            TryInteractBox();
     }
 
     private void InvertIsOpen()
     {
-        if (isOpen)
-        {
-            isOpen = false;
-        } else
-        {
-            isOpen = true;
-        }
+        isOpen = !isOpen;
     }
 
-    public void TryInteractBox()
+    private void TryInteract(int3 attemptedBoxIndex)
     {
-        if (gameHandler.Stage == GameHandler.GameStage.Playing)
+        if (attemptedBoxIndex.x == boxIndex.x && attemptedBoxIndex.y == boxIndex.y && attemptedBoxIndex.z == boxIndex.z)
+            Interact();
+    }
+
+    public void Interact()
+    {
+        // if the box is already open, just interact with contents
+        if (isOpen)
         {
-            // if the box is already open, just interact with contents
-            if (isOpen)
-            {
-                InteractWithContents();
-                return;
-            }
-            // if it's not already open and opening is allowed, open the box and interact
-            if (allowOpening)
-            {
-                isOpen = true;
-                BoxOpenSound.Play();
-                InteractWithContents();
-            }
+            InteractWithContents();
+            return;
+        }
+        // if it's not already open and opening is allowed, open the box and interact
+        if (allowOpening)
+        {
+            isOpen = true;
+            BoxOpenSound.Play();
+            InteractWithContents();
         }
     }
 
@@ -116,7 +105,7 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Star:
-                star.StartWinAnimation(this, () => { Debug.Log("finished animation"); });
+                star.StartWinAnimation(this, WinAnimationCallback);
                 Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
                 break;
             case Contents.Ladder:
@@ -129,5 +118,10 @@ public class Box : MonoBehaviour
                 Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
                 break;
         }
+    }
+
+    private void WinAnimationCallback()
+    {
+        Debug.Log("finished animation");
     }
 }

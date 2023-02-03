@@ -6,6 +6,7 @@ public class BoxInteractHandler : Interactable
 
     public override void InteractedWith(Transform player)
     {
-        ParentBox.TryInteractBox();
+        if (player.TryGetComponent(out PlayerMovement _))
+            ParentBox.Interact();
     }
 }
