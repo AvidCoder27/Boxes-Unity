@@ -110,8 +110,7 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Star:
-                star.StartWinAnimation(this, null);
-                Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
+                CollectStar();
                 break;
             case Contents.Ladder:
                 ladder.StartClimbing(playingCharacter, false);
@@ -132,8 +131,7 @@ public class Box : MonoBehaviour
             switch (contents)
             {
                 case Contents.Star:
-                    star.StartWinAnimation(this, null);
-                    Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
+                    CollectStar();
                     break;
                 case Contents.None:
                     Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
@@ -143,6 +141,12 @@ public class Box : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void CollectStar()
+    {
+        star.StartWinAnimation(this, () => { Debug.Log("finished animation"); });
+        Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
     }
 
     private void PlayOpenSound()
