@@ -15,16 +15,15 @@ public class Box : MonoBehaviour
     public Contents contents;
     public bool allowOpening;
 
-    [SerializeField] GameObject starPrefab;
-    [SerializeField] GameObject ladderPrefab;
-    [SerializeField] GameObject inverterPrefab;
-    Transform playingCharacter;
-    AudioSource BoxOpenSound;
-    GameObject openedBox;
-    GameObject closedBox;
-
-    Star star;
-    PlayingLadder ladder;
+    [SerializeField] private GameObject starPrefab;
+    [SerializeField] private GameObject ladderPrefab;
+    [SerializeField] private GameObject inverterPrefab;
+    private Transform playingCharacter;
+    private AudioSource BoxOpenSound;
+    private GameObject openedBox;
+    private GameObject closedBox;
+    private Collectable collectable;
+    private PlayingLadder ladder;
 
     private void Awake()
     {
@@ -43,7 +42,11 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Star:
-                star = Instantiate(starPrefab, transform.position, transform.rotation, transform).GetComponent<Star>();
+                collectable = Instantiate(starPrefab, transform.position, transform.rotation, transform).GetComponent<Collectable>();
+                break;
+
+            case Contents.Key:
+                collectable = Instantiate(starPrefab, transform.position, transform.rotation, transform).GetComponent<Collectable>();
                 break;
 
             case Contents.Ladder:
@@ -108,9 +111,13 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Star:
-                star.StartWinAnimation(this, WinAnimationCallback);
+                collectable.StartCollectAnimation(this, StarAnimationCallback);
                 Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
                 break;
+            case Contents.Key:
+                collectable.StartCollectAnimation(this, KeyAnimationCallback);
+                break;
+
             case Contents.Ladder:
                 ladder.StartClimbing(playingCharacter, false);
                 break;
@@ -123,8 +130,13 @@ public class Box : MonoBehaviour
         }
     }
 
-    private void WinAnimationCallback()
+    private void StarAnimationCallback()
     {
-        Debug.Log("finished animation");
+        Debug.Log("finished star win anim");
+    }
+
+    private void KeyAnimationCallback()
+    {
+        Debug.Log("finished key animation");
     }
 }

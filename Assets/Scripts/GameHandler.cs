@@ -6,13 +6,13 @@ public class GameHandler : MonoBehaviour
 {
     public enum GameStage { Preparation, Playing, Transitioning }
 
-    [SerializeField] GameObject boxPrefab;
-    [SerializeField] GameObject boxLightPrefab;
-    [SerializeField] GameObject viewingHoleSegmentPrefab;
-    [SerializeField] GameObject viewingHoleBottomPrefab;
-    [SerializeField] GameObject hideDuringPlay;
-    [SerializeField] Transform playingCharacter;
-    LevelHandler levelHandler;
+    [SerializeField] private GameObject boxPrefab;
+    [SerializeField] private GameObject boxLightPrefab;
+    [SerializeField] private GameObject viewingHoleSegmentPrefab;
+    [SerializeField] private GameObject viewingHoleBottomPrefab;
+    [SerializeField] private GameObject hideDuringPlay;
+    [SerializeField] private Transform playingCharacter;
+    private LevelHandler levelHandler;
 
     public GameStage Stage { get; private set; }
     [SerializeField] float BottomBoxHeight, TopBoxHeight, BoxLightHeight;

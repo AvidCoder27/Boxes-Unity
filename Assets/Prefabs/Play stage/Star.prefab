@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e75249f87b13c242a1150290d66d77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationTime: 5
-  rotationSpeedFactor: 1.6
-  rotationCurve:
+  spinTime: 5
+  spinSpeedFactor: 1.6
+  spinCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

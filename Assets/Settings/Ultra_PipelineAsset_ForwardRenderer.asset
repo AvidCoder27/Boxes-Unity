@@ -33,7 +33,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: Everything else
+    passTag: Xray Opaques
     Event: 300
     filterSettings:
       RenderQueueType: 0

@@ -14,7 +14,7 @@ public class PlayingLadder : Interactable
     Transform animatedParent;
     Animator animator;
 
-    float allowFinishMovementDelay;
+    float finishMovementDelay;
     int floorOfTop;
     int column;
 
@@ -69,7 +69,7 @@ public class PlayingLadder : Interactable
         {
             playerInput = player.GetComponent<PlayerInput>();
             playerInput.DeactivateInput();
-            allowFinishMovementDelay = 0.05f;
+            finishMovementDelay = 0.05f;
             if (climbingUp)
             {
                 climbingState = ClimbState.Up;
@@ -91,8 +91,8 @@ public class PlayingLadder : Interactable
     {
         if (climbingState != ClimbState.None)
         {
-            if (allowFinishMovementDelay >= 0) allowFinishMovementDelay -= Time.deltaTime;
-            bool isAnimating = allowFinishMovementDelay > 0
+            if (finishMovementDelay >= 0) finishMovementDelay -= Time.deltaTime;
+            bool isAnimating = finishMovementDelay > 0
                 || animator.IsInTransition(0)
                 || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
             if (!isAnimating) FinishedMovement();

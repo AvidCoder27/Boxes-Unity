@@ -76,6 +76,8 @@
     <Compile Include="Assets\Shaders\Blit.cs" />
     <Compile Include="Assets\Scripts\Playing\Star.cs" />
     <Compile Include="Assets\Scripts\Actions.cs" />
+    <Compile Include="Assets\Scripts\Playing\Key.cs" />
+    <Compile Include="Assets\Scripts\Playing\Collectable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Materials\Frosted Glass\credit.txt" />
