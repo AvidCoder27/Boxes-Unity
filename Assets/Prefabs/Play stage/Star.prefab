@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7603862414739329711}
   - component: {fileID: 2382490015805511769}
   - component: {fileID: 2807923017234827068}
+  - component: {fileID: 2919826664305875138}
   m_Layer: 15
   m_Name: Star
   m_TagString: Untagged
@@ -46,15 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e75249f87b13c242a1150290d66d77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xrayMaterial: {fileID: 2100000, guid: 12ac977fb0280824c8ad0eddf1def144, type: 2}
-  normalMaterial: {fileID: 2100000, guid: f18475034b44f9049a3ef0d7cdc4ee81, type: 2}
-  renderer: {fileID: 3555784667569840665}
-  defaultLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  xRayLayer:
-    serializedVersion: 2
-    m_Bits: 32768
   rotationTime: 5
   rotationSpeedFactor: 1.6
   rotationCurve:
@@ -222,6 +214,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2919826664305875138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759781566634951549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58bf950358bc734d8fa87507821043b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xrayMaterial: {fileID: 2100000, guid: 12ac977fb0280824c8ad0eddf1def144, type: 2}
+  normalMaterial: {fileID: 2100000, guid: f18475034b44f9049a3ef0d7cdc4ee81, type: 2}
+  renderers:
+  - {fileID: 3555784667569840665}
+  defaultLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  xRayLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  hideMeDuringPlay: 0
 --- !u!1 &3914637610655151564
 GameObject:
   m_ObjectHideFlags: 0

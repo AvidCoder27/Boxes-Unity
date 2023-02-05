@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Star : XrayDuringPreparation
+public class Star : MonoBehaviour
 {
     [SerializeField] float rotationTime;
     [SerializeField] float rotationSpeedFactor;

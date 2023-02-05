@@ -17,6 +17,7 @@ public class Box : MonoBehaviour
 
     [SerializeField] GameObject starPrefab;
     [SerializeField] GameObject ladderPrefab;
+    [SerializeField] GameObject inverterPrefab;
     Transform playingCharacter;
     AudioSource BoxOpenSound;
     GameObject openedBox;
@@ -42,12 +43,16 @@ public class Box : MonoBehaviour
         switch (contents)
         {
             case Contents.Star:
-                star = Instantiate(starPrefab, transform.position, transform.rotation).GetComponent<Star>();
+                star = Instantiate(starPrefab, transform.position, transform.rotation, transform).GetComponent<Star>();
                 break;
 
             case Contents.Ladder:
                 ladder = Instantiate(ladderPrefab, transform.position, transform.rotation, transform).GetComponentInChildren<PlayingLadder>();
                 ladder.SetTopFloorAndColumn(boxIndex.x, boxIndex.y);
+                break;
+
+            case Contents.Inverter:
+                Instantiate(inverterPrefab, transform.position, transform.rotation, transform);
                 break;
         }
     }
