@@ -11,12 +11,12 @@ public abstract class Collectable : MonoBehaviour
     private AnimationCurve spinCurve;
 
     private protected bool doSpin;
+    private protected Action OnAnimationComplete;
+    private Transform animationParent;
+    private Animator animator;
     private bool isMoving;
     private float spinTimeElapsed;
     private float finishSpinDelay;
-    private Transform animationParent;
-    private Animator animator;
-    private Action OnAnimationComplete;
 
     private void Awake()
     {
@@ -65,7 +65,7 @@ public abstract class Collectable : MonoBehaviour
         this.OnAnimationComplete = OnAnimationComplete;
         isMoving = true;
         spinTimeElapsed = 0;
-        if (parentBox.boxIndex.z == 0)
+        if (parentBox.Index.z == 0)
         {
             animator.SetTrigger("BottomMotion");
         }

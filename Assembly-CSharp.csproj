@@ -63,11 +63,13 @@
     <Compile Include="Assets\Scripts\Playing\PlayingLadder.cs" />
     <Compile Include="Assets\Scripts\Playing\Level.cs" />
     <Compile Include="Assets\Scripts\LevelHandler.cs" />
+    <Compile Include="Assets\Scripts\Playing\Key.cs" />
     <Compile Include="Assets\Scripts\Preparation\SimpleCharacterController.cs" />
     <Compile Include="Assets\Scripts\Playing\BoxInteractHandler.cs" />
     <Compile Include="Assets\Scripts\AudioHandler.cs" />
     <Compile Include="Assets\Scripts\Playing\Box.cs" />
     <Compile Include="Assets\Scripts\Preparation\LadderAccessPoint.cs" />
+    <Compile Include="Assets\Scripts\Playing\Collectable.cs" />
     <Compile Include="Assets\Scripts\Preparation\Interactable.cs" />
     <Compile Include="Assets\Scripts\Preparation\WorldButton.cs" />
     <Compile Include="Assets\Scripts\Preparation\CharacterLook.cs" />
@@ -76,8 +78,6 @@
     <Compile Include="Assets\Shaders\Blit.cs" />
     <Compile Include="Assets\Scripts\Playing\Star.cs" />
     <Compile Include="Assets\Scripts\Actions.cs" />
-    <Compile Include="Assets\Scripts\Playing\Key.cs" />
-    <Compile Include="Assets\Scripts\Playing\Collectable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Materials\Frosted Glass\credit.txt" />

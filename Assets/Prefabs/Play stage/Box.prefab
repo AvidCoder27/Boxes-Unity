@@ -202,8 +202,9 @@ MonoBehaviour:
   contents: 0
   allowOpening: 0
   starPrefab: {fileID: 759781566634951549, guid: 8ba31b60fe94a224e8796d83a87e03eb, type: 3}
-  ladderPrefab: {fileID: 6917999190900948219, guid: 023f585e0223ea8408997428ad7e7924, type: 3}
+  keyPrefab: {fileID: 8719078317595102895, guid: d1d0d35c787747a429e546476ac1c75a, type: 3}
   inverterPrefab: {fileID: 1980462434022848839, guid: b9724c8b3901b794f825d76a317afa3e, type: 3}
+  ladderPrefab: {fileID: 6917999190900948219, guid: 023f585e0223ea8408997428ad7e7924, type: 3}
 --- !u!82 &2482545502050049450
 AudioSource:
   m_ObjectHideFlags: 0

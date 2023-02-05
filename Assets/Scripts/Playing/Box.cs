@@ -10,14 +10,17 @@ public class Box : MonoBehaviour
     /// Y: Column that the box is in
     /// Z: Row that the box is in. 0 is bottom, 1 is top
     /// </summary>
-    public int3 boxIndex;
-    public bool isOpen;
-    public Contents contents;
-    public bool allowOpening;
+    public int3 Index { get; private set; }
+    private bool isOpen;
+    private Contents contents;
+    private bool allowOpening;
+    private Key.Color lockColor = Key.Color.Undefined;
+    private Key.Color keyColor = Key.Color.Undefined;
 
     [SerializeField] private GameObject starPrefab;
-    [SerializeField] private GameObject ladderPrefab;
+    [SerializeField] private GameObject keyPrefab;
     [SerializeField] private GameObject inverterPrefab;
+    [SerializeField] private GameObject ladderPrefab;
     private Transform playingCharacter;
     private AudioSource BoxOpenSound;
     private GameObject openedBox;
@@ -37,21 +40,35 @@ public class Box : MonoBehaviour
         if (this.playingCharacter == null) this.playingCharacter = playingCharacter;
     }
 
+    public void CopyInAttributes(Column column, int3 index, bool allowOpening)
+    {
+        Index = index;
+        isOpen = column.GetIsOpenFromIndex(index.z);
+        contents = column.GetContentsFromIndex(index.z);
+        keyColor = column.GetKeyColorFromIndex(index.z);
+        lockColor = column.GetLockColorFromIndex(index.z);
+        this.allowOpening = allowOpening;
+    }
+
     private void Start()
     {
         switch (contents)
         {
             case Contents.Star:
-                collectable = Instantiate(starPrefab, transform.position, transform.rotation, transform).GetComponent<Collectable>();
+                collectable = Instantiate(starPrefab, transform.position, transform.rotation, transform)
+                    .GetComponent<Collectable>();
                 break;
 
             case Contents.Key:
-                collectable = Instantiate(starPrefab, transform.position, transform.rotation, transform).GetComponent<Collectable>();
+                GameObject go = Instantiate(keyPrefab, transform.position, transform.rotation, transform);
+                collectable = go.GetComponent<Collectable>();
+                go.GetComponent<Key>().SetColor(keyColor);
                 break;
 
             case Contents.Ladder:
-                ladder = Instantiate(ladderPrefab, transform.position, transform.rotation, transform).GetComponentInChildren<PlayingLadder>();
-                ladder.SetTopFloorAndColumn(boxIndex.x, boxIndex.y);
+                ladder = Instantiate(ladderPrefab, transform.position, transform.rotation, transform)
+                    .GetComponentInChildren<PlayingLadder>();
+                ladder.SetTopFloorAndColumn(Index.x, Index.y);
                 break;
 
             case Contents.Inverter:
@@ -85,7 +102,7 @@ public class Box : MonoBehaviour
 
     private void TryInteract(int3 attemptedBoxIndex)
     {
-        if (attemptedBoxIndex.x == boxIndex.x && attemptedBoxIndex.y == boxIndex.y && attemptedBoxIndex.z == boxIndex.z)
+        if (attemptedBoxIndex.x == Index.x && attemptedBoxIndex.y == Index.y && attemptedBoxIndex.z == Index.z)
             Interact();
     }
 

@@ -111,7 +111,7 @@ public class LevelHandler : MonoBehaviour
                     new List<Column>()
                     {
                         new Column(true, false),
-                        new Column(false, true),
+                        new Column(false, true, Box.Contents.Key, Box.Contents.None, Key.Color.Red),
                         new Column(false, false, Box.Contents.Star, Box.Contents.Ladder),
                         new Column(false, true, Box.Contents.Star, Box.Contents.Star),
                         new Column(true, false),
@@ -125,8 +125,8 @@ public class LevelHandler : MonoBehaviour
                         new Column(true, false),
                         new Column(false, true),
                         new Column(false, false, Box.Contents.Inverter, Box.Contents.Ladder),
-                        new Column(false, true),
-                        new Column(true, false),
+                        new Column(false, true, Box.Contents.None, Box.Contents.Star),
+                        new Column(true, false, Box.Contents.None, Box.Contents.Star, Key.Color.Undefined, Key.Color.Undefined, Key.Color.Undefined, Key.Color.Red),
                         new Column(false, false),
                         new Column(true, false),
                         new Column(false, true),

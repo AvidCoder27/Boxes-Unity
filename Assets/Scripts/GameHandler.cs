@@ -89,10 +89,7 @@ public class GameHandler : MonoBehaviour
 
         Box box = boxGO.GetComponent<Box>();
         box.SetRefs(playingCharacter);
-        box.boxIndex = new int3(floor, column, row);        
-        box.isOpen = level.Floors[floor][column].GetIsOpenFromIndex(row);
-        box.contents = level.Floors[floor][column].GetContentsFromIndex(row);
-        box.allowOpening = true;
+        box.CopyInAttributes(level.Floors[floor][column], new int3(floor, column, row), true);
     }
 
     private void SpawnViewingHole(int floor, GameObject prefab)
