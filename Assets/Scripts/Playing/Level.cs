@@ -9,13 +9,13 @@ public class Level
     public static readonly float DistanceBetweenFloors = 7f;
 
     // Floors is a list of "floors." A floor is just a list of columns.
-    public List<List<Column>> Floors { get; private set; }
+    public List<List<BoxStruct[]>> Floors { get; private set; }
     public int NumberOfColumns { get; private set; }
     public int NumberOfFloors { get; private set; }
     public double Radius { get; private set; }
     public double AngleBetweenColumns { get; private set; }
 
-    public Level(List<List<Column>> map)
+    public Level(List<List<BoxStruct[]>> map)
     {
         Floors = map;
         NumberOfFloors = map.Count;

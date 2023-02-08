@@ -54,99 +54,112 @@ public class LevelHandler : MonoBehaviour
         levels = new List<Level>
         {
             new Level(
-                new List<List<Column>>()
+                new List<List<BoxStruct[]>>()
                 {
-                    new List<Column>()
+                    new List<BoxStruct[]>()
                     {
-                        new Column(false, false),
-                        new Column(false, false, Box.Contents.None, Box.Contents.Star),
-                        new Column(true, true),
-                        new Column(false, true),
-                        new Column(true, false)
+                        MakeCol(false, false),
+                        MakeCol(false, Box.Contents.None, false, Box.Contents.Star),
+                        MakeCol(true, true),
+                        MakeCol(false, true),
+                        MakeCol(true, false),
                     }
                 }
             ),
             new Level(
-                new List<List<Column>>()
+                new List<List<BoxStruct[]>>()
                 {
-                    new List<Column>()
+                    new List<BoxStruct[]>()
                     {
-                        new Column(true, false),
-                        new Column(false, true),
-                        new Column(false, false, Box.Contents.Star),
-                        new Column(false, true),
-                        new Column(true, false),
-                        new Column(false, false),
-                        new Column(true, false),
-                        new Column(false, true),
-                        new Column(false, false),
-                    }
-                }
-            ),
-            // made up level
-            new Level(
-                new List<List<Column>>()
-                {
-                    new List<Column>()
-                    {
-                        new Column(false, false),
-                        new Column(false, false, Box.Contents.None, Box.Contents.Star),
-                        new Column(true, true),
-                        new Column(false, true),
-                        new Column(true, true, Box.Contents.None, Box.Contents.Ladder)
-                    },
-                    new List<Column>()
-                    {
-                        new Column(true, true),
-                        new Column(false, true),
-                        new Column(false, false),
-                        new Column(true, false),
-                        new Column(false, true)
+                        MakeCol(true, false),
+                        MakeCol(false, true),
+                        MakeCol(false, Box.Contents.Star, false, Box.Contents.None),
+                        MakeCol(false, true),
+                        MakeCol(true, false),
+                        MakeCol(false, false),
+                        MakeCol(true, false),
+                        MakeCol(false, true),
+                        MakeCol(false, false),
                     }
                 }
             ),
             new Level(
-                new List<List<Column>>()
+                new List<List<BoxStruct[]>>()
                 {
-                    new List<Column>()
+                    new List<BoxStruct[]>()
                     {
-                        new Column(true, false),
-                        new Column(false, true, Box.Contents.Key, Box.Contents.None, Key.Color.Red),
-                        new Column(false, false, Box.Contents.Star, Box.Contents.Ladder),
-                        new Column(false, true, Box.Contents.Star, Box.Contents.Star),
-                        new Column(true, false),
-                        new Column(false, false),
-                        new Column(true, false),
-                        new Column(false, true),
-                        new Column(false, false),
+                        MakeCol(false, false),
+                        MakeCol(false, Box.Contents.None, false, Box.Contents.Star),
+                        MakeCol(true, true),
+                        MakeCol(false, true),
+                        MakeCol(true, Box.Contents.Ladder, true, Box.Contents.None),
                     },
-                    new List<Column>()
+                    new List<BoxStruct[]>
                     {
-                        new Column(true, false),
-                        new Column(false, true),
-                        new Column(false, false, Box.Contents.Inverter, Box.Contents.Ladder),
-                        new Column(false, true, Box.Contents.None, Box.Contents.Star),
-                        new Column(true, false, Box.Contents.None, Box.Contents.Star, Key.Color.Undefined, Key.Color.Undefined, Key.Color.Undefined, Key.Color.Red),
-                        new Column(false, false),
-                        new Column(true, false),
-                        new Column(false, true),
-                        new Column(false, false),
+                        MakeCol(true, true),
+                        MakeCol(false, true),
+                        MakeCol(false, false),
+                        MakeCol(true, false),
+                        MakeCol(false, true)
+                    }
+                }
+            ),
+            new Level(
+                new List<List<BoxStruct[]>>()
+                {
+                    new List<BoxStruct[]>()
+                    {
+                        MakeCol(true, false),
+                        MakeCol(new BoxStruct(false, Box.Contents.Key, Key.Color.Red, Key.Color.Undefined), new BoxStruct(true)),
+                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.None),
+                        MakeCol(false, Box.Contents.Star, true, Box.Contents.Star),
+                        MakeCol(true, false),
+                        MakeCol(false, false),
+                        MakeCol(true, false),
+                        MakeCol(false, true),
+                        MakeCol(false, false)
                     },
-                    new List<Column>()
+                    new List<BoxStruct[]>
                     {
-                        new Column(true, true),
-                        new Column(true, true),
-                        new Column(true, true),
-                        new Column(true, true),
-                        new Column(true, true),
-                        new Column(true, true),
-                        new Column(true, true),
-                        new Column(true, true),
-                        new Column(true, true),
+                        MakeCol(true, false),
+                        MakeCol(false, true),
+                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.Inverter),
+                        MakeCol(false, Box.Contents.None, true, Box.Contents.Star),
+                        MakeCol(new BoxStruct(true), new BoxStruct(false, Box.Contents.Star, Key.Color.Undefined, Key.Color.Red)),
+                        MakeCol(false, false),
+                        MakeCol(true, false),
+                        MakeCol(false, true),
+                        MakeCol(false, false)
+                    },
+                    new List<BoxStruct[]>
+                    {
+                        MakeCol(true, true),
+                        MakeCol(true, true),
+                        MakeCol(true, true),
+                        MakeCol(true, true),
+                        MakeCol(true, true),
+                        MakeCol(true, true),
+                        MakeCol(true, true),
+                        MakeCol(true, true),
+                        MakeCol(true, true),
                     }
                 }
             ),
         };
     }
 
+    private BoxStruct[] MakeCol(bool bottomOpen, Box.Contents bottomContents, bool topOpen, Box.Contents topContents)
+    {
+        return MakeCol(new BoxStruct(bottomOpen, bottomContents), new BoxStruct(topOpen, topContents));
+    }
+
+    private BoxStruct[] MakeCol(bool bottomOpen, bool topOpen)
+    {
+        return MakeCol(new BoxStruct(bottomOpen), new BoxStruct(topOpen));
+    }
+
+    private BoxStruct[] MakeCol(BoxStruct bottom, BoxStruct top)
+    {
+        return new BoxStruct[] { bottom, top};
+    }
 }

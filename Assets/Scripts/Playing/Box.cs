@@ -40,13 +40,13 @@ public class Box : MonoBehaviour
         if (this.playingCharacter == null) this.playingCharacter = playingCharacter;
     }
 
-    public void CopyInAttributes(Column column, int3 index, bool allowOpening)
+    public void CopyInAttributes(BoxStruct boxStruct, int3 boxIndex, bool allowOpening)
     {
-        Index = index;
-        isOpen = column.GetIsOpenFromIndex(index.z);
-        contents = column.GetContentsFromIndex(index.z);
-        keyColor = column.GetKeyColorFromIndex(index.z);
-        lockColor = column.GetLockColorFromIndex(index.z);
+        Index = boxIndex;
+        isOpen = boxStruct.isOpen;
+        contents = boxStruct.contents;
+        keyColor = boxStruct.keyColor;
+        lockColor = boxStruct.lockColor;
         this.allowOpening = allowOpening;
     }
 
