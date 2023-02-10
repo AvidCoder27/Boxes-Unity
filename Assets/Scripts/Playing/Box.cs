@@ -62,7 +62,9 @@ public class Box : MonoBehaviour
             case Contents.Key:
                 GameObject go = Instantiate(keyPrefab, transform.position, transform.rotation, transform);
                 collectable = go.GetComponent<Collectable>();
-                go.GetComponent<Key>().SetColor(keyColor);
+                Key key = go.GetComponent<Key>();
+                key.SetColor(keyColor);
+                key.SetPlayerMovementRef(playingCharacter.GetComponent<PlayerMovement>());
                 break;
 
             case Contents.Ladder:
@@ -117,9 +119,16 @@ public class Box : MonoBehaviour
         // if it's not already open and opening is allowed, open the box and interact
         if (allowOpening)
         {
-            isOpen = true;
-            BoxOpenSound.Play();
-            InteractWithContents();
+            if (playingCharacter.GetComponent<PlayerMovement>().HasKey(lockColor))
+            {
+                isOpen = true;
+                BoxOpenSound.Play();
+                InteractWithContents();
+            } else
+            {
+                Debug.Log("lost game by failing to unlock box");
+                TriggerGameLose();
+            }
         }
     }
 
@@ -142,9 +151,14 @@ public class Box : MonoBehaviour
                 Actions.OnInverterActivated?.Invoke();
                 break;
             case Contents.None:
-                Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
+                TriggerGameLose();
                 break;
         }
+    }
+
+    private void TriggerGameLose()
+    {
+        Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);
     }
 
     private void StarAnimationCallback()

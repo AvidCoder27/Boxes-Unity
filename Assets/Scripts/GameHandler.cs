@@ -64,9 +64,9 @@ public class GameHandler : MonoBehaviour
 
     private void SpawnLight(Level level, int floor, int column)
     {
-        float2 lightCoords = new(level.CalculateCoordinatesForColumn(column));
+        float2 lightCoords = level.CalculateCoordinatesForColumn(column);
         float lightHeight = BoxLightHeight - floor * Level.DistanceBetweenFloors;
-        float lightAngle = (float)(Math.Atan2(lightCoords.x, lightCoords.y) * 180f / Math.PI);
+        float lightAngle = Mathf.Atan2(lightCoords.x, lightCoords.y) * 180f / Mathf.PI;
 
         Vector3 lightPosition = new(lightCoords.x, lightHeight, lightCoords.y);
         Quaternion lightRotation = Quaternion.Euler(0f, lightAngle, 0f);
@@ -75,12 +75,11 @@ public class GameHandler : MonoBehaviour
 
     private void SpawnBox(Level level, int floor, int column, int row)
     {
-        // create a new float2 with the double2 from the Level method
         // puts the top box 2 meters further away than the bottom one
         float distanceFromCircle = row * -2f;
-        float2 boxCoords = new(level.CalculateCoordinatesForColumn(column, distanceFromCircle));
+        float2 boxCoords = level.CalculateCoordinatesForColumn(column, distanceFromCircle);
         float boxHeight = (row == 0 ? BottomBoxHeight : TopBoxHeight) - floor * Level.DistanceBetweenFloors;
-        float boxAngle = (float)(Math.Atan2(boxCoords.x, boxCoords.y) * 180f / Math.PI);
+        float boxAngle = Mathf.Atan2(boxCoords.x, boxCoords.y) * 180f / Mathf.PI;
 
         // Instantiate box with calculated coordinates
         Vector3 boxPosition = new(boxCoords.x, boxHeight, boxCoords.y);

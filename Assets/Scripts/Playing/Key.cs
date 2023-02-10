@@ -1,11 +1,14 @@
+using System;
+
 public class Key : Collectable
 {
-    public enum Color
+    [Flags] public enum Color
     {
-        Green, Red, Purple, Gold, Undefined
+        Undefined = 0, Green = 1, Red = 2, Purple = 4, Gold = 8
     }
 
     private Color color;
+    private PlayerMovement playerMovement;
 
     public void SetColor(Color color)
     {
@@ -19,6 +22,11 @@ public class Key : Collectable
         return color;
     }
 
+    public void SetPlayerMovementRef(PlayerMovement playerMovement)
+    {
+        this.playerMovement = playerMovement;
+    }
+
     private protected override void LateAwake()
     {
         doSpin = false;
@@ -26,6 +34,6 @@ public class Key : Collectable
 
     private protected override void AnimationStart()
     {
-
+        playerMovement.GiveKey(color);
     }
 }

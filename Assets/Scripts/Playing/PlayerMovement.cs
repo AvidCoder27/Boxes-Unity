@@ -31,6 +31,18 @@ public class PlayerMovement: MonoBehaviour
     int column;
     int floor;
 
+    Key.Color collectedKeys = Key.Color.Undefined;
+
+    public bool HasKey(Key.Color keyColor)
+    {
+        return collectedKeys.HasFlag(keyColor);
+    }
+
+    public void GiveKey(Key.Color keyColor)
+    {
+        collectedKeys |= keyColor;
+    }
+
     private void Awake()
     {
         levelHandler = LevelHandler.GetInstance();
@@ -175,11 +187,11 @@ public class PlayerMovement: MonoBehaviour
         posPreMove = transform.position;
         orientPreMove = transform.rotation;
 
-        double2 newPosition = level.CalculateCoordinatesForColumn(column, distanceFromCircle);
-        float yAngle = (float)level.CalculateCameraAngleForColumnInDegrees(column);
+        float2 newPosition = level.CalculateCoordinatesForColumn(column, distanceFromCircle);
+        float yAngle = level.CalculateCameraAngleForColumnInDegrees(column);
         float xAngle = transform.rotation.eulerAngles.x;
 
-        posSetpoint = new Vector3((float)newPosition.x, 2 - floor * Level.DistanceBetweenFloors, (float)newPosition.y);
+        posSetpoint = new Vector3(newPosition.x, 2 - floor * Level.DistanceBetweenFloors, newPosition.y);
         orientSetpoint = Quaternion.Euler(xAngle, yAngle, 0);
 
         if (moveInstantly)
