@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Actions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Textures\key_textures\key_credit.txt" />
     <None Include="Assets\Materials\Frosted Glass\credit.txt" />
   </ItemGroup>
   <ItemGroup>

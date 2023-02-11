@@ -11,11 +11,11 @@ public class Box : MonoBehaviour
     /// Z: Row that the box is in. 0 is bottom, 1 is top
     /// </summary>
     public int3 Index { get; private set; }
-    private bool isOpen;
+    [SerializeField] private bool isOpen;
     private Contents contents;
     private bool allowOpening;
-    private Key.Color lockColor = Key.Color.Undefined;
-    private Key.Color keyColor = Key.Color.Undefined;
+    private Key.Colors lockColor = Key.Colors.Undefined;
+    private Key.Colors keyColor = Key.Colors.Undefined;
 
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private GameObject keyPrefab;

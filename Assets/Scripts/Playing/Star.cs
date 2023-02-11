@@ -5,12 +5,11 @@ public class Star : Collectable
     private Light innerLight;
     private AudioSource levelCompleteSound;
 
-    private protected override void LateAwake()
+    private protected override void AwakeInherited()
     {
         levelCompleteSound = GetComponentInChildren<AudioSource>();
         innerLight = GetComponentInChildren<Light>();
         innerLight.enabled = false;
-        doSpin = true;
     }
 
     private protected override void AnimationStart()

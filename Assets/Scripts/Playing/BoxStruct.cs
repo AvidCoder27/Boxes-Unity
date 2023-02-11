@@ -6,12 +6,12 @@ public struct BoxStruct
     /// <summary>
     /// the color of the key in the box
     /// </summary>
-    public Key.Color keyColor;
+    public Key.Colors keyColor;
 
     /// <summary>
     /// the color of the lock on the box
     /// </summary>
-    public Key.Color lockColor;
+    public Key.Colors lockColor;
 
     /// <summary>
     /// Create a representation of a box
@@ -22,8 +22,8 @@ public struct BoxStruct
     {
         this.isOpen = isOpen;
         this.contents = contents;
-        keyColor = Key.Color.Undefined;
-        lockColor = Key.Color.Undefined;
+        keyColor = Key.Colors.Undefined;
+        lockColor = Key.Colors.Undefined;
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public struct BoxStruct
     /// <param name="contents">the contents of the box</param>
     /// <param name="keyColor">the color of the key inside the box</param>
     /// <param name="lockColor">the color of the lock on the box</param>
-    public BoxStruct(bool isOpen, Box.Contents contents, Key.Color keyColor, Key.Color lockColor)
+    public BoxStruct(bool isOpen, Box.Contents contents, Key.Colors keyColor, Key.Colors lockColor)
     {
         this.isOpen = isOpen;
         this.contents = contents;

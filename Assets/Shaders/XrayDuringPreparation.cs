@@ -24,7 +24,7 @@ public class XrayDuringPreparation : MonoBehaviour
         Actions.OnSceneSwitchSetup += HideXray;
     }
 
-    private void Start()
+    private void Awake()
     {
         SetLayerAndMaterial(xRayLayer, xrayMaterial);
     }

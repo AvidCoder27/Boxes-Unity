@@ -31,14 +31,14 @@ public class PlayerMovement: MonoBehaviour
     int column;
     int floor;
 
-    Key.Color collectedKeys = Key.Color.Undefined;
+    Key.Colors collectedKeys = Key.Colors.Undefined;
 
-    public bool HasKey(Key.Color keyColor)
+    public bool HasKey(Key.Colors keyColor)
     {
         return collectedKeys.HasFlag(keyColor);
     }
 
-    public void GiveKey(Key.Color keyColor)
+    public void GiveKey(Key.Colors keyColor)
     {
         collectedKeys |= keyColor;
     }

@@ -9,8 +9,9 @@ public abstract class Collectable : MonoBehaviour
     private float spinSpeedFactor;
     [SerializeField]
     private AnimationCurve spinCurve;
+    [SerializeField]
+    private bool doSpin;
 
-    private protected bool doSpin;
     private protected Action OnAnimationComplete;
     private Transform animationParent;
     private Animator animator;
@@ -23,10 +24,10 @@ public abstract class Collectable : MonoBehaviour
         finishSpinDelay = 0.05f;
         animationParent = transform.Find("Animation Parent");
         animator = animationParent.GetComponent<Animator>();
-        LateAwake();
+        AwakeInherited();
     }
 
-    private protected abstract void LateAwake();
+    private protected abstract void AwakeInherited();
 
     private void Update()
     {
