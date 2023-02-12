@@ -49,23 +49,35 @@ public class CharacterLook : MonoBehaviour
 
     private void OnEnable()
     {
+        inputLagTimer = 0;
+        lastInputEvent = Vector2.zero;
+
         playerInput = GetComponentInChildren<PlayerInput>();
         interactAction = playerInput.actions["Interact"];
         lookAction = playerInput.actions["Look"];
 
         interactAction.performed += InteractPerformed;
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        inputLagTimer = 0;
-        lastInputEvent = Vector2.zero;
+        Actions.OnGamePause += UnlockCursor;
+        Actions.OnGameResume += LockCursor;
+        LockCursor();
     }
 
     private void OnDisable()
     {
         interactAction.performed -= InteractPerformed;
+        Actions.OnGamePause -= UnlockCursor;
+        Actions.OnGameResume -= LockCursor;
+        UnlockCursor();
+    }
 
+    private void LockCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void UnlockCursor()
+    {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }

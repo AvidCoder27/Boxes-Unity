@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/PauseMenu.uss?fileID=7433441132597879392&amp;guid=65886eb1ebf60164fa7eb12d71073683&amp;type=3#PauseMenu" />
+    <ui:GroupBox name="Main" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-top: 0; padding-bottom: 0; width: 100%; height: 100%; justify-content: flex-start; align-items: center; background-color: rgba(24, 9, 0, 0.52);">
+        <ui:GroupBox name="Pause-Main">
+            <ui:Label text="Paused" display-tooltip-when-elided="true" name="Paused" picking-mode="Ignore" class="header ui" />
+            <ui:Button text="Resume Game" display-tooltip-when-elided="true" name="Resume" class="ui" />
+            <ui:Button text="Options" display-tooltip-when-elided="true" name="Options" class="ui" />
+            <ui:Button text="Quit to Title" display-tooltip-when-elided="true" name="Quit" class="ui" />
+        </ui:GroupBox>
+    </ui:GroupBox>
+</ui:UXML>

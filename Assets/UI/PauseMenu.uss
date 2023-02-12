@@ -1,0 +1,37 @@
+.ui {
+    -unity-font-definition: url('project://database/Assets/Fonts/exo/Exo-Medium%20SDF.asset?fileID=11400000&guid=9a5f7ebf352262f4d877bb49ce547e44&type=2#Exo-Medium SDF');
+    margin-top: 2%;
+    margin-bottom: 2%;
+    color: rgba(219, 219, 219, 255);
+    -unity-text-align: middle-center;
+}
+
+.unity-label {
+}
+
+.unity-button {
+    width: auto;
+    left: 0;
+    height: auto;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 10%;
+    margin-bottom: 4%;
+    font-size: 35px;
+    opacity: 1;
+    background-color: rgb(88, 88, 88);
+    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.unity-group-box {
+}
+
+.header {
+    font-size: 100px;
+    -unity-font-definition: url('project://database/Assets/Fonts/exo/Exo-DemiBold%20SDF.asset?fileID=11400000&guid=d33cc501e47c16b4ab96b2bf9fe90b1f&type=2#Exo-DemiBold SDF');
+    padding-top: 0;
+    margin-top: 2.5%;
+}
