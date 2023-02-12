@@ -37,7 +37,7 @@ public class LadderAccessPoint : Interactable
         if (playerState == PlayerState.None)
         {
             this.player = player;
-            playerInput = player.GetComponent<PlayerInput>();
+            playerInput = player.GetComponentInChildren<PlayerInput>();
             characterLook = player.GetComponent<CharacterLook>();
             playerRigidBody = player.GetComponent<Rigidbody>();
             StartMovement();

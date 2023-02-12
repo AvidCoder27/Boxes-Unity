@@ -67,7 +67,7 @@ public class PlayingLadder : Interactable
         this.player = player;
         if (climbingState == ClimbState.None)
         {
-            playerInput = player.GetComponent<PlayerInput>();
+            playerInput = player.GetComponentInChildren<PlayerInput>();
             playerInput.DeactivateInput();
             finishMovementDelay = 0.05f;
             if (climbingUp)

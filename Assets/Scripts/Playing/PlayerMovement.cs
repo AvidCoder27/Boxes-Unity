@@ -6,93 +6,94 @@ public class PlayerMovement: MonoBehaviour
 {
     enum Move { None, Left, Right }
 
-    PlayerInput playerInput;
-    InputAction moveLeftAction;
-    InputAction moveRightAction;
-    InputAction selectTopAction;
-    InputAction selectBottomAction;
-    InputAction interactAction;
-    InputAction climbAction;
+    [SerializeField] private float _moveTime; // 0.5f
+    [SerializeField] private float _distanceFromCircle; // 4f
+    private Move _queuedMove;
+    private bool _moving;
+    private float _moveTimeElapsed;
+    private Quaternion _orientPreMove;
+    private Quaternion _orientSetpoint;
+    private Vector3 _posPreMove;
+    private Vector3 _posSetpoint;
+    private int _column;
+    private int _floor;
+    private Key.Colors _collectedKeys = Key.Colors.Undefined;
 
-    LevelHandler levelHandler;
-    Level level;
-    AudioSource moveSound;
+    private PlayerInput _playerInput;
+    private InputAction _moveLeft;
+    private InputAction _moveRight;
+    private InputAction _selectTop;
+    private InputAction _selectBottom;
+    private InputAction _interact;
+    private InputAction _climb;
 
-    [SerializeField] float moveTime; // 0.5f
-    [SerializeField] float distanceFromCircle; // 4f
-    Move queuedMove;
-    bool moving;
-
-    float moveTimeElapsed;
-    Quaternion orientPreMove;
-    Quaternion orientSetpoint;
-    Vector3 posPreMove;
-    Vector3 posSetpoint;
-    int column;
-    int floor;
-
-    Key.Colors collectedKeys = Key.Colors.Undefined;
-
-    public bool HasKey(Key.Colors keyColor)
-    {
-        return collectedKeys.HasFlag(keyColor);
-    }
-
-    public void GiveKey(Key.Colors keyColor)
-    {
-        collectedKeys |= keyColor;
-    }
-
-    private void Awake()
-    {
-        levelHandler = LevelHandler.GetInstance();
-        playerInput = GetComponent<PlayerInput>();
-
-        moveLeftAction = playerInput.actions["MoveLeft"];
-        moveRightAction = playerInput.actions["MoveRight"];
-        selectTopAction = playerInput.actions["SelectTop"];
-        selectBottomAction = playerInput.actions["SelectBottom"];
-        interactAction = playerInput.actions["Interact"];
-        climbAction = playerInput.actions["Climb"];
-    }
+    private AudioSource _moveSound;
+    private Level _level;
 
     private void OnEnable()
     {
-        moveLeftAction.performed += QueueMoveLeft;
-        moveRightAction.performed += QueueMoveRight;
-        selectTopAction.performed += TopAction_performed;
-        selectBottomAction.performed += BottomAction_performed;
-        interactAction.performed += InteractAction_performed;
-        climbAction.performed += ClimbAction_performed;
+        _moveSound = GetComponent<AudioSource>();
+        _playerInput = GetComponentInChildren<PlayerInput>();
+
+        _moveLeft = _playerInput.actions["MoveLeft"];
+        _moveRight = _playerInput.actions["MoveRight"];
+        _selectTop = _playerInput.actions["SelectTop"];
+        _selectBottom = _playerInput.actions["SelectBottom"];
+        _interact = _playerInput.actions["Interact"];
+        _climb = _playerInput.actions["Climb"];
+
+        _moveLeft.performed += QueueMoveLeft;
+        _moveRight.performed += QueueMoveRight;
+        _selectTop.performed += SelectTop_performed;
+        _selectBottom.performed += SelectBottom_performed;
+        _interact.performed += Interact_performed;
+        _climb.performed += Climb_performed;
         Actions.OnGameEnd += HandleGameEnd;
+
+        _level = LevelHandler.GetInstance().GetCurrentLevel();
+        _moveTimeElapsed = 0f;
+        _floor = 0;
+        _column = UnityEngine.Random.Range(0, _level.NumberOfColumns);
+        StartMoving(moveInstantly: true);
     }
 
     private void OnDisable()
     {
-        moveLeftAction.performed -= QueueMoveLeft;
-        moveRightAction.performed -= QueueMoveRight;
-        selectTopAction.performed -= TopAction_performed;
-        selectBottomAction.performed -= BottomAction_performed;
-        interactAction.performed -= InteractAction_performed;
-        climbAction.performed -= ClimbAction_performed;
+        _moveLeft.performed -= QueueMoveLeft;
+        _moveRight.performed -= QueueMoveRight;
+        _selectTop.performed -= SelectTop_performed;
+        _selectBottom.performed -= SelectBottom_performed;
+        _interact.performed -= Interact_performed;
+        _climb.performed -= Climb_performed;
         Actions.OnGameEnd -= HandleGameEnd;
     }
 
-    void Start()
+    void HandleGameEnd(Actions.GameEndState endState)
     {
-        playerInput.DeactivateInput();
-        level = levelHandler.GetCurrentLevel();
-        moveSound = GetComponent<AudioSource>();
-        moveTimeElapsed = 0f;
+        _queuedMove = Move.None;
+        _playerInput.DeactivateInput();
+    }
 
-        floor = 0;
-        column = UnityEngine.Random.Range(0, level.NumberOfColumns);
+    public void ChangeFloor(int delta)
+    {
+        _floor += delta;
+        _queuedMove = Move.None;
         StartMoving(moveInstantly: true);
     }
 
-    private void InteractAction_performed(InputAction.CallbackContext ctx)
+    public bool HasKey(Key.Colors keyColor)
     {
-        if (playerInput.currentControlScheme == "Keyboard")
+        return _collectedKeys.HasFlag(keyColor);
+    }
+
+    public void GiveKey(Key.Colors keyColor)
+    {
+        _collectedKeys |= keyColor;
+    }
+
+    private void Interact_performed(InputAction.CallbackContext ctx)
+    {
+        if (_playerInput.currentControlScheme == "Keyboard")
         {
             Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit, 10))
@@ -101,102 +102,98 @@ public class PlayerMovement: MonoBehaviour
         }
     }
 
-    private void ClimbAction_performed(InputAction.CallbackContext obj)
+    private void Climb_performed(InputAction.CallbackContext ctx)
     {
-        Actions.OnTryClimbLadder?.Invoke(floor, column, transform);
+        Actions.OnTryClimbLadder?.Invoke(_floor, _column, transform);
     }
 
-    void HandleGameEnd(Actions.GameEndState endState)
+    private void SelectBottom_performed(InputAction.CallbackContext ctx)
     {
-        queuedMove = Move.None;
-        playerInput.DeactivateInput();
+        if (!_moving) Actions.OnTryInteractBox?.Invoke(new int3(_floor, _column,0));
     }
 
-    public void ChangeFloor(int delta)
+    private void SelectTop_performed(InputAction.CallbackContext ctx)
     {
-        floor += delta;
-        queuedMove = Move.None;
-        StartMoving(moveInstantly: true);
+        if (!_moving) Actions.OnTryInteractBox?.Invoke(new int3(_floor, _column, 1));
     }
 
-    void BottomAction_performed(InputAction.CallbackContext ctx)
+    private void QueueMoveLeft(InputAction.CallbackContext ctx)
     {
-        if (!moving) Actions.OnTryInteractBox?.Invoke(new int3(floor, column,0));
+        _queuedMove = Move.Left;
     }
-    void TopAction_performed(InputAction.CallbackContext ctx)
-    {
-        if (!moving) Actions.OnTryInteractBox?.Invoke(new int3(floor, column, 1));
-    }
-    void QueueMoveLeft(InputAction.CallbackContext ctx) => queuedMove = Move.Left;
-    void QueueMoveRight(InputAction.CallbackContext ctx) => queuedMove = Move.Right;
 
-    void Update()
+    private void QueueMoveRight(InputAction.CallbackContext ctx)
     {
-        if (moving) MovePlayer();
+        _queuedMove = Move.Right;
+    }
+
+    private void Update()
+    {
+        if (_moving) MovePlayer();
         else
         {
-            if (queuedMove != Move.None)
+            if (_queuedMove != Move.None)
             {
                 StartMoving();
             }
         }
     }
 
-    void MovePlayer()
+    private void MovePlayer()
     {
-        if (moveTimeElapsed > moveTime)
+        if (_moveTimeElapsed > _moveTime)
         {
-            moveTimeElapsed = 0;
-            moving = false;
-            transform.SetPositionAndRotation(posSetpoint, orientSetpoint);
+            _moveTimeElapsed = 0;
+            _moving = false;
+            transform.SetPositionAndRotation(_posSetpoint, _orientSetpoint);
         }
         else
         {
-            moveTimeElapsed += Time.deltaTime;
-            float timeRatio = moveTimeElapsed / moveTime;
+            _moveTimeElapsed += Time.deltaTime;
+            float timeRatio = _moveTimeElapsed / _moveTime;
             timeRatio = timeRatio * timeRatio * (3f - 2f * timeRatio);
             // Spherically interpolate position and rotation
             transform.SetPositionAndRotation(
-                Vector3.Slerp(posPreMove, posSetpoint, timeRatio),
-                Quaternion.Slerp(orientPreMove, orientSetpoint, timeRatio)
+                Vector3.Slerp(_posPreMove, _posSetpoint, timeRatio),
+                Quaternion.Slerp(_orientPreMove, _orientSetpoint, timeRatio)
             );
         }
     }
 
-    void StartMoving(bool moveInstantly = false)
+    private void StartMoving(bool moveInstantly = false)
     {
-        switch (queuedMove)
+        switch (_queuedMove)
         {
             case Move.Left:
-                column++;
+                _column++;
                 break;
             case Move.Right:
-                column--;
+                _column--;
                 break;
         }
 
-        int numberOfColumns = level.NumberOfColumns;
+        int numberOfColumns = _level.NumberOfColumns;
 
-        if (column < 0)
-            column += numberOfColumns;
-        else if (column >= numberOfColumns)
-            column -= numberOfColumns;
+        if (_column < 0)
+            _column += numberOfColumns;
+        else if (_column >= numberOfColumns)
+            _column -= numberOfColumns;
 
-        moving = !moveInstantly;
-        queuedMove = Move.None;
-        posPreMove = transform.position;
-        orientPreMove = transform.rotation;
+        _moving = !moveInstantly;
+        _queuedMove = Move.None;
+        _posPreMove = transform.position;
+        _orientPreMove = transform.rotation;
 
-        float2 newPosition = level.CalculateCoordinatesForColumn(column, distanceFromCircle);
-        float yAngle = level.CalculateCameraAngleForColumnInDegrees(column);
+        float2 newPosition = _level.CalculateCoordinatesForColumn(_column, _distanceFromCircle);
+        float yAngle = _level.CalculateCameraAngleForColumnInDegrees(_column);
         float xAngle = transform.rotation.eulerAngles.x;
 
-        posSetpoint = new Vector3(newPosition.x, 2 - floor * Level.DistanceBetweenFloors, newPosition.y);
-        orientSetpoint = Quaternion.Euler(xAngle, yAngle, 0);
+        _posSetpoint = new Vector3(newPosition.x, 2 - _floor * Level.DistanceBetweenFloors, newPosition.y);
+        _orientSetpoint = Quaternion.Euler(xAngle, yAngle, 0);
 
         if (moveInstantly)
-            transform.SetPositionAndRotation(posSetpoint, orientSetpoint);
+            transform.SetPositionAndRotation(_posSetpoint, _orientSetpoint);
         else
-            moveSound.Play();
+            _moveSound.Play();
     }
 }

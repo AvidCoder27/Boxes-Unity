@@ -38,10 +38,7 @@ public class CharacterLook : MonoBehaviour
     private void Awake()
     {
         allowLooking = true;
-        playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.transform;
-        interactAction = playerInput.actions["Interact"];
-        lookAction = playerInput.actions["Look"];
     }
 
     private void Update()
@@ -51,6 +48,10 @@ public class CharacterLook : MonoBehaviour
 
     private void OnEnable()
     {
+        playerInput = GetComponentInChildren<PlayerInput>();
+        interactAction = playerInput.actions["Interact"];
+        lookAction = playerInput.actions["Look"];
+
         interactAction.performed += InteractPerformed;
 
         Cursor.visible = false;

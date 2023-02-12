@@ -12,6 +12,9 @@ public static class Actions
     public static Action OnSceneSwitchSetup;
     public static Action OnSceneSwitchEnd;
 
+    public static Action OnGamePause;
+    public static Action OnGameResume;
+
     /// <summary>
     /// Pass in floor as x, column as y, row as z
     /// </summary>
