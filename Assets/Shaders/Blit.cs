@@ -23,8 +23,8 @@ public class Blit : ScriptableRendererFeature
         private RenderTargetIdentifier source { get; set; }
         private RenderTargetHandle destination { get; set; }
 
-        RenderTargetHandle m_TemporaryColorTexture;
-        string m_ProfilerTag;
+        private RenderTargetHandle m_TemporaryColorTexture;
+        private string m_ProfilerTag;
 
         public BlitPass(RenderPassEvent renderPassEvent, Material blitMaterial, int blitShaderPassIndex, string tag)
         {
@@ -68,7 +68,9 @@ public class Blit : ScriptableRendererFeature
         public override void FrameCleanup(CommandBuffer cmd)
         {
             if (destination == RenderTargetHandle.CameraTarget)
+            {
                 cmd.ReleaseTemporaryRT(m_TemporaryColorTexture.id);
+            }
         }
     }
 
@@ -90,9 +92,8 @@ public class Blit : ScriptableRendererFeature
     }
 
     public BlitSettings settings = new BlitSettings();
-    RenderTargetHandle m_RenderTextureHandle;
-
-    BlitPass blitPass;
+    private RenderTargetHandle m_RenderTextureHandle;
+    private BlitPass blitPass;
 
     public override void Create()
     {

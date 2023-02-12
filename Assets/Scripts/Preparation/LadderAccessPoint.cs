@@ -3,26 +3,25 @@ using UnityEngine.InputSystem;
 
 public class LadderAccessPoint : Interactable
 {
-    enum PlayerState
+    private enum PlayerState
     {
         None, Aligning, Climbing
     }
 
-    [SerializeField] PlayerState playerState;
-    [SerializeField] float alignmentTime;
-    float alignmentStartTime;
-    Vector3 translationStart;
-    Quaternion rotationStart;
-    Quaternion camRotStart;
-    Transform animatedParent;
-    Transform entryPoint;
-    Animator animator;
-
-    Transform player;
-    PlayerInput playerInput;
-    Rigidbody playerRigidBody;
-    CharacterLook characterLook;
-    Transform cam;
+    [SerializeField] private PlayerState playerState;
+    [SerializeField] private float alignmentTime;
+    private float alignmentStartTime;
+    private Vector3 translationStart;
+    private Quaternion rotationStart;
+    private Quaternion camRotStart;
+    private Transform animatedParent;
+    private Transform entryPoint;
+    private Animator animator;
+    private Transform player;
+    private PlayerInput playerInput;
+    private Rigidbody playerRigidBody;
+    private CharacterLook characterLook;
+    private Transform cam;
 
     private void Awake()
     {
@@ -81,7 +80,10 @@ public class LadderAccessPoint : Interactable
                 break;
             case PlayerState.Climbing:
                 if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
+                {
                     FinishedMovement();
+                }
+
                 break;
         }
     }

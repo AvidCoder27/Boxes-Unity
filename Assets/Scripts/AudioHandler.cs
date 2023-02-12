@@ -3,12 +3,13 @@ using UnityEngine.Audio;
 
 public class AudioHandler : MonoBehaviour
 {
-    [SerializeField] [Range(0, 1)]
-    float musicVolume, soundVolume;
+    [SerializeField]
+    [Range(0, 1)]
+    private float musicVolume, soundVolume;
 
-    [SerializeField] AudioMixer masterMixer;
+    [SerializeField] private AudioMixer masterMixer;
 
-    [SerializeField] AudioSource PlayStageMusic;
+    [SerializeField] private AudioSource PlayStageMusic;
 
     private void Update()
     {

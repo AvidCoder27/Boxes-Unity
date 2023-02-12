@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class UIHandler : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseMenu;
 
     private void Awake()
-    {      
+    {
         _pauseMenu.SetActive(false);
     }
 

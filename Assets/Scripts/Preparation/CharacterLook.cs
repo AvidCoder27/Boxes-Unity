@@ -1,17 +1,16 @@
-using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterLook : MonoBehaviour
 {
-    PlayerInput playerInput;
-    InputAction interactAction;
-    InputAction lookAction;
+    private PlayerInput playerInput;
+    private InputAction interactAction;
+    private InputAction lookAction;
+    private Transform cam;
 
-    Transform cam;
-
-    [SerializeField] float sensitivity;
-    [SerializeField] float inputLagPeriod;
-    [SerializeField] float maxInteractionDistance;
+    [SerializeField] private float sensitivity;
+    [SerializeField] private float inputLagPeriod;
+    [SerializeField] private float maxInteractionDistance;
     public bool AllowLooking
     {
         get
@@ -30,10 +29,9 @@ public class CharacterLook : MonoBehaviour
         }
     }
     private bool allowLooking;
-
-    Vector2 rotation;
-    Vector2 lastInputEvent; // last recieved non-zero input value
-    float inputLagTimer; // time since non-zero input
+    private Vector2 rotation;
+    private Vector2 lastInputEvent; // last recieved non-zero input value
+    private float inputLagTimer; // time since non-zero input
 
     private void Awake()
     {
@@ -43,7 +41,10 @@ public class CharacterLook : MonoBehaviour
 
     private void Update()
     {
-        if (allowLooking) UpdateLooking();
+        if (allowLooking)
+        {
+            UpdateLooking();
+        }
     }
 
     private void OnEnable()

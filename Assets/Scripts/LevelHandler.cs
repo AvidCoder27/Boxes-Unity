@@ -4,13 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelHandler : MonoBehaviour
 {
-    List<Level> levels;
-    [SerializeField] int currentLevelIndex;
-    [SerializeField] int maxLevel;
+    private List<Level> levels;
+    [SerializeField] private int currentLevelIndex;
+    [SerializeField] private int maxLevel;
+    private static LevelHandler Instance;
 
-    static LevelHandler Instance;
-
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -18,7 +17,9 @@ public class LevelHandler : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
-             Destroy(gameObject); // On reload, singleton already set, so destroy duplicate.
+        {
+            Destroy(gameObject); // On reload, singleton already set, so destroy duplicate.
+        }
 
         CreateLevelsList();
     }
@@ -43,7 +44,8 @@ public class LevelHandler : MonoBehaviour
         if (currentLevelIndex == maxLevel)
         {
             Debug.Log("Game beaten");
-        } else
+        }
+        else
         {
             SceneManager.LoadScene(0);
         }
@@ -160,6 +162,6 @@ public class LevelHandler : MonoBehaviour
 
     private BoxStruct[] MakeCol(BoxStruct bottom, BoxStruct top)
     {
-        return new BoxStruct[] { bottom, top};
+        return new BoxStruct[] { bottom, top };
     }
 }

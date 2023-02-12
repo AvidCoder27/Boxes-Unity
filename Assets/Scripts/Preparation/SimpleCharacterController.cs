@@ -3,23 +3,22 @@ using UnityEngine.InputSystem;
 
 public class SimpleCharacterController : MonoBehaviour
 {
-    PlayerInput playerInput;
-    InputAction moveAction;
-    InputAction jumpAction;
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+    private InputAction jumpAction;
+    private Rigidbody rigidBody;
+    private new CapsuleCollider collider;
 
-    Rigidbody rigidBody;
-    new CapsuleCollider collider;
-
-    [SerializeField] LayerMask playerLayer;
-    [SerializeField] [Range(5f, 60f)] float slopeLimit = 45f; // degrees
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField][Range(5f, 60f)] private float slopeLimit = 45f; // degrees
     // meters per second
-    [SerializeField] float moveSpeed = 2f;
-    [SerializeField] float jumpSpeed = 4f;
-    [SerializeField] Vector2 sensitivity;
-    [SerializeField] bool isGrounded;
-    Vector3 walkInput;
-    bool jumpInput;
-    float lastVelocityMagnitude;
+    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float jumpSpeed = 4f;
+    [SerializeField] private Vector2 sensitivity;
+    [SerializeField] private bool isGrounded;
+    private Vector3 walkInput;
+    private bool jumpInput;
+    private float lastVelocityMagnitude;
 
     private void Awake()
     {
@@ -51,16 +50,18 @@ public class SimpleCharacterController : MonoBehaviour
         isGrounded = false;
         float capsuleHeight = Mathf.Max(collider.radius * 2f, collider.height);
         float capsuleRadius = transform.TransformVector(collider.radius, 0f, 0f).magnitude;
-        Vector3 capsuleBottom = transform.TransformPoint(collider.center - Vector3.up * capsuleHeight / 2f);
-        Ray ray = new(capsuleBottom + transform.up * .01f, -transform.up);
+        Vector3 capsuleBottom = transform.TransformPoint(collider.center - (Vector3.up * capsuleHeight / 2f));
+        Ray ray = new(capsuleBottom + (transform.up * .01f), -transform.up);
         if (Physics.Raycast(ray, out RaycastHit hit, capsuleRadius * 5f))
         {
             float normalAngle = Vector3.Angle(hit.normal, transform.up);
-            float maxDist = capsuleRadius / Mathf.Cos(Mathf.Deg2Rad * normalAngle) - capsuleRadius + .02f;
+            float maxDist = (capsuleRadius / Mathf.Cos(Mathf.Deg2Rad * normalAngle)) - capsuleRadius + .02f;
             if (normalAngle < slopeLimit)
             {
                 if (hit.distance < maxDist)
+                {
                     isGrounded = true;
+                }
             }
         }
     }
@@ -88,20 +89,23 @@ public class SimpleCharacterController : MonoBehaviour
             if (Mathf.Abs(rigidBody.velocity.magnitude) < 0.01f && Mathf.Abs(lastVelocityMagnitude) < 0.01f)
             {
                 float capsuleHeight = Mathf.Max(collider.radius * 2f, collider.height);
-                Vector3 capsuleBottom = transform.TransformPoint(collider.center - Vector3.up * capsuleHeight / 2f);
-                Ray ray = new(capsuleBottom + transform.up * .01f, -transform.up);
+                Vector3 capsuleBottom = transform.TransformPoint(collider.center - (Vector3.up * capsuleHeight / 2f));
+                Ray ray = new(capsuleBottom + (transform.up * .01f), -transform.up);
                 Vector3 normal = GetSlightlyRandomUpVector();
                 if (Physics.Raycast(ray, out RaycastHit hit, 1f, ~playerLayer))
+                {
                     normal = hit.normal;
+                }
+
                 rigidBody.AddForce(normal * jumpSpeed, ForceMode.VelocityChange);
 
             }
         }
     }
-    
+
     private Vector3 GetSlightlyRandomUpVector()
     {
         Vector3 randomDirection = new Vector3(Random.value, Random.value, Random.value);
-        return (Vector3.up * 5f + randomDirection).normalized;
+        return ((Vector3.up * 5f) + randomDirection).normalized;
     }
 }

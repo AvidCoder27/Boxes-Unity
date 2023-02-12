@@ -1,5 +1,5 @@
-using UnityEngine;
 using Unity.Mathematics;
+using UnityEngine;
 
 public class Box : MonoBehaviour
 {
@@ -37,7 +37,10 @@ public class Box : MonoBehaviour
 
     public void SetRefs(Transform playingCharacter)
     {
-        if (this.playingCharacter == null) this.playingCharacter = playingCharacter;
+        if (this.playingCharacter == null)
+        {
+            this.playingCharacter = playingCharacter;
+        }
     }
 
     public void CopyInAttributes(BoxStruct boxStruct, int3 boxIndex, bool allowOpening)
@@ -79,7 +82,7 @@ public class Box : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         // Set active box based on isOpen
         openedBox.SetActive(isOpen);
@@ -105,7 +108,9 @@ public class Box : MonoBehaviour
     private void TryInteract(int3 attemptedBoxIndex)
     {
         if (attemptedBoxIndex.x == Index.x && attemptedBoxIndex.y == Index.y && attemptedBoxIndex.z == Index.z)
+        {
             Interact();
+        }
     }
 
     public void Interact()
@@ -124,7 +129,8 @@ public class Box : MonoBehaviour
                 isOpen = true;
                 BoxOpenSound.Play();
                 InteractWithContents();
-            } else
+            }
+            else
             {
                 Debug.Log("lost game by failing to unlock box");
                 TriggerGameLose();

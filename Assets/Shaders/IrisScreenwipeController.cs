@@ -3,20 +3,19 @@ using UnityEngine;
 
 public class IrisScreenwipeController : MonoBehaviour
 {
-    enum TransitionState { GoingDown, Waiting, GoingUp, Finished }
+    private enum TransitionState { GoingDown, Waiting, GoingUp, Finished }
 
-    [SerializeField] float maxRadius;
+    [SerializeField] private float maxRadius;
 
-    [SerializeField] Material IrisScreenwipeMaterial;
-    Action FadeDownDoneCallback;
-    Action FadeUpDoneCallback;
-    float radius;
-    
-    float upTime;
-    float intermediateTime;
-    float downTime;
-    float elapsedTime;
-    TransitionState state;
+    [SerializeField] private Material IrisScreenwipeMaterial;
+    private Action FadeDownDoneCallback;
+    private Action FadeUpDoneCallback;
+    private float radius;
+    private float upTime;
+    private float intermediateTime;
+    private float downTime;
+    private float elapsedTime;
+    private TransitionState state;
 
     private void Start()
     {

@@ -1,10 +1,10 @@
-using UnityEngine;
 using Unity.Mathematics;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement: MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    enum Move { None, Left, Right }
+    private enum Move { None, Left, Right }
 
     [SerializeField] private float _moveTime; // 0.5f
     [SerializeField] private float _distanceFromCircle; // 4f
@@ -68,7 +68,7 @@ public class PlayerMovement: MonoBehaviour
         Actions.OnGameEnd -= HandleGameEnd;
     }
 
-    void HandleGameEnd(Actions.GameEndState endState)
+    private void HandleGameEnd(Actions.GameEndState endState)
     {
         _queuedMove = Move.None;
         _playerInput.DeactivateInput();
@@ -97,8 +97,12 @@ public class PlayerMovement: MonoBehaviour
         {
             Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit, 10))
+            {
                 if (hit.transform.TryGetComponent(out Interactable interactable))
+                {
                     interactable.InteractedWith(transform);
+                }
+            }
         }
     }
 
@@ -109,12 +113,18 @@ public class PlayerMovement: MonoBehaviour
 
     private void SelectBottom_performed(InputAction.CallbackContext ctx)
     {
-        if (!_moving) Actions.OnTryInteractBox?.Invoke(new int3(_floor, _column,0));
+        if (!_moving)
+        {
+            Actions.OnTryInteractBox?.Invoke(new int3(_floor, _column, 0));
+        }
     }
 
     private void SelectTop_performed(InputAction.CallbackContext ctx)
     {
-        if (!_moving) Actions.OnTryInteractBox?.Invoke(new int3(_floor, _column, 1));
+        if (!_moving)
+        {
+            Actions.OnTryInteractBox?.Invoke(new int3(_floor, _column, 1));
+        }
     }
 
     private void QueueMoveLeft(InputAction.CallbackContext ctx)
@@ -129,7 +139,10 @@ public class PlayerMovement: MonoBehaviour
 
     private void Update()
     {
-        if (_moving) MovePlayer();
+        if (_moving)
+        {
+            MovePlayer();
+        }
         else
         {
             if (_queuedMove != Move.None)
@@ -151,7 +164,7 @@ public class PlayerMovement: MonoBehaviour
         {
             _moveTimeElapsed += Time.deltaTime;
             float timeRatio = _moveTimeElapsed / _moveTime;
-            timeRatio = timeRatio * timeRatio * (3f - 2f * timeRatio);
+            timeRatio = timeRatio * timeRatio * (3f - (2f * timeRatio));
             // Spherically interpolate position and rotation
             transform.SetPositionAndRotation(
                 Vector3.Slerp(_posPreMove, _posSetpoint, timeRatio),
@@ -175,9 +188,13 @@ public class PlayerMovement: MonoBehaviour
         int numberOfColumns = _level.NumberOfColumns;
 
         if (_column < 0)
+        {
             _column += numberOfColumns;
+        }
         else if (_column >= numberOfColumns)
+        {
             _column -= numberOfColumns;
+        }
 
         _moving = !moveInstantly;
         _queuedMove = Move.None;
@@ -188,12 +205,16 @@ public class PlayerMovement: MonoBehaviour
         float yAngle = _level.CalculateCameraAngleForColumnInDegrees(_column);
         float xAngle = transform.rotation.eulerAngles.x;
 
-        _posSetpoint = new Vector3(newPosition.x, 2 - _floor * Level.DistanceBetweenFloors, newPosition.y);
+        _posSetpoint = new Vector3(newPosition.x, 2 - (_floor * Level.DistanceBetweenFloors), newPosition.y);
         _orientSetpoint = Quaternion.Euler(xAngle, yAngle, 0);
 
         if (moveInstantly)
+        {
             transform.SetPositionAndRotation(_posSetpoint, _orientSetpoint);
+        }
         else
+        {
             _moveSound.Play();
+        }
     }
 }

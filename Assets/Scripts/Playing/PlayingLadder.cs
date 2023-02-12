@@ -3,20 +3,18 @@ using UnityEngine.InputSystem;
 
 public class PlayingLadder : Interactable
 {
-    enum ClimbState { None, Up, Down }
+    private enum ClimbState { None, Up, Down }
 
-    [SerializeField] ClimbState climbingState;
-    Transform player;
-    PlayerInput playerInput;
-
-    Transform bottomEntrance;
-    Transform topEntrance;
-    Transform animatedParent;
-    Animator animator;
-
-    float finishMovementDelay;
-    int floorOfTop;
-    int column;
+    [SerializeField] private ClimbState climbingState;
+    private Transform player;
+    private PlayerInput playerInput;
+    private Transform bottomEntrance;
+    private Transform topEntrance;
+    private Transform animatedParent;
+    private Animator animator;
+    private float finishMovementDelay;
+    private int floorOfTop;
+    private int column;
 
     private void Awake()
     {
@@ -50,7 +48,9 @@ public class PlayingLadder : Interactable
     public override void InteractedWith(Transform player)
     {
         if (player.TryGetComponent(out PlayerMovement _))
+        {
             StartClimbing(player, true);
+        }
     }
 
     public void SetTopFloorAndColumn(int floorOfTop, int column)
@@ -76,7 +76,8 @@ public class PlayingLadder : Interactable
                 animatedParent.position = bottomEntrance.position;
                 player.position = bottomEntrance.position;
                 animator.SetTrigger("ClimbUp");
-            } else
+            }
+            else
             {
                 climbingState = ClimbState.Down;
                 animatedParent.position = topEntrance.position;
@@ -91,11 +92,18 @@ public class PlayingLadder : Interactable
     {
         if (climbingState != ClimbState.None)
         {
-            if (finishMovementDelay >= 0) finishMovementDelay -= Time.deltaTime;
+            if (finishMovementDelay >= 0)
+            {
+                finishMovementDelay -= Time.deltaTime;
+            }
+
             bool isAnimating = finishMovementDelay > 0
                 || animator.IsInTransition(0)
                 || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
-            if (!isAnimating) FinishedMovement();
+            if (!isAnimating)
+            {
+                FinishedMovement();
+            }
         }
     }
 

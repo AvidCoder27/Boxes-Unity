@@ -1,14 +1,15 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Key : Collectable
 {
-    [Flags] public enum Colors
+    [Flags]
+    public enum Colors
     {
         Undefined = 0, Red = 1, Green = 2, Purple = 4, Gold = 8
     }
-    
+
     [SerializeField] private Renderer keyRenderer;
     [SerializeField] private List<Color> rgbaColors;
     [SerializeField] private float xrayEmissionIntensity;

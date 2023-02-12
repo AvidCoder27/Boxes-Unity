@@ -37,6 +37,6 @@ public class Level
 
     public float CalculateCameraAngleForColumnInDegrees(float column)
     {
-        return -360 * column / NumberOfColumns + 90;
+        return (-360 * column / NumberOfColumns) + 90;
     }
 }
