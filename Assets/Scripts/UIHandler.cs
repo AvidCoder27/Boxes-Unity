@@ -3,9 +3,11 @@ using UnityEngine;
 public class UIHandler : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseMenu;
-
+    [SerializeField] private GameObject _settingsMenu;
+    
     private void Awake()
     {
+        _settingsMenu.SetActive(false);
         _pauseMenu.SetActive(false);
     }
 
@@ -18,8 +20,19 @@ public class UIHandler : MonoBehaviour
 
     public void Resume()
     {
+        _settingsMenu.SetActive(false);
         _pauseMenu.SetActive(false);
         Actions.OnGameResume?.Invoke();
         Time.timeScale = 1f;
+    }
+
+    public void OpenSettings()
+    {
+        _settingsMenu.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        _settingsMenu.SetActive(false);
     }
 }
