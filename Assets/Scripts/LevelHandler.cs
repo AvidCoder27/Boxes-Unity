@@ -34,10 +34,11 @@ public class LevelHandler : MonoBehaviour
         switch (gameEndState)
         {
             case Actions.GameEndState.Win:
+                Debug.Log(currentLevelIndex);
                 currentLevelIndex++;
                 break;
             case Actions.GameEndState.Lose:
-
+                Debug.Log(currentLevelIndex);
                 break;
         }
 

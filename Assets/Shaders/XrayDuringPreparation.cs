@@ -21,7 +21,7 @@ public class XrayDuringPreparation : MonoBehaviour
     }
     private void OnDisable()
     {
-        Actions.OnSceneSwitchSetup += HideXray;
+        Actions.OnSceneSwitchSetup -= HideXray;
     }
 
     private void Awake()

@@ -29,10 +29,20 @@ public class CharacterSwitcher : MonoBehaviour
         transform.SetParent(_prepCamParent);
         _playerInput.SwitchCurrentActionMap("Preparation Phase");
         _playerInput.ActivateInput();
-        _playerInput.actions["Pause"].performed += Pause_performed;
+    }
 
+    private void OnEnable()
+    {
+        _playerInput.actions["Pause"].performed += Pause_performed;
         Actions.OnGamePause += HandleGamePause;
         Actions.OnGameResume += HandleGameResume;
+    }
+
+    private void OnDisable()
+    {
+        _playerInput.actions["Pause"].performed -= Pause_performed;
+        Actions.OnGamePause -= HandleGamePause;
+        Actions.OnGameResume -= HandleGameResume;
     }
 
     public void StartStageSwitch()
