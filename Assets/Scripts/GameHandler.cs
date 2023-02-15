@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
-    public enum GameStage { Preparation, Playing, Transitioning }
-
     [SerializeField] private GameObject boxPrefab;
     [SerializeField] private GameObject boxLightPrefab;
     [SerializeField] private GameObject viewingHoleSegmentPrefab;
@@ -13,14 +11,11 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private Transform playingCharacter;
     private LevelHandler levelHandler;
 
-    public GameStage Stage { get; private set; }
     [SerializeField] private float BottomBoxHeight, TopBoxHeight, BoxLightHeight;
 
     private void Awake()
     {
         levelHandler = LevelHandler.GetInstance();
-
-        Stage = GameStage.Preparation;
     }
 
     private void Start()
@@ -31,34 +26,17 @@ public class GameHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        Actions.OnGameEnd += HandleGameEnd;
-        Actions.OnSceneSwitchStart += HandleSceneSwitchStart;
         Actions.OnSceneSwitchSetup += HandleSceneSwitchSetup;
-        Actions.OnSceneSwitchEnd += HandleSceneSwitchEnd;
     }
     private void OnDisable()
     {
-        Actions.OnGameEnd -= HandleGameEnd;
-        Actions.OnSceneSwitchStart -= HandleSceneSwitchStart;
         Actions.OnSceneSwitchSetup -= HandleSceneSwitchSetup;
-        Actions.OnSceneSwitchEnd -= HandleSceneSwitchEnd;
     }
 
-    private void HandleSceneSwitchStart()
-    {
-        Stage = GameStage.Transitioning;
-    }
+
     private void HandleSceneSwitchSetup()
     {
-        hideDuringPlay.SetActive(false);
-    }
-    private void HandleSceneSwitchEnd()
-    {
-        Stage = GameStage.Playing;
-    }
-    private void HandleGameEnd(Actions.GameEndState gameEndState)
-    {
-        Stage = GameStage.Transitioning;
+        Destroy(hideDuringPlay);
     }
 
     private void SpawnLight(Level level, int floor, int column)

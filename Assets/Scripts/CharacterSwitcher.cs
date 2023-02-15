@@ -56,10 +56,8 @@ public class CharacterSwitcher : MonoBehaviour
     private void SetupPlayingStage()
     {
         transform.SetParent(_playCamParent, false);
-        PrepCharacter.gameObject.SetActive(false);
         PlayCharacter.gameObject.SetActive(true);
-        _playerInput.SwitchCurrentActionMap("Playing Phase");
-        _playerInput.DeactivateInput();
+        PrepCharacter.gameObject.SetActive(false);
         transform.localEulerAngles = Vector3.zero;
 
         Actions.OnSceneSwitchSetup?.Invoke();

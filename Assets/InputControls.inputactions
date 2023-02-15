@@ -315,15 +315,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interact",
-                    "type": "Button",
-                    "id": "8fcd7399-d0ed-4f4a-9f72-225caa8edf93",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Climb",
                     "type": "Button",
                     "id": "e21f0df9-7392-45e0-ae83-b09f104d5efa",
@@ -336,6 +327,15 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "1318fd09-d13b-49e8-8f7a-3196576fec18",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlayInteract",
+                    "type": "Button",
+                    "id": "22beb350-e3ca-4813-b03e-523cbb1f1ee7",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -499,28 +499,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f8acd1f7-d27d-4d35-af90-0f33a099b6e5",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4e25594c-4db4-4a22-925e-f5e1fda2b407",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a0acc7d7-1e88-413e-8e86-35f036b8c8d1",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -571,6 +549,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04645398-de2a-4a91-be7c-9619f8c49bba",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PlayInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "201ce1e7-aa86-4d75-a2bf-1c35953934dc",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayInteract",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

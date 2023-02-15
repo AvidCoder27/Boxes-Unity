@@ -525,10 +525,6 @@ MonoBehaviour:
     m_ActionName: Playing Phase/SelectBottom[/Keyboard/downArrow,/Keyboard/s]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 8fcd7399-d0ed-4f4a-9f72-225caa8edf93
-    m_ActionName: Playing Phase/Interact[/Keyboard/e,/XInputControllerWindows/buttonEast]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: e21f0df9-7392-45e0-ae83-b09f104d5efa
     m_ActionName: Playing Phase/Climb[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
@@ -539,6 +535,50 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1318fd09-d13b-49e8-8f7a-3196576fec18
     m_ActionName: Playing Phase/Pause[/Keyboard/p,/Keyboard/escape,/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 365c5261-10ea-4d32-8632-2b2135702161
+    m_ActionName: UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ecb1f8ad-156d-46d6-9912-299524245cf0
+    m_ActionName: UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth,/Keyboard/space,/Keyboard/numpadEnter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 29328eb9-ad56-4059-9b74-760be781ef0a
+    m_ActionName: UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c31eb0aa-c64a-4007-adc1-c1aa443bca68
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: afa48119-e218-4245-930f-3e2038b1ad6a
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f3aae3eb-4019-4235-9e5b-78cd68f2f9ce
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ee014294-0494-4fe7-884b-b8d3dd44d595
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9812485d-bac0-4776-9907-e27d2e73e2bc
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b0d55f70-fd84-4a31-9f01-8031bd5ec80c
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b2b3058a-122b-463e-882f-b14985548047
+    m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 22beb350-e3ca-4813-b03e-523cbb1f1ee7
+    m_ActionName: Playing Phase/PlayInteract[/Keyboard/e,/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Preparation Phase
@@ -1191,6 +1231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40e903a177954c41bd3b36f44a0aa7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _keySpritePrefab: {fileID: 1663521339726868742, guid: a2bacc0ca27c4fb47ad47156b1cac834, type: 3}
+  _keyDisplay: {fileID: 805211337}
   _endScreen: {fileID: 494894185}
   _pauseMenu: {fileID: 329280424}
   _settingsMenu: {fileID: 774855059}
@@ -2165,6 +2207,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveTime: 0.5
   _distanceFromCircle: 4
+  _onGetKey:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 263683414}
+        m_TargetAssemblyTypeName: UIHandler, Assembly-CSharp
+        m_MethodName: UpdateKeyDisplay
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!82 &519420034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3832,6 +3889,82 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6054477832868760221, guid: a63e7196755464443bea1943346f544c, type: 3}
   m_PrefabInstance: {fileID: 776187391}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &805211337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 805211338}
+  - component: {fileID: 805211340}
+  - component: {fileID: 805211339}
+  m_Layer: 5
+  m_Name: Key Display
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &805211338
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805211337}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1437599617}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 400, y: 30}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &805211339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805211337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6117647}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &805211340
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805211337}
+  m_CullTransparentMesh: 1
 --- !u!1001 &824843643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6303,6 +6436,7 @@ RectTransform:
   m_Children:
   - {fileID: 329280425}
   - {fileID: 494894186}
+  - {fileID: 805211338}
   m_Father: {fileID: 263683413}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9174,7 +9308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99392e92f1c784c4a80d54bf860ed639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevelIndex: 0
+  currentLevelIndex: 3
   maxLevel: 4
 --- !u!1001 &1484482250974425474
 PrefabInstance:

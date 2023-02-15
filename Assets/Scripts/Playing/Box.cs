@@ -127,6 +127,8 @@ public class Box : MonoBehaviour
             if (playingCharacter.GetComponent<PlayerMovement>().HasKey(lockColor))
             {
                 isOpen = true;
+                // remove lock from box after it is unlocked
+                lockColor = Key.Colors.Undefined;
                 BoxOpenSound.Play();
                 InteractWithContents();
             }
@@ -147,7 +149,13 @@ public class Box : MonoBehaviour
                 Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
                 break;
             case Contents.Key:
-                collectable.StartCollectAnimation(this, KeyAnimationCallback);
+                if (collectable.done)
+                {
+                    TriggerGameLose();
+                } else
+                {
+                    collectable.StartCollectAnimation(this, KeyAnimationCallback);
+                }
                 break;
 
             case Contents.Ladder:

@@ -1,5 +1,7 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float _moveTime; // 0.5f
     [SerializeField] private float _distanceFromCircle; // 4f
+    [SerializeField] private UnityEvent<Key.Colors> _onGetKey;
     private Move _queuedMove;
     private bool _moving;
     private float _moveTimeElapsed;
@@ -34,16 +37,19 @@ public class PlayerMovement : MonoBehaviour
     {
         _moveSound = GetComponent<AudioSource>();
         _playerInput = GetComponentInChildren<PlayerInput>();
+        _playerInput.ActivateInput();
+        _playerInput.SwitchCurrentActionMap("Playing Phase");
+        _playerInput.DeactivateInput();
 
         _moveLeft = _playerInput.actions["MoveLeft"];
         _moveRight = _playerInput.actions["MoveRight"];
         _selectTop = _playerInput.actions["SelectTop"];
         _selectBottom = _playerInput.actions["SelectBottom"];
-        _interact = _playerInput.actions["Interact"];
+        _interact = _playerInput.actions["PlayInteract"];
         _climb = _playerInput.actions["Climb"];
 
-        _moveLeft.performed += QueueMoveLeft;
-        _moveRight.performed += QueueMoveRight;
+        _moveLeft.performed += MoveLeft_performed;
+        _moveRight.performed += MoveRight_performed;
         _selectTop.performed += SelectTop_performed;
         _selectBottom.performed += SelectBottom_performed;
         _interact.performed += Interact_performed;
@@ -59,8 +65,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _moveLeft.performed -= QueueMoveLeft;
-        _moveRight.performed -= QueueMoveRight;
+        _moveLeft.performed -= MoveLeft_performed;
+        _moveRight.performed -= MoveRight_performed;
         _selectTop.performed -= SelectTop_performed;
         _selectBottom.performed -= SelectBottom_performed;
         _interact.performed -= Interact_performed;
@@ -89,11 +95,12 @@ public class PlayerMovement : MonoBehaviour
     public void GiveKey(Key.Colors keyColor)
     {
         _collectedKeys |= keyColor;
+        _onGetKey.Invoke(keyColor);
     }
 
     private void Interact_performed(InputAction.CallbackContext ctx)
     {
-        if (_playerInput.currentControlScheme == "Keyboard")
+        if (_playerInput.currentControlScheme == "Keyboard&Mouse")
         {
             Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit, 10))
@@ -127,12 +134,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void QueueMoveLeft(InputAction.CallbackContext ctx)
+    private void MoveLeft_performed(InputAction.CallbackContext ctx)
     {
         _queuedMove = Move.Left;
     }
 
-    private void QueueMoveRight(InputAction.CallbackContext ctx)
+    private void MoveRight_performed(InputAction.CallbackContext ctx)
     {
         _queuedMove = Move.Right;
     }
@@ -216,5 +223,20 @@ public class PlayerMovement : MonoBehaviour
         {
             _moveSound.Play();
         }
+    }
+
+    /// <summary>
+    /// Lock the player input and get a callback to unlock it.
+    /// </summary>
+    /// <returns>please invoke this callback in the future to unlock the movement</returns>
+    public Action LockInputWithCallback()
+    {
+        _playerInput.DeactivateInput();
+        return UnlockInput;
+    }
+
+    private void UnlockInput()
+    {
+        _playerInput.ActivateInput();
     }
 }

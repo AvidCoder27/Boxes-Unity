@@ -34,11 +34,9 @@ public class LevelHandler : MonoBehaviour
         switch (gameEndState)
         {
             case Actions.GameEndState.Win:
-                Debug.Log(currentLevelIndex);
                 currentLevelIndex++;
                 break;
             case Actions.GameEndState.Lose:
-                Debug.Log(currentLevelIndex);
                 break;
         }
 
@@ -119,8 +117,8 @@ public class LevelHandler : MonoBehaviour
                         MakeCol(true, false),
                         MakeCol(false, false),
                         MakeCol(true, false),
-                        MakeCol(false, true),
-                        MakeCol(false, false)
+                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Gold, Key.Colors.Undefined), new BoxStruct(true)),
+                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined), new BoxStruct(true)),
                     },
                     new List<BoxStruct[]>
                     {

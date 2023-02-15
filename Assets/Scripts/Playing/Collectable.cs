@@ -18,9 +18,11 @@ public abstract class Collectable : MonoBehaviour
     private bool isMoving;
     private float spinTimeElapsed;
     private float finishSpinDelay;
+    public bool done { get; private set; }
 
     private void Awake()
     {
+        done = false;
         finishSpinDelay = 0.05f;
         animationParent = transform.Find("Animation Parent");
         animator = animationParent.GetComponent<Animator>();
@@ -31,9 +33,21 @@ public abstract class Collectable : MonoBehaviour
 
     private void Update()
     {
-        if (!isMoving) return;
-        if (doSpin) Spin();
-        if (finishSpinDelay >= 0) finishSpinDelay -= Time.deltaTime;
+        if (!isMoving)
+        {
+            return;
+        }
+
+        if (doSpin)
+        {
+            Spin();
+        }
+
+        if (finishSpinDelay >= 0)
+        {
+            finishSpinDelay -= Time.deltaTime;
+        }
+
         CheckIfFinished();
     }
 
@@ -57,6 +71,7 @@ public abstract class Collectable : MonoBehaviour
         if (!isAnimating)
         {
             isMoving = false;
+            done = true;
             OnAnimationComplete?.Invoke();
         }
     }

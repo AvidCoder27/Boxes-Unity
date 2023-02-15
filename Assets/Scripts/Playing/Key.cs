@@ -11,7 +11,6 @@ public class Key : Collectable
     }
 
     [SerializeField] private Renderer keyRenderer;
-    [SerializeField] private List<Color> rgbaColors;
     [SerializeField] private float xrayEmissionIntensity;
     [SerializeField] private float standardEmissionIntensity;
 
@@ -40,13 +39,37 @@ public class Key : Collectable
     {
     }
 
+    public static Color[] GetAllKeyColors()
+    {
+        return new Color[]
+        {
+            Color.red,
+            Color.green,
+            new Color(0.61176f, 0f, 1f),
+            new Color(1f, 0.77255f, 0f)
+        };
+    }
+
+    public static Color GetColorOfKeyColor(Colors color)
+    {
+        return GetAllKeyColors()[(int)Math.Log((double)color, 2)];
+    }
+
     private void Start()
     {
+        SetColor(Colors.Red); // default to red for testing
         UpdateMatColors(xrayEmissionIntensity);
     }
 
     private protected override void AnimationStart()
     {
+        OnAnimationComplete += AnimationEnd;
+        OnAnimationComplete += playerMovement.LockInputWithCallback();
+    }
+
+    private void AnimationEnd()
+    {
+        OnAnimationComplete -= AnimationEnd;
         playerMovement.GiveKey(color);
     }
 
@@ -66,8 +89,7 @@ public class Key : Collectable
     private void UpdateMatColors(float emmisiveFactor)
     {
         keyRenderer.material.EnableKeyword("_EMISSION");
-        Color c = rgbaColors[(int)Math.Log((double)color, 2)];
-        keyRenderer.material.SetColor("_EmissionColor", c * emmisiveFactor);
+        keyRenderer.material.SetColor("_EmissionColor", GetColorOfKeyColor(color) * emmisiveFactor);
     }
 
 }
