@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameHandler : MonoBehaviour
 {
     [SerializeField] private GameObject boxPrefab;
-    [SerializeField] private GameObject boxLightPrefab;
+    [SerializeField] private GameObject columnItemsPrefab;
     [SerializeField] private GameObject viewingHoleSegmentPrefab;
     [SerializeField] private GameObject viewingHoleBottomPrefab;
     [SerializeField] private GameObject hideDuringPlay;
@@ -39,15 +39,15 @@ public class GameHandler : MonoBehaviour
         Destroy(hideDuringPlay);
     }
 
-    private void SpawnLight(Level level, int floor, int column)
+    private void SpawnColumnItems(Level level, int floor, int column)
     {
-        float2 lightCoords = level.CalculateCoordinatesForColumn(column);
-        float lightHeight = BoxLightHeight - (floor * Level.DistanceBetweenFloors);
-        float lightAngle = Mathf.Atan2(lightCoords.x, lightCoords.y) * 180f / Mathf.PI;
+        float2 coords = level.CalculateCoordinatesForColumn(column);
+        float height = BoxLightHeight - (floor * Level.DistanceBetweenFloors);
+        float angle = Mathf.Atan2(coords.x, coords.y) * 180f / Mathf.PI;
 
-        Vector3 lightPosition = new(lightCoords.x, lightHeight, lightCoords.y);
-        Quaternion lightRotation = Quaternion.Euler(0f, lightAngle, 0f);
-        Instantiate(boxLightPrefab, lightPosition, lightRotation);
+        Vector3 position = new(coords.x, height, coords.y);
+        Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
+        Instantiate(columnItemsPrefab, position, rotation);
     }
 
     private void SpawnBox(Level level, int floor, int column, int row)
@@ -84,7 +84,7 @@ public class GameHandler : MonoBehaviour
             SpawnViewingHole(floor, viewingHoleSegmentPrefab);
             for (int column = 0; column < level.NumberOfColumns; column++)
             {
-                SpawnLight(level, floor, column);
+                SpawnColumnItems(level, floor, column);
                 // row is either bottom or top box
                 for (int row = 0; row < 2; row++)
                 {
