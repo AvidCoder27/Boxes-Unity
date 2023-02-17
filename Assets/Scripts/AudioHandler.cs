@@ -9,13 +9,43 @@ public class AudioHandler : MonoBehaviour
     private float _masterVolume, _musicVolume, _soundVolume;
 
     [SerializeField] private AudioMixer masterMixer;
-
+    [SerializeField] private AudioSource PrepStageMusic;
     [SerializeField] private AudioSource PlayStageMusic;
+
+    private void OnEnable()
+    {
+        Actions.OnSceneSwitchStart += HandleSceneSwitchStart;
+        Actions.OnSceneSwitchEnd += HandleSceneSwitchEnd;
+    }
+
+    private void OnDisable()
+    {
+        Actions.OnSceneSwitchStart -= HandleSceneSwitchStart;
+        Actions.OnSceneSwitchEnd -= HandleSceneSwitchEnd;
+    }
+
+    private void Start()
+    {
+        PrepStageMusic.Play();
+    }
 
     private void Update()
     {
         masterMixer.SetFloat("musicVolume", LinearToDecibal(_musicVolume * _masterVolume));
         masterMixer.SetFloat("soundVolume", LinearToDecibal(_soundVolume * _masterVolume));
+    }
+
+    private void HandleSceneSwitchStart()
+    {
+        StartCoroutine(FadeAudioSource.StartFade(PrepStageMusic, 2, 0));
+    }
+
+    private void HandleSceneSwitchEnd()
+    {
+        PrepStageMusic.Stop();
+        PlayStageMusic.Play();
+        PlayStageMusic.volume = 0;
+        StartCoroutine(FadeAudioSource.StartFade(PlayStageMusic, 2, 1));
     }
 
     /// <summary>
