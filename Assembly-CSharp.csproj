@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\UIHandler.cs" />
     <Compile Include="Assets\Scripts\Preparation\LadderAccessPoint.cs" />
     <Compile Include="Assets\Scripts\Playing\Collectable.cs" />
+    <Compile Include="Assets\Audio\FadeAudioSource.cs" />
     <Compile Include="Assets\Scripts\Preparation\Interactable.cs" />
     <Compile Include="Assets\Scripts\Preparation\WorldButton.cs" />
     <Compile Include="Assets\Scripts\Preparation\CharacterLook.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="Assets\Scripts\Playing\Star.cs" />
     <Compile Include="Assets\Scripts\Playing\BoxStruct.cs" />
     <Compile Include="Assets\Scripts\Actions.cs" />
-    <Compile Include="Assets\Audio\FadeAudioSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

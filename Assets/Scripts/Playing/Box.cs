@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -21,8 +23,10 @@ public class Box : MonoBehaviour
     [SerializeField] private GameObject keyPrefab;
     [SerializeField] private GameObject inverterPrefab;
     [SerializeField] private GameObject ladderPrefab;
+    [SerializeField] private AudioSource BoxOpenSound;
+    [SerializeField] private AudioSource UnlockSound;
     private Transform playingCharacter;
-    private AudioSource BoxOpenSound;
+    private PlayerMovement playerMovement;
     private GameObject openedBox;
     private GameObject closedBox;
     private Collectable collectable;
@@ -32,7 +36,6 @@ public class Box : MonoBehaviour
     {
         openedBox = transform.Find("container/Box/opened").gameObject;
         closedBox = transform.Find("container/Box/closed").gameObject;
-        BoxOpenSound = GetComponent<AudioSource>();
     }
 
     public void SetRefs(Transform playingCharacter)
@@ -40,6 +43,7 @@ public class Box : MonoBehaviour
         if (this.playingCharacter == null)
         {
             this.playingCharacter = playingCharacter;
+            playerMovement = playingCharacter.GetComponent<PlayerMovement>();
         }
     }
 
@@ -67,7 +71,7 @@ public class Box : MonoBehaviour
                 collectable = go.GetComponent<Collectable>();
                 Key key = go.GetComponent<Key>();
                 key.SetColor(keyColor);
-                key.SetPlayerMovementRef(playingCharacter.GetComponent<PlayerMovement>());
+                key.SetPlayerMovementRef(playerMovement);
                 break;
 
             case Contents.Ladder:
@@ -124,13 +128,18 @@ public class Box : MonoBehaviour
         // if it's not already open and opening is allowed, open the box and interact
         if (allowOpening)
         {
-            if (playingCharacter.GetComponent<PlayerMovement>().HasKey(lockColor))
+            if (playerMovement.HasKey(lockColor))
             {
                 isOpen = true;
-                // remove lock from box after it is unlocked
-                lockColor = Key.Colors.Undefined;
-                BoxOpenSound.Play();
-                InteractWithContents();
+                if (lockColor != Key.Colors.Undefined)
+                {
+                    // remove lock from box after it is unlocked
+                    lockColor = Key.Colors.Undefined;
+                    StartCoroutine(UnlockAndInteractWithContents());
+                } else
+                {
+                    OpenAndInteractWithContents();
+                }
             }
             else
             {
@@ -138,6 +147,22 @@ public class Box : MonoBehaviour
                 TriggerGameLose();
             }
         }
+    }
+
+    private IEnumerator UnlockAndInteractWithContents()
+    {
+        UnlockSound.Play();
+        Action unlockCallback = playerMovement.LockInputWithCallback();
+        yield return new WaitForSeconds(0.5f);
+        unlockCallback?.Invoke();
+        BoxOpenSound.Play();
+        InteractWithContents();
+    }
+
+    private void OpenAndInteractWithContents()
+    {
+        BoxOpenSound.Play();
+        InteractWithContents();
     }
 
     private void InteractWithContents()
