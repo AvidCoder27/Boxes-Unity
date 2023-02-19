@@ -174,7 +174,7 @@ public class Box : MonoBehaviour
                 Actions.OnGameEnd?.Invoke(Actions.GameEndState.Win);
                 break;
             case Contents.Key:
-                if (collectable.done)
+                if (collectable.Done)
                 {
                     TriggerGameLose();
                 } else

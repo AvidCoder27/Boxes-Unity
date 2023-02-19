@@ -3,11 +3,9 @@ using UnityEngine;
 public class Star : Collectable
 {
     private Light innerLight;
-    private AudioSource levelCompleteSound;
 
     private protected override void AwakeInherited()
     {
-        levelCompleteSound = GetComponentInChildren<AudioSource>();
         innerLight = GetComponentInChildren<Light>();
         innerLight.enabled = false;
     }
@@ -15,6 +13,5 @@ public class Star : Collectable
     private protected override void AnimationStart()
     {
         innerLight.enabled = true;
-        levelCompleteSound.Play();
     }
 }

@@ -11,6 +11,8 @@ public abstract class Collectable : MonoBehaviour
     private AnimationCurve spinCurve;
     [SerializeField]
     private bool doSpin;
+    [SerializeField]
+    private AudioSource collectSound;
 
     private protected Action OnAnimationComplete;
     private Transform animationParent;
@@ -18,11 +20,11 @@ public abstract class Collectable : MonoBehaviour
     private bool isMoving;
     private float spinTimeElapsed;
     private float finishSpinDelay;
-    public bool done { get; private set; }
+    public bool Done { get; private set; }
 
     private void Awake()
     {
-        done = false;
+        Done = false;
         finishSpinDelay = 0.05f;
         animationParent = transform.Find("Animation Parent");
         animator = animationParent.GetComponent<Animator>();
@@ -71,7 +73,7 @@ public abstract class Collectable : MonoBehaviour
         if (!isAnimating)
         {
             isMoving = false;
-            done = true;
+            Done = true;
             OnAnimationComplete?.Invoke();
         }
     }
@@ -89,6 +91,7 @@ public abstract class Collectable : MonoBehaviour
         {
             animator.SetTrigger("TopMotion");
         }
+        collectSound.Play();
         AnimationStart();
     }
 

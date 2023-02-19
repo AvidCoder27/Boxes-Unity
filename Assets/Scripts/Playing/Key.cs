@@ -13,6 +13,7 @@ public class Key : Collectable
     [SerializeField] private Renderer keyRenderer;
     [SerializeField] private float xrayEmissionIntensity;
     [SerializeField] private float standardEmissionIntensity;
+    [SerializeField] private AudioSource rattleSound;
 
     private Colors color;
     private PlayerMovement playerMovement;
@@ -71,6 +72,8 @@ public class Key : Collectable
     {
         OnAnimationComplete -= AnimationEnd;
         playerMovement.GiveKey(color);
+        transform.SetParent(playerMovement.transform);
+        rattleSound.Play();
     }
 
     private void OnEnable()

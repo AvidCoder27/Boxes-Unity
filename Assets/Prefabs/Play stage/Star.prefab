@@ -119,6 +119,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   doSpin: 1
+  collectSound: {fileID: 2807923017234827068}
 --- !u!82 &2807923017234827068
 AudioSource:
   m_ObjectHideFlags: 0
