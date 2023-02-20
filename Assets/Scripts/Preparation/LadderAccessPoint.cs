@@ -5,7 +5,7 @@ public class LadderAccessPoint : Interactable
 {
     private enum PlayerState
     {
-        None, Aligning, Climbing
+        None, Aligning, StartClimbing, Climbing
     }
 
     [SerializeField] private PlayerState playerState;
@@ -73,17 +73,14 @@ public class LadderAccessPoint : Interactable
 
                 if (timeRatio >= 1)
                 {
-                    playerState = PlayerState.Climbing;
+                    playerState = PlayerState.StartClimbing;
                     player.SetParent(animatedParent);
                     animator.SetTrigger("StartClimbing");
                 }
                 break;
-            case PlayerState.Climbing:
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
-                {
-                    FinishedMovement();
-                }
-
+            case PlayerState.StartClimbing:
+                StartCoroutine(AnimatorWatcher.WaitForAnimatorFinished(animator, 0, FinishedMovement));
+                playerState = PlayerState.Climbing;
                 break;
         }
     }

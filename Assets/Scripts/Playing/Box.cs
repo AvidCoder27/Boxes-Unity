@@ -15,19 +15,7 @@ public class Box : MonoBehaviour
     /// Z: Row that the box is in. 0 is bottom, 1 is top
     /// </summary>
     public int3 Index { get; private set; }
-    private bool isOpenDontUse;
-    public bool IsOpen
-    {
-        get
-        {
-            return isOpenDontUse;
-        }
-        private set
-        {
-            isOpenDontUse = value;
-            UpdateFlaps();
-        }
-    }
+    private bool open;
     private Contents contents;
     private bool allowOpening;
     private Key.Colors lockColor = Key.Colors.Undefined;
@@ -41,35 +29,25 @@ public class Box : MonoBehaviour
     [SerializeField] private AudioSource UnlockSuccess;
     [SerializeField] private AudioSource UnlockFail;
     private Animator animator;
-    private Transform flapLeft;
-    private Transform flapRight;
-    private Transform flapFront;
-    private Transform flapBack;
     private Transform playingCharacter;
     private PlayerMovement playerMovement;
     private Collectable collectable;
     private PlayingLadder ladder;
+    private Action movementUnlockCallback;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        flapLeft = transform.Find("container/Box/flap_left");
-        flapRight= transform.Find("container/Box/flap_right");
-        flapFront = transform.Find("container/Box/flap_front");
-        flapBack = transform.Find("container/Box/flap_back");   
     }
 
-    private void UpdateFlaps(bool instantly = false)
+    private void SetOpen(bool open, Action callback = null, bool instantly = false)
     {
-        if (instantly)
-        {
-            animator.SetFloat("Speed", float.PositiveInfinity);
-        } else
-        {
-            animator.SetFloat("Speed", 1);
-        }
-        string trigger = IsOpen ? "Open" : "Close";
+        this.open = open;
+        float speed = instantly ? 100f : 1f;
+        string trigger = open ? "Open" : "Close";
+        animator.SetFloat("Speed", speed);
         animator.SetTrigger(trigger);
+        StartCoroutine(AnimatorWatcher.WaitForAnimatorFinished(animator, 0, callback, 0.3f));
     }
 
     public void SetRefs(Transform playingCharacter)
@@ -84,8 +62,7 @@ public class Box : MonoBehaviour
     public void CopyInAttributes(BoxStruct boxStruct, int3 boxIndex, bool allowOpening)
     {
         Index = boxIndex;
-        IsOpen = boxStruct.isOpen;
-        UpdateFlaps(true);
+        SetOpen(boxStruct.isOpen, null, true);
         contents = boxStruct.contents;
         keyColor = boxStruct.keyColor;
         lockColor = boxStruct.lockColor;
@@ -102,9 +79,9 @@ public class Box : MonoBehaviour
                 break;
 
             case Contents.Key:
-                GameObject go = Instantiate(keyPrefab, transform.position, transform.rotation, transform);
-                collectable = go.GetComponent<Collectable>();
-                Key key = go.GetComponent<Key>();
+                collectable = Instantiate(keyPrefab, transform.position, transform.rotation, transform)
+                    .GetComponent<Collectable>();
+                Key key = collectable.GetComponent<Key>();
                 key.SetColor(keyColor);
                 key.SetPlayerMovementRef(playerMovement);
                 break;
@@ -126,6 +103,7 @@ public class Box : MonoBehaviour
         Actions.OnTryInteractBox += TryInteract;
         Actions.OnInverterActivated += InvertIsOpen;
     }
+
     private void OnDisable()
     {
         Actions.OnTryInteractBox -= TryInteract;
@@ -134,7 +112,7 @@ public class Box : MonoBehaviour
 
     private void InvertIsOpen()
     {
-        IsOpen = !IsOpen;
+        SetOpen(!open);
     }
 
     private void TryInteract(int3 attemptedBoxIndex)
@@ -147,55 +125,59 @@ public class Box : MonoBehaviour
 
     public void Interact()
     {
+        movementUnlockCallback = playerMovement.LockInputWithCallback();
         // if the box is already open, just interact with contents
-        if (IsOpen)
+        if (open)
         {
             InteractWithContents();
             return;
         }
-        // if it's not already open and opening is allowed, open the box and interact
+
         if (allowOpening)
         {
+            // if it's not already open and opening is allowed, open the box and interact
+            // if the player has the key for the box, open it
             if (playerMovement.HasKey(lockColor))
             {
-                IsOpen = true;
                 if (lockColor != Key.Colors.Undefined)
                 {
                     // remove lock from box after it is unlocked
                     lockColor = Key.Colors.Undefined;
-                    StartCoroutine(UnlockAndInteractWithContents());
+                    StartCoroutine(Unlock());
                 } else
                 {
-                    OpenAndInteractWithContents();
+                    BoxOpenSound.Play();
+                    SetOpen(true, InteractWithContents);
                 }
             }
             else
             {
+                // if the player lacks the key
                 UnlockFail.Play();
                 TriggerGameLose();
             }
         }
+        else
+        {
+            // unlock the movement if opening is not allowed
+            movementUnlockCallback?.Invoke();
+        }
     }
 
-    private IEnumerator UnlockAndInteractWithContents()
+    private IEnumerator Unlock()
     {
         UnlockSuccess.Play();
-        Action unlockCallback = playerMovement.LockInputWithCallback();
-        yield return new WaitForSeconds(0.5f);
-        unlockCallback?.Invoke();
-        BoxOpenSound.Play();
-        InteractWithContents();
-        yield break;
-    }
+        yield return new WaitForSeconds(UnlockSuccess.clip.length);
 
-    private void OpenAndInteractWithContents()
-    {
+        // open the box and then wait for it to finish
         BoxOpenSound.Play();
-        InteractWithContents();
+        SetOpen(true, InteractWithContents);
+        yield break;
     }
 
     private void InteractWithContents()
     {
+        movementUnlockCallback?.Invoke();
         switch (contents)
         {
             case Contents.Star:
@@ -206,7 +188,8 @@ public class Box : MonoBehaviour
                 if (collectable.Done)
                 {
                     TriggerGameLose();
-                } else
+                }
+                else
                 {
                     collectable.StartCollectAnimation(this, KeyAnimationCallback);
                 }

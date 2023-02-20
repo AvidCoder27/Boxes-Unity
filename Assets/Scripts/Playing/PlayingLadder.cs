@@ -12,7 +12,6 @@ public class PlayingLadder : Interactable
     private Transform topEntrance;
     private Transform animatedParent;
     private Animator animator;
-    private float finishMovementDelay;
     private int floorOfTop;
     private int column;
 
@@ -69,7 +68,6 @@ public class PlayingLadder : Interactable
         {
             playerInput = player.GetComponentInChildren<PlayerInput>();
             playerInput.DeactivateInput();
-            finishMovementDelay = 0.05f;
             if (climbingUp)
             {
                 climbingState = ClimbState.Up;
@@ -85,35 +83,16 @@ public class PlayingLadder : Interactable
                 animator.SetTrigger("ClimbDown");
             }
             player.SetParent(animatedParent);
+            StartCoroutine(AnimatorWatcher.WaitForAnimatorFinished(animator, 0, FinishMovement));
         }
     }
 
-    private void Update()
-    {
-        if (climbingState != ClimbState.None)
-        {
-            if (finishMovementDelay >= 0)
-            {
-                finishMovementDelay -= Time.deltaTime;
-            }
-
-            bool isAnimating = finishMovementDelay > 0
-                || animator.IsInTransition(0)
-                || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
-            if (!isAnimating)
-            {
-                FinishedMovement();
-            }
-        }
-    }
-
-    private void FinishedMovement()
+    private void FinishMovement()
     {
         // change player floor: -1 if climbing up, else +1
         player.GetComponent<PlayerMovement>().ChangeFloor(climbingState == ClimbState.Up ? -1 : +1);
         player.SetParent(null);
         playerInput.ActivateInput();
-
         animator.SetTrigger("StopClimbing");
         climbingState = ClimbState.None;
     }

@@ -50,7 +50,7 @@ public abstract class Collectable : MonoBehaviour
             finishSpinDelay -= Time.deltaTime;
         }
 
-        CheckIfFinished();
+        //CheckIfFinished();
     }
 
     private void Spin()
@@ -64,18 +64,11 @@ public abstract class Collectable : MonoBehaviour
         }
     }
 
-    private void CheckIfFinished()
+    private void FinishAnimation()
     {
-        bool isAnimating = finishSpinDelay > 0
-            || (spinTimeElapsed < spinTime && doSpin)
-            || animator.IsInTransition(0)
-            || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
-        if (!isAnimating)
-        {
-            isMoving = false;
-            Done = true;
-            OnAnimationComplete?.Invoke();
-        }
+        isMoving = false;
+        Done = true;
+        OnAnimationComplete?.Invoke();
     }
 
     public void StartCollectAnimation(Box parentBox, Action OnAnimationComplete)
@@ -83,15 +76,10 @@ public abstract class Collectable : MonoBehaviour
         this.OnAnimationComplete = OnAnimationComplete;
         isMoving = true;
         spinTimeElapsed = 0;
-        if (parentBox.Index.z == 0)
-        {
-            animator.SetTrigger("BottomMotion");
-        }
-        else
-        {
-            animator.SetTrigger("TopMotion");
-        }
+        animator.SetTrigger(parentBox.Index.z == 0 ? "BottomMotion" : "TopMotion");
         collectSound.Play();
+        float minimumWait = doSpin ? spinTime : AnimatorWatcher.MinimumWaitForAnimation;
+        StartCoroutine(AnimatorWatcher.WaitForAnimatorFinished(animator, 0, FinishAnimation, minimumWait));
         AnimationStart();
     }
 
