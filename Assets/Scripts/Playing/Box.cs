@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Security.Cryptography;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Box : MonoBehaviour
@@ -13,7 +15,19 @@ public class Box : MonoBehaviour
     /// Z: Row that the box is in. 0 is bottom, 1 is top
     /// </summary>
     public int3 Index { get; private set; }
-    [SerializeField] private bool isOpen;
+    private bool isOpenDontUse;
+    public bool IsOpen
+    {
+        get
+        {
+            return isOpenDontUse;
+        }
+        private set
+        {
+            isOpenDontUse = value;
+            UpdateFlaps();
+        }
+    }
     private Contents contents;
     private bool allowOpening;
     private Key.Colors lockColor = Key.Colors.Undefined;
@@ -24,18 +38,38 @@ public class Box : MonoBehaviour
     [SerializeField] private GameObject inverterPrefab;
     [SerializeField] private GameObject ladderPrefab;
     [SerializeField] private AudioSource BoxOpenSound;
-    [SerializeField] private AudioSource UnlockSound;
+    [SerializeField] private AudioSource UnlockSuccess;
+    [SerializeField] private AudioSource UnlockFail;
+    private Animator animator;
+    private Transform flapLeft;
+    private Transform flapRight;
+    private Transform flapFront;
+    private Transform flapBack;
     private Transform playingCharacter;
     private PlayerMovement playerMovement;
-    private GameObject openedBox;
-    private GameObject closedBox;
     private Collectable collectable;
     private PlayingLadder ladder;
 
     private void Awake()
     {
-        openedBox = transform.Find("container/Box/opened").gameObject;
-        closedBox = transform.Find("container/Box/closed").gameObject;
+        animator = GetComponent<Animator>();
+        flapLeft = transform.Find("container/Box/flap_left");
+        flapRight= transform.Find("container/Box/flap_right");
+        flapFront = transform.Find("container/Box/flap_front");
+        flapBack = transform.Find("container/Box/flap_back");   
+    }
+
+    private void UpdateFlaps(bool instantly = false)
+    {
+        if (instantly)
+        {
+            animator.SetFloat("Speed", float.PositiveInfinity);
+        } else
+        {
+            animator.SetFloat("Speed", 1);
+        }
+        string trigger = IsOpen ? "Open" : "Close";
+        animator.SetTrigger(trigger);
     }
 
     public void SetRefs(Transform playingCharacter)
@@ -50,7 +84,8 @@ public class Box : MonoBehaviour
     public void CopyInAttributes(BoxStruct boxStruct, int3 boxIndex, bool allowOpening)
     {
         Index = boxIndex;
-        isOpen = boxStruct.isOpen;
+        IsOpen = boxStruct.isOpen;
+        UpdateFlaps(true);
         contents = boxStruct.contents;
         keyColor = boxStruct.keyColor;
         lockColor = boxStruct.lockColor;
@@ -86,13 +121,6 @@ public class Box : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        // Set active box based on isOpen
-        openedBox.SetActive(isOpen);
-        closedBox.SetActive(!isOpen);
-    }
-
     private void OnEnable()
     {
         Actions.OnTryInteractBox += TryInteract;
@@ -106,7 +134,7 @@ public class Box : MonoBehaviour
 
     private void InvertIsOpen()
     {
-        isOpen = !isOpen;
+        IsOpen = !IsOpen;
     }
 
     private void TryInteract(int3 attemptedBoxIndex)
@@ -120,7 +148,7 @@ public class Box : MonoBehaviour
     public void Interact()
     {
         // if the box is already open, just interact with contents
-        if (isOpen)
+        if (IsOpen)
         {
             InteractWithContents();
             return;
@@ -130,7 +158,7 @@ public class Box : MonoBehaviour
         {
             if (playerMovement.HasKey(lockColor))
             {
-                isOpen = true;
+                IsOpen = true;
                 if (lockColor != Key.Colors.Undefined)
                 {
                     // remove lock from box after it is unlocked
@@ -143,7 +171,7 @@ public class Box : MonoBehaviour
             }
             else
             {
-                Debug.Log("lost game by failing to unlock box");
+                UnlockFail.Play();
                 TriggerGameLose();
             }
         }
@@ -151,12 +179,13 @@ public class Box : MonoBehaviour
 
     private IEnumerator UnlockAndInteractWithContents()
     {
-        UnlockSound.Play();
+        UnlockSuccess.Play();
         Action unlockCallback = playerMovement.LockInputWithCallback();
         yield return new WaitForSeconds(0.5f);
         unlockCallback?.Invoke();
         BoxOpenSound.Play();
         InteractWithContents();
+        yield break;
     }
 
     private void OpenAndInteractWithContents()

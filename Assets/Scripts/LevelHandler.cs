@@ -118,7 +118,7 @@ public class LevelHandler : MonoBehaviour
                         MakeCol(false, false),
                         MakeCol(true, false),
                         MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Gold, Key.Colors.Undefined), new BoxStruct(true)),
-                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined), new BoxStruct(true)),
+                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined), new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined)),
                     },
                     new List<BoxStruct[]>
                     {

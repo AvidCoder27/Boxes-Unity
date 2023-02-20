@@ -11,7 +11,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private Transform playingCharacter;
     private LevelHandler levelHandler;
 
-    [SerializeField] private float BottomBoxHeight, TopBoxHeight, BoxLightHeight;
+    [SerializeField] private float BottomBoxHeight, TopBoxHeight;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class GameHandler : MonoBehaviour
     private void SpawnColumnItems(Level level, int floor, int column)
     {
         float2 coords = level.CalculateCoordinatesForColumn(column);
-        float height = BoxLightHeight - (floor * Level.DistanceBetweenFloors);
+        float height = - (floor * Level.DistanceBetweenFloors);
         float angle = Mathf.Atan2(coords.x, coords.y) * 180f / Mathf.PI;
 
         Vector3 position = new(coords.x, height, coords.y);
