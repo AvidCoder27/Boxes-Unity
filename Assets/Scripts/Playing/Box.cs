@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Security.Cryptography;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Box : MonoBehaviour
@@ -62,10 +60,10 @@ public class Box : MonoBehaviour
     public void CopyInAttributes(BoxStruct boxStruct, int3 boxIndex, bool allowOpening)
     {
         Index = boxIndex;
-        SetOpen(boxStruct.isOpen, null, true);
-        contents = boxStruct.contents;
-        keyColor = boxStruct.keyColor;
-        lockColor = boxStruct.lockColor;
+        SetOpen(boxStruct.IsOpen, null, true);
+        contents = boxStruct.Contents;
+        keyColor = boxStruct.KeyColor;
+        lockColor = boxStruct.LockColor;
         this.allowOpening = allowOpening;
     }
 
@@ -144,7 +142,8 @@ public class Box : MonoBehaviour
                     // remove lock from box after it is unlocked
                     lockColor = Key.Colors.Undefined;
                     StartCoroutine(Unlock());
-                } else
+                }
+                else
                 {
                     BoxOpenSound.Play();
                     SetOpen(true, InteractWithContents);

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Key : Collectable
@@ -8,36 +7,6 @@ public class Key : Collectable
     public enum Colors
     {
         Undefined = 0, Red = 1, Green = 2, Purple = 4, Gold = 8
-    }
-
-    [SerializeField] private Renderer keyRenderer;
-    [SerializeField] private float xrayEmissionIntensity;
-    [SerializeField] private float standardEmissionIntensity;
-    [SerializeField] private AudioSource rattleSound;
-
-    private Colors color;
-    private PlayerMovement playerMovement;
-
-    public void SetColor(Colors color)
-    {
-        if (this.color == Colors.Undefined)
-        {
-            this.color = color;
-        }
-    }
-
-    public Colors GetColor()
-    {
-        return color;
-    }
-
-    public void SetPlayerMovementRef(PlayerMovement playerMovement)
-    {
-        this.playerMovement = playerMovement;
-    }
-
-    private protected override void AwakeInherited()
-    {
     }
 
     public static Color[] GetAllKeyColors()
@@ -56,9 +25,33 @@ public class Key : Collectable
         return GetAllKeyColors()[(int)Math.Log((double)color, 2)];
     }
 
+    [SerializeField] private Renderer keyRenderer;
+    [SerializeField] private float xrayEmissionIntensity;
+    [SerializeField] private float standardEmissionIntensity;
+    [SerializeField] private AudioSource rattleSound;
+
+    private Colors color;
+    private PlayerMovement playerMovement;
+
+    public void SetColor(Colors color)
+    {
+        if (this.color == Colors.Undefined)
+        {
+            this.color = color;
+        }
+    }
+
+    public void SetPlayerMovementRef(PlayerMovement playerMovement)
+    {
+        this.playerMovement = playerMovement;
+    }
+
+    private protected override void AwakeInherited()
+    {
+    }
+
     private void Start()
     {
-        SetColor(Colors.Red); // default to red for testing
         UpdateMatColors(xrayEmissionIntensity);
     }
 

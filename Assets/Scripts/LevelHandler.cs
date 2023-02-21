@@ -141,8 +141,8 @@ public class LevelHandler : MonoBehaviour
                         MakeCol(true, true),
                         MakeCol(true, true),
                         MakeCol(true, true),
-                        MakeCol(true, true),
-                        MakeCol(true, true),
+                        MakeCol(true, false),
+                        MakeCol(true, false),
                     }
                 }
             ),

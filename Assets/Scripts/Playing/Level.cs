@@ -8,7 +8,7 @@ public class Level
     private const float RadiusMultiplier = 3.8f;
     public static readonly float DistanceBetweenFloors = 7f;
 
-    // Floors is a list of "floors." A floor is just a list of columns.
+    // Floors is a list of "floors." A floor is just a list of columns. A column is actually just a two element array of box structs.
     public List<List<BoxStruct[]>> Floors { get; private set; }
     public int NumberOfColumns { get; private set; }
     public int NumberOfFloors { get; private set; }

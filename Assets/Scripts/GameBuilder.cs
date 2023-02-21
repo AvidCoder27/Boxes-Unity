@@ -1,14 +1,20 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-public class GameHandler : MonoBehaviour
+public class GameBuilder : MonoBehaviour
 {
+    [SerializeField] private Transform playingCharacter;
     [SerializeField] private GameObject boxPrefab;
     [SerializeField] private GameObject columnItemsPrefab;
+    [SerializeField] private GameObject hideDuringPlay;
     [SerializeField] private GameObject viewingHoleSegmentPrefab;
     [SerializeField] private GameObject viewingHoleBottomPrefab;
-    [SerializeField] private GameObject hideDuringPlay;
-    [SerializeField] private Transform playingCharacter;
+    [SerializeField] private Transform preparationMap;
+    [SerializeField] private GameObject boxClosedSprite;
+    [SerializeField] private GameObject boxOpenedSprite;
+    [SerializeField] private GameObject starSprite;
+    [SerializeField] private GameObject keySprite;
+    private Transform prepMapCamera;
     private LevelHandler levelHandler;
 
     [SerializeField] private float BottomBoxHeight, TopBoxHeight;
@@ -16,6 +22,7 @@ public class GameHandler : MonoBehaviour
     private void Awake()
     {
         levelHandler = LevelHandler.GetInstance();
+        prepMapCamera = preparationMap.Find("Map Camera");
     }
 
     private void Start()
@@ -33,7 +40,6 @@ public class GameHandler : MonoBehaviour
         Actions.OnSceneSwitchSetup -= HandleSceneSwitchSetup;
     }
 
-
     private void HandleSceneSwitchSetup()
     {
         Destroy(hideDuringPlay);
@@ -42,7 +48,7 @@ public class GameHandler : MonoBehaviour
     private void SpawnColumnItems(Level level, int floor, int column)
     {
         float2 coords = level.CalculateCoordinatesForColumn(column);
-        float height = - (floor * Level.DistanceBetweenFloors);
+        float height = -(floor * Level.DistanceBetweenFloors);
         float angle = Mathf.Atan2(coords.x, coords.y) * 180f / Mathf.PI;
 
         Vector3 position = new(coords.x, height, coords.y);
@@ -79,6 +85,9 @@ public class GameHandler : MonoBehaviour
     private void GenerateLevel()
     {
         Level level = levelHandler.GetCurrentLevel();
+        prepMapCamera.localPosition = SpritePosition(
+            (level.NumberOfFloors - 1) / 2, (level.NumberOfColumns - 1) / 2, 0.5f, -15f);
+
         for (int floor = 0; floor < level.NumberOfFloors; floor++)
         {
             SpawnViewingHole(floor, viewingHoleSegmentPrefab);
@@ -89,9 +98,37 @@ public class GameHandler : MonoBehaviour
                 for (int row = 0; row < 2; row++)
                 {
                     SpawnBox(level, floor, column, row);
+                    SpawnBoxSprites(level, floor, column, row);
                 }
             }
         }
         SpawnViewingHole(level.NumberOfFloors, viewingHoleBottomPrefab);
+    }
+
+    private void SpawnBoxSprites(Level level, int floor, int column, int row)
+    {
+        BoxStruct box = level.Floors[floor][column][row];
+        Transform boxTransform = Instantiate(box.IsOpen ? boxOpenedSprite : boxClosedSprite,
+            preparationMap, false).transform;
+        boxTransform.localPosition = SpritePosition(floor, column, row, 0);
+
+        GameObject chosenPrefab = box.Contents switch
+        {
+            Box.Contents.Star => starSprite,
+            Box.Contents.Key => keySprite,
+            _ => null
+        };
+
+        if (chosenPrefab != null)
+        {
+            Transform t = Instantiate(chosenPrefab, preparationMap, false).transform;
+            t.localPosition = SpritePosition(floor, column, row, -5);
+        }
+
+    }
+
+    private static Vector3 SpritePosition(float floor, float column, float row, float z)
+    {
+        return new Vector3(column * 5f, (row * 3.5f) + (floor * -8.5f), z);
     }
 }

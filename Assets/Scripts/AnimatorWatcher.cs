@@ -20,11 +20,12 @@ public class AnimatorWatcher
         if (useRealtime)
         {
             yield return new WaitForSecondsRealtime(minimumWait);
-        } else
+        }
+        else
         {
             yield return new WaitForSeconds(minimumWait);
         }
-        
+
         while (animator.IsInTransition(layerIndex) || animator.GetCurrentAnimatorStateInfo(layerIndex).normalizedTime < 1)
         {
             yield return null;

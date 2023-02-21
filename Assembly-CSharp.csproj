@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Playing\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\GameHandler.cs" />
+    <Compile Include="Assets\Scripts\GameBuilder.cs" />
     <Compile Include="Assets\Shaders\XrayDuringPreparation.cs" />
     <Compile Include="Assets\Scripts\Playing\PlayingLadder.cs" />
     <Compile Include="Assets\Scripts\Playing\Level.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Assets\Scripts\UIHandler.cs" />
     <Compile Include="Assets\Scripts\Preparation\LadderAccessPoint.cs" />
     <Compile Include="Assets\Scripts\Playing\Collectable.cs" />
-    <Compile Include="Assets\Audio\FadeAudioSource.cs" />
+    <Compile Include="Assets\Scripts\FadeAudioSource.cs" />
     <Compile Include="Assets\Scripts\Preparation\Interactable.cs" />
     <Compile Include="Assets\Scripts\Preparation\WorldButton.cs" />
     <Compile Include="Assets\Scripts\Preparation\CharacterLook.cs" />
