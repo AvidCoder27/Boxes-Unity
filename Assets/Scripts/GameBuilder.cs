@@ -1,5 +1,6 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameBuilder : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class GameBuilder : MonoBehaviour
     [SerializeField] private GameObject boxOpenedSprite;
     [SerializeField] private GameObject starSprite;
     [SerializeField] private GameObject keySprite;
+    [SerializeField] private GameObject lockSprite;
+    [SerializeField] private GameObject ladderSprite;
+    [SerializeField] private GameObject inverterSprite;
     private Transform prepMapCamera;
     private LevelHandler levelHandler;
 
@@ -112,17 +116,31 @@ public class GameBuilder : MonoBehaviour
             preparationMap, false).transform;
         boxTransform.localPosition = SpritePosition(floor, column, row, 0);
 
-        GameObject chosenPrefab = box.Contents switch
+        GameObject contentsPrefab = box.Contents switch
         {
-            Box.Contents.Star => starSprite,
             Box.Contents.Key => keySprite,
+            Box.Contents.Star => starSprite,
+            Box.Contents.Inverter => inverterSprite,
+            Box.Contents.Ladder => ladderSprite,
             _ => null
         };
 
-        if (chosenPrefab != null)
+        // Spawn contents
+        if (contentsPrefab != null)
         {
-            Transform t = Instantiate(chosenPrefab, preparationMap, false).transform;
-            t.localPosition = SpritePosition(floor, column, row, -5);
+            GameObject contents = Instantiate(contentsPrefab, preparationMap, false);
+            contents.transform.localPosition = SpritePosition(floor, column, row, -5);
+
+            if (box.Contents == Box.Contents.Key)
+            {
+                contents.GetComponentInChildren<SpriteRenderer>().color = Key.GetColorOfKeyColor(box.KeyColor);
+            }
+        }
+
+        // Spawn lock (if the box has one)
+        if (box.LockColor != Key.Colors.Undefined)
+        {
+
         }
 
     }

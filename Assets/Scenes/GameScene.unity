@@ -4423,6 +4423,9 @@ MonoBehaviour:
   boxOpenedSprite: {fileID: 4759656135874437416, guid: 1e8f0ce92e7194341b89e2187acb19a4, type: 3}
   starSprite: {fileID: 5352014442374804168, guid: dbeee8100e807f848afdc03147676369, type: 3}
   keySprite: {fileID: 5352014442374804168, guid: 8df1ea63a0bf8e04aaee9e58a69106ea, type: 3}
+  lockSprite: {fileID: 0}
+  ladderSprite: {fileID: 4759656135874437416, guid: f9927cb236472054183eed66b705b735, type: 3}
+  inverterSprite: {fileID: 0}
   BottomBoxHeight: 0
   TopBoxHeight: 1.6
 --- !u!1001 &986663242
