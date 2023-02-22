@@ -1212,7 +1212,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227606856}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4360,7 +4360,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928248110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 500, y: 500, z: -10}
+  m_LocalPosition: {x: 500, y: 500, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4426,6 +4426,7 @@ MonoBehaviour:
   lockSprite: {fileID: 0}
   ladderSprite: {fileID: 4759656135874437416, guid: f9927cb236472054183eed66b705b735, type: 3}
   inverterSprite: {fileID: 0}
+  columnSprite: {fileID: 1185309359952133714, guid: 14a2f689334068747b8f5deac1c01ffd, type: 3}
   BottomBoxHeight: 0
   TopBoxHeight: 1.6
 --- !u!1001 &986663242
@@ -5004,7 +5005,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051073096}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -1.457, z: 0.060000002}
+  m_LocalPosition: {x: 0, y: -1.7, z: 0.060000002}
   m_LocalScale: {x: 3, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

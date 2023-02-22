@@ -1,6 +1,5 @@
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameBuilder : MonoBehaviour
 {
@@ -18,6 +17,7 @@ public class GameBuilder : MonoBehaviour
     [SerializeField] private GameObject lockSprite;
     [SerializeField] private GameObject ladderSprite;
     [SerializeField] private GameObject inverterSprite;
+    [SerializeField] private GameObject columnSprite;
     private Transform prepMapCamera;
     private LevelHandler levelHandler;
 
@@ -90,7 +90,7 @@ public class GameBuilder : MonoBehaviour
     {
         Level level = levelHandler.GetCurrentLevel();
         prepMapCamera.localPosition = SpritePosition(
-            (level.NumberOfFloors - 1) / 2, (level.NumberOfColumns - 1) / 2, 0.5f, -15f);
+            (level.NumberOfFloors - 1) / 2, (level.NumberOfColumns - 1) / 2, 0.5f, 0);
 
         for (int floor = 0; floor < level.NumberOfFloors; floor++)
         {
@@ -98,6 +98,7 @@ public class GameBuilder : MonoBehaviour
             for (int column = 0; column < level.NumberOfColumns; column++)
             {
                 SpawnColumnItems(level, floor, column);
+                SpawnColumnSprite(floor, column);
                 // row is either bottom or top box
                 for (int row = 0; row < 2; row++)
                 {
@@ -109,12 +110,18 @@ public class GameBuilder : MonoBehaviour
         SpawnViewingHole(level.NumberOfFloors, viewingHoleBottomPrefab);
     }
 
+    private void SpawnColumnSprite(int floor, int column)
+    {
+        Transform col = Instantiate(columnSprite, preparationMap).transform;
+        col.localPosition = SpritePosition(floor, column, 0, 11);
+    }
+
     private void SpawnBoxSprites(Level level, int floor, int column, int row)
     {
         BoxStruct box = level.Floors[floor][column][row];
         Transform boxTransform = Instantiate(box.IsOpen ? boxOpenedSprite : boxClosedSprite,
             preparationMap, false).transform;
-        boxTransform.localPosition = SpritePosition(floor, column, row, 0);
+        boxTransform.localPosition = SpritePosition(floor, column, row, 10);
 
         GameObject contentsPrefab = box.Contents switch
         {
@@ -128,8 +135,8 @@ public class GameBuilder : MonoBehaviour
         // Spawn contents
         if (contentsPrefab != null)
         {
-            GameObject contents = Instantiate(contentsPrefab, preparationMap, false);
-            contents.transform.localPosition = SpritePosition(floor, column, row, -5);
+            GameObject contents = Instantiate(contentsPrefab, boxTransform, false);
+            contents.transform.position += Vector3.back * 1;
 
             if (box.Contents == Box.Contents.Key)
             {
@@ -145,8 +152,8 @@ public class GameBuilder : MonoBehaviour
 
     }
 
-    private static Vector3 SpritePosition(float floor, float column, float row, float z)
+    private static Vector3 SpritePosition(float floor, float column, float row, float cameraDistance)
     {
-        return new Vector3(column * 5f, (row * 3.5f) + (floor * -8.5f), z);
+        return new Vector3(column * 5f, (row * 3.5f) + (floor * -8.5f), cameraDistance);
     }
 }
