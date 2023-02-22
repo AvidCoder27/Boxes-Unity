@@ -185,10 +185,10 @@ public class PlayerMovement : MonoBehaviour
         switch (_queuedMove)
         {
             case Move.Left:
-                _column++;
+                _column--;
                 break;
             case Move.Right:
-                _column--;
+                _column++;
                 break;
         }
 

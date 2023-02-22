@@ -23,7 +23,7 @@ public class Level
         NumberOfColumns = Floors[0].Count;
 
         Radius = NumberOfColumns / PI * RadiusMultiplier;
-        AngleBetweenColumns = 2 * PI / NumberOfColumns;
+        AngleBetweenColumns = -2 * PI / NumberOfColumns;
     }
 
     public float2 CalculateCoordinatesForColumn(float column, float distanceFromCircle = 0)
@@ -37,6 +37,6 @@ public class Level
 
     public float CalculateCameraAngleForColumnInDegrees(float column)
     {
-        return (-360 * column / NumberOfColumns) + 90;
+        return (360 * column / NumberOfColumns) + 90;
     }
 }
