@@ -331,14 +331,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 89028137}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.06279056, y: 0, z: 0, w: 0.9980267}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1825207828}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.2, y: 0, z: 0}
 --- !u!81 &89028139
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1262,7 +1262,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6132076, g: 0.5322179, b: 0.47147563, a: 0}
+  m_BackGroundColor: {r: 0.16981131, g: 0.15067638, b: 0.13536845, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -8885,7 +8885,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949831789}
-  m_LocalRotation: {x: 0, y: 0.99672973, z: -0, w: -0.080807745}
+  m_LocalRotation: {x: 0, y: 0.9966303, z: -0, w: -0.082025334}
   m_LocalPosition: {x: 0.209, y: 10.067191, z: -5.327}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8894,7 +8894,7 @@ Transform:
   - {fileID: 715101284}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 189.27, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 189.41, z: 0}
 --- !u!54 &1949831794
 Rigidbody:
   m_ObjectHideFlags: 0
