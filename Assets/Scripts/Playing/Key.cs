@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEditor.Rendering.CameraUI;
 
 public class Key : Collectable
 {
@@ -9,26 +10,11 @@ public class Key : Collectable
         Undefined = 0, Red = 1, Green = 2, Purple = 4, Gold = 8
     }
 
-    public static Color[] GetAllKeyColors()
-    {
-        return new Color[]
-        {
-            Color.red,
-            Color.green,
-            new Color(0.61176f, 0f, 1f),
-            new Color(1f, 0.77255f, 0f)
-        };
-    }
-
-    public static Color GetColorOfKeyColor(Colors color)
-    {
-        return GetAllKeyColors()[(int)Math.Log((double)color, 2)];
-    }
-
     [SerializeField] private Renderer keyRenderer;
     [SerializeField] private float xrayEmissionIntensity;
     [SerializeField] private float standardEmissionIntensity;
     [SerializeField] private AudioSource rattleSound;
+    private XrayDuringPreparation xrayHandler;
 
     private Colors color;
     private PlayerMovement playerMovement;
@@ -52,7 +38,8 @@ public class Key : Collectable
 
     private void Start()
     {
-        UpdateMatColors(xrayEmissionIntensity);
+        xrayHandler = GetComponent<XrayDuringPreparation>();
+        xrayHandler.SetMaterialColors(GetColorOfKeyColor(color), xrayEmissionIntensity, standardEmissionIntensity);
     }
 
     private protected override void AnimationStart()
@@ -69,23 +56,24 @@ public class Key : Collectable
         rattleSound.Play();
     }
 
-    private void OnEnable()
+    public static Color[] GetAllKeyColors()
     {
-        Actions.OnSceneSwitchSetup += UpdateMatColors;
-    }
-    private void OnDisable()
-    {
-        Actions.OnSceneSwitchSetup -= UpdateMatColors;
-    }
-
-    private void UpdateMatColors()
-    {
-        UpdateMatColors(standardEmissionIntensity);
-    }
-    private void UpdateMatColors(float emmisiveFactor)
-    {
-        keyRenderer.material.EnableKeyword("_EMISSION");
-        keyRenderer.material.SetColor("_EmissionColor", GetColorOfKeyColor(color) * emmisiveFactor);
+        return new Color[]
+        {
+            Color.red,
+            Color.green,
+            new Color(0.61176f, 0f, 1f),
+            new Color(1f, 0.77255f, 0f)
+        };
     }
 
+    public static Color GetColorOfKeyColor(Colors color)
+    {
+        if (color == Colors.Undefined)
+        {
+            Debug.LogError("Cannot get the Unity.Color of undefined Key.Color!");
+            return Color.blue;
+        }
+        return GetAllKeyColors()[(int)Math.Log((double)color, 2)];
+    }
 }

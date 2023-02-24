@@ -1,0 +1,27 @@
+Music:
+{
+	Happy Boy Theme by Kevin MacLeod is licensed under a Creative Commons Attribution 4.0 license. https://creativecommons.org/licenses/by/4.0/
+	Source: http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100647
+	Artist: http://incompetech.com/
+}
+Dungeon Master - DL Sounds
+Blazer Rails - DL Sounds
+
+----Sound Effects----
+
+Key Rattle
+	https://youtu.be/66V6mpG3D-o
+Unlock Fail (Chain Rattle)
+	https://youtu.be/PPed74GAEKc
+Unlock Success
+	https://freesound.org/people/Sheyvan/sounds/475210/
+Game Complete (Challenge Complete), Move (Toast Sound), Click (UI Click)
+	Minecraft
+
+----Prefabs/Textures/Materials----
+
+Frosted Glass: https://3dtextures.me/2020/08/27/glass-frosted-001/
+
+"Key" (https://skfb.ly/6S7Io) by eucocker is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+"Padlock Low Poly AO and Normal Map" (https://skfb.ly/6TLDB) by Gregsterius is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class XrayDuringPreparation : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class XrayDuringPreparation : MonoBehaviour
     /// If enabled, then Normal Material need not be set.
     /// </summary>
     [SerializeField] private bool hideMeDuringPlay;
+    private Material _tempXrayMat;
+    private Material _tempNormalMat;
+    private bool _useTempMats;
 
     private void OnEnable()
     {
@@ -24,9 +28,33 @@ public class XrayDuringPreparation : MonoBehaviour
         Actions.OnSceneSwitchSetup -= HideXray;
     }
 
-    private void Awake()
+    public void SetMaterialColors(Color color, float xrayEmissionIntensity, float standardEmissionIntensity)
     {
-        SetLayerAndMaterial(xRayLayer, xrayMaterial);
+        renderers[0].material = normalMaterial;
+        _tempNormalMat = renderers[0].material;
+
+        renderers[0].material = xrayMaterial;
+        _tempXrayMat = renderers[0].material;
+
+        _useTempMats = true;
+
+        _tempXrayMat.EnableKeyword("_EMISSION");
+        _tempNormalMat.EnableKeyword("_EMISSION");
+        _tempXrayMat.SetColor("_EmissionColor", color * xrayEmissionIntensity);
+        _tempNormalMat.SetColor("_EmissionColor", color * standardEmissionIntensity);
+        _tempXrayMat.color = color;
+        _tempNormalMat.color = color;
+    }
+
+    private void Start()
+    {
+        if (_useTempMats)
+        {
+            SetLayerAndMaterial(xRayLayer, _tempXrayMat);
+        } else
+        {
+            SetLayerAndMaterial(xRayLayer, xrayMaterial);
+        }
     }
 
     private void HideXray()
@@ -37,15 +65,21 @@ public class XrayDuringPreparation : MonoBehaviour
         }
         else
         {
-            SetLayerAndMaterial(defaultLayer, normalMaterial);
+            if (_useTempMats)
+            {
+                SetLayerAndMaterial(defaultLayer, _tempNormalMat);
+            } else
+            {
+                SetLayerAndMaterial(defaultLayer, normalMaterial);
+            }
         }
     }
 
-    private void SetLayerAndMaterial(LayerMask layer, Material material)
+    private void SetLayerAndMaterial(LayerMask layer, Material mat)
     {
         foreach (Renderer r in renderers)
         {
-            r.material = material;
+            r.material = mat;
         }
 
         int layerNum = (int)Mathf.Log(layer.value, 2);

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2754853646940269264}
   - component: {fileID: 2368338285652778070}
   - component: {fileID: 1092232829764886055}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Base plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6990769490665529934}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Column
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 161584627030209547}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 9177639486241433892}
   - component: {fileID: 1282594747746300925}
   - component: {fileID: 4553714052555628679}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 3931105409205801320}
   - component: {fileID: 3231734736236376651}
   - component: {fileID: 566503246790721905}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}

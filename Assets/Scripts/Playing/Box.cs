@@ -21,6 +21,9 @@ public class Box : MonoBehaviour
 
     [SerializeField] private GameObject starPrefab;
     [SerializeField] private GameObject keyPrefab;
+    [SerializeField] private GameObject lockPrefab;
+    [SerializeField] private float lockXrayEmissionIntensity;
+    [SerializeField] private float lockStandardEmissionIntensity;
     [SerializeField] private GameObject inverterPrefab;
     [SerializeField] private GameObject ladderPrefab;
     [SerializeField] private AudioSource BoxOpenSound;
@@ -93,6 +96,13 @@ public class Box : MonoBehaviour
             case Contents.Inverter:
                 Instantiate(inverterPrefab, transform.position, transform.rotation, transform);
                 break;
+        }
+
+        if (lockColor != Key.Colors.Undefined)
+        {
+            XrayDuringPreparation l = Instantiate(lockPrefab, transform.position, transform.rotation, transform)
+                .GetComponent<XrayDuringPreparation>();
+            l.SetMaterialColors(Key.GetColorOfKeyColor(lockColor), lockXrayEmissionIntensity, lockStandardEmissionIntensity);
         }
     }
 
