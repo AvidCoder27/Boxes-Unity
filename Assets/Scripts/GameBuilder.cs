@@ -113,7 +113,7 @@ public class GameBuilder : MonoBehaviour
     private void SpawnColumnSprite(int floor, int column)
     {
         Transform col = Instantiate(columnSprite, preparationMap).transform;
-        col.localPosition = SpritePosition(floor, column, 0, 11);
+        col.localPosition = SpritePosition(floor, column, 0, 16);
     }
 
     private void SpawnBoxSprites(Level level, int floor, int column, int row)
@@ -121,7 +121,7 @@ public class GameBuilder : MonoBehaviour
         BoxStruct box = level.Floors[floor][column][row];
         Transform boxTransform = Instantiate(box.IsOpen ? boxOpenedSprite : boxClosedSprite,
             preparationMap, false).transform;
-        boxTransform.localPosition = SpritePosition(floor, column, row, 10);
+        boxTransform.localPosition = SpritePosition(floor, column, row, 15);
 
         GameObject contentsPrefab = box.Contents switch
         {
@@ -136,24 +136,28 @@ public class GameBuilder : MonoBehaviour
         if (contentsPrefab != null)
         {
             GameObject contents = Instantiate(contentsPrefab, boxTransform, false);
-            contents.transform.position += Vector3.back * 1;
 
             if (box.Contents == Box.Contents.Key)
             {
-                contents.GetComponentInChildren<SpriteRenderer>().color = Key.GetColorOfKeyColor(box.KeyColor);
+                SetSpriteToKeyColor(contents, box.KeyColor);
             }
         }
 
         // Spawn lock (if the box has one)
         if (box.LockColor != Key.Colors.Undefined)
         {
-
+            GameObject lockGo = Instantiate(lockSprite, boxTransform, false);
+            SetSpriteToKeyColor(lockGo, box.LockColor);
         }
-
     }
 
     private static Vector3 SpritePosition(float floor, float column, float row, float cameraDistance)
     {
-        return new Vector3(column * 5f, (row * 3.5f) + (floor * -8.5f), cameraDistance);
+        return new Vector3(column * 5f, (row * 3.75f) + (floor * -8.5f), cameraDistance);
+    }
+
+    private static void SetSpriteToKeyColor(GameObject go, Key.Colors color)
+    {
+        go.GetComponentInChildren<SpriteRenderer>().color = Key.GetColorOfKeyColor(color);
     }
 }

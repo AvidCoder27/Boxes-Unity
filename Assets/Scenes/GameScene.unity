@@ -4423,7 +4423,7 @@ MonoBehaviour:
   boxOpenedSprite: {fileID: 4759656135874437416, guid: 1e8f0ce92e7194341b89e2187acb19a4, type: 3}
   starSprite: {fileID: 5352014442374804168, guid: dbeee8100e807f848afdc03147676369, type: 3}
   keySprite: {fileID: 5352014442374804168, guid: 8df1ea63a0bf8e04aaee9e58a69106ea, type: 3}
-  lockSprite: {fileID: 0}
+  lockSprite: {fileID: 5352014442374804168, guid: 0b8a85922612b094f87ed6487179c181, type: 3}
   ladderSprite: {fileID: 4759656135874437416, guid: f9927cb236472054183eed66b705b735, type: 3}
   inverterSprite: {fileID: 5352014442374804168, guid: 439bf645f7cbd084ca58e6ab3f894d4a, type: 3}
   columnSprite: {fileID: 1185309359952133714, guid: 14a2f689334068747b8f5deac1c01ffd, type: 3}
