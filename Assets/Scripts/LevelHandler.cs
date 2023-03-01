@@ -104,6 +104,36 @@ public class LevelHandler : MonoBehaviour
                         MakeCol(false, true)
                     }
                 }
+            ),new Level(
+                new List<List<BoxStruct[]>>()
+                {
+                    new List<BoxStruct[]>()
+                    {
+                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Green, Key.Colors.Undefined), new BoxStruct(true)),
+                        MakeCol(new BoxStruct(false, Box.Contents.Key, Key.Colors.Red, Key.Colors.Undefined), new BoxStruct(true)),
+                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.None),
+                        MakeCol(false, Box.Contents.Star, true, Box.Contents.Star),
+                        MakeCol(true, false),
+                        MakeCol(false, false),
+                        MakeCol(true, false),
+                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Gold, Key.Colors.Undefined), new BoxStruct(true)),
+                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined), new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined)),
+                        MakeCol(true, false),
+                    },
+                    new List<BoxStruct[]>
+                    {
+                        MakeCol(true, false),
+                        MakeCol(false, true),
+                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.Inverter),
+                        MakeCol(false, Box.Contents.None, true, Box.Contents.Star),
+                        MakeCol(new BoxStruct(true), new BoxStruct(false, Box.Contents.Star, Key.Colors.Undefined, Key.Colors.Red)),
+                        MakeCol(false, false),
+                        MakeCol(true, false),
+                        MakeCol(false, true),
+                        MakeCol(false, false),
+                        MakeCol(false, false),
+                    }
+                }
             ),
             new Level(
                 new List<List<BoxStruct[]>>()

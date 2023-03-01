@@ -89,8 +89,8 @@ public class GameBuilder : MonoBehaviour
     private void GenerateLevel()
     {
         Level level = levelHandler.GetCurrentLevel();
-        prepMapCamera.localPosition = SpritePosition(
-            (level.NumberOfFloors - 1) / 2, (level.NumberOfColumns - 1) / 2, 0.5f, 0);
+        SpawnViewingHole(level.NumberOfFloors, viewingHoleBottomPrefab);
+        PositionMapCamera(level);
 
         for (int floor = 0; floor < level.NumberOfFloors; floor++)
         {
@@ -107,7 +107,16 @@ public class GameBuilder : MonoBehaviour
                 }
             }
         }
-        SpawnViewingHole(level.NumberOfFloors, viewingHoleBottomPrefab);
+    }
+
+    private void PositionMapCamera(Level level)
+    {
+        prepMapCamera.localPosition = SpritePosition(
+            (level.NumberOfFloors - 1.5f) / 2, (level.NumberOfColumns - 1f) / 2, 0, 0);
+
+        float widthSize = level.NumberOfColumns * 1.25f - 0.25f;
+        float heightSize = level.NumberOfFloors * 4.25f - 0.25f;
+        prepMapCamera.GetComponent<Camera>().orthographicSize = Mathf.Max(widthSize, heightSize);
     }
 
     private void SpawnColumnSprite(int floor, int column)
