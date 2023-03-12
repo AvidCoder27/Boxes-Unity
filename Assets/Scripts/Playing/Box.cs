@@ -230,4 +230,22 @@ public class Box : MonoBehaviour
     {
         Debug.Log("finished key animation");
     }
+
+    public static Contents ContentsFromString(string str) => str switch
+    {
+        "star" => Contents.Star,
+        "key" => Contents.Key,
+        "ladder" => Contents.Ladder,
+        "inverter" => Contents.Inverter,
+        _ => Contents.None
+    };
+
+    public static Key.Colors ColorFromString(string str) => str switch
+    {
+        "red" => Key.Colors.Red,
+        "green" => Key.Colors.Green,
+        "purple" => Key.Colors.Purple,
+        "gold" => Key.Colors.Gold,
+        _ => Key.Colors.Undefined
+    };
 }

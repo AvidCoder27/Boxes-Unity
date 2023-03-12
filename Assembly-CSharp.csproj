@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\Playing\Star.cs" />
     <Compile Include="Assets\Scripts\Playing\BoxStruct.cs" />
     <Compile Include="Assets\Scripts\Actions.cs" />
+    <Compile Include="Assets\Scripts\Preparation\SerialLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

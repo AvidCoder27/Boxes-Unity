@@ -1,0 +1,32 @@
+{
+    "columns": 6,
+    "floors": 1,
+    "boxes":[
+        {"floor": [
+            {
+                "top": {"open": true},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": true},
+                "bottom": {"open": false, "contents": "star"}
+            },
+            {
+                "top": {"open": true},
+                "bottom": {"open": false}
+        },
+            {
+                "top": {"open": true},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": false},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": false},
+                "bottom": {"open": false}
+            }
+        ]}
+    ]
+}

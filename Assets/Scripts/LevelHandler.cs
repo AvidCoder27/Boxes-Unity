@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelHandler : MonoBehaviour
 {
-    private List<Level> levels;
+    private Level currentLevel;
     [SerializeField] private int currentLevelIndex;
     [SerializeField] private int maxLevel;
     private static LevelHandler Instance;
@@ -21,11 +22,12 @@ public class LevelHandler : MonoBehaviour
             Destroy(gameObject); // On reload, singleton already set, so destroy duplicate.
         }
 
-        CreateLevelsList();
+        SceneManager.sceneLoaded += (Scene _, LoadSceneMode _) => LoadCurrentLevel();
+        //LoadCurrentLevel();
     }
 
     public static LevelHandler GetInstance() => Instance;
-    public Level GetCurrentLevel() => levels[currentLevelIndex];
+    public Level GetCurrentLevel() => currentLevel;
     private void OnEnable() => Actions.OnNextLevel += HandleNextLevel;
     private void OnDisable() => Actions.OnNextLevel -= HandleNextLevel;
 
@@ -50,147 +52,11 @@ public class LevelHandler : MonoBehaviour
         }
     }
 
-    private void CreateLevelsList()
+    private void LoadCurrentLevel()
     {
-        levels = new List<Level>
-        {
-            new Level(
-                new List<List<BoxStruct[]>>()
-                {
-                    new List<BoxStruct[]>()
-                    {
-                        MakeCol(false, false),
-                        MakeCol(false, Box.Contents.None, false, Box.Contents.Star),
-                        MakeCol(true, true),
-                        MakeCol(false, true),
-                        MakeCol(true, false),
-                    }
-                }
-            ),
-            new Level(
-                new List<List<BoxStruct[]>>()
-                {
-                    new List<BoxStruct[]>()
-                    {
-                        MakeCol(true, false),
-                        MakeCol(false, true),
-                        MakeCol(false, Box.Contents.Star, false, Box.Contents.None),
-                        MakeCol(false, true),
-                        MakeCol(true, false),
-                        MakeCol(false, false),
-                        MakeCol(true, false),
-                        MakeCol(false, true),
-                        MakeCol(false, false),
-                    }
-                }
-            ),
-            new Level(
-                new List<List<BoxStruct[]>>()
-                {
-                    new List<BoxStruct[]>()
-                    {
-                        MakeCol(false, false),
-                        MakeCol(false, Box.Contents.None, false, Box.Contents.Star),
-                        MakeCol(true, true),
-                        MakeCol(false, true),
-                        MakeCol(true, Box.Contents.Ladder, true, Box.Contents.None),
-                    },
-                    new List<BoxStruct[]>
-                    {
-                        MakeCol(true, true),
-                        MakeCol(false, true),
-                        MakeCol(false, false),
-                        MakeCol(true, false),
-                        MakeCol(false, true)
-                    }
-                }
-            ),new Level(
-                new List<List<BoxStruct[]>>()
-                {
-                    new List<BoxStruct[]>()
-                    {
-                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Green, Key.Colors.Undefined), new BoxStruct(true)),
-                        MakeCol(new BoxStruct(false, Box.Contents.Key, Key.Colors.Red, Key.Colors.Undefined), new BoxStruct(true)),
-                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.None),
-                        MakeCol(false, Box.Contents.Star, true, Box.Contents.Star),
-                        MakeCol(true, false),
-                        MakeCol(false, false),
-                        MakeCol(true, false),
-                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Gold, Key.Colors.Undefined), new BoxStruct(true)),
-                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined), new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined)),
-                        MakeCol(true, false),
-                    },
-                    new List<BoxStruct[]>
-                    {
-                        MakeCol(true, false),
-                        MakeCol(false, true),
-                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.Inverter),
-                        MakeCol(false, Box.Contents.None, true, Box.Contents.Star),
-                        MakeCol(new BoxStruct(true), new BoxStruct(false, Box.Contents.Star, Key.Colors.Undefined, Key.Colors.Red)),
-                        MakeCol(false, false),
-                        MakeCol(true, false),
-                        MakeCol(false, true),
-                        MakeCol(false, false),
-                        MakeCol(false, false),
-                    }
-                }
-            ),
-            new Level(
-                new List<List<BoxStruct[]>>()
-                {
-                    new List<BoxStruct[]>()
-                    {
-                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Green, Key.Colors.Undefined), new BoxStruct(true)),
-                        MakeCol(new BoxStruct(false, Box.Contents.Key, Key.Colors.Red, Key.Colors.Undefined), new BoxStruct(true)),
-                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.None),
-                        MakeCol(false, Box.Contents.Star, true, Box.Contents.Star),
-                        MakeCol(true, false),
-                        MakeCol(false, false),
-                        MakeCol(true, false),
-                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Gold, Key.Colors.Undefined), new BoxStruct(true)),
-                        MakeCol(new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined), new BoxStruct(true, Box.Contents.Key, Key.Colors.Purple, Key.Colors.Undefined)),
-                    },
-                    new List<BoxStruct[]>
-                    {
-                        MakeCol(true, false),
-                        MakeCol(false, true),
-                        MakeCol(false, Box.Contents.Ladder, false, Box.Contents.Inverter),
-                        MakeCol(false, Box.Contents.None, true, Box.Contents.Star),
-                        MakeCol(new BoxStruct(true), new BoxStruct(false, Box.Contents.Star, Key.Colors.Undefined, Key.Colors.Red)),
-                        MakeCol(false, false),
-                        MakeCol(true, false),
-                        MakeCol(false, true),
-                        MakeCol(false, false)
-                    },
-                    new List<BoxStruct[]>
-                    {
-                        MakeCol(true, true),
-                        MakeCol(true, true),
-                        MakeCol(true, true),
-                        MakeCol(true, true),
-                        MakeCol(true, true),
-                        MakeCol(true, true),
-                        MakeCol(true, true),
-                        MakeCol(true, false),
-                        MakeCol(true, false),
-                    }
-                }
-            ),
-        };
-    }
-
-    private BoxStruct[] MakeCol(bool bottomOpen, Box.Contents bottomContents, bool topOpen, Box.Contents topContents)
-    {
-        return MakeCol(new BoxStruct(bottomOpen, bottomContents), new BoxStruct(topOpen, topContents));
-    }
-
-    private BoxStruct[] MakeCol(bool bottomOpen, bool topOpen)
-    {
-        return MakeCol(new BoxStruct(bottomOpen), new BoxStruct(topOpen));
-    }
-
-    private BoxStruct[] MakeCol(BoxStruct bottom, BoxStruct top)
-    {
-        return new BoxStruct[] { bottom, top };
+        string path = "Assets/Levels/level_" + (currentLevelIndex + 1).ToString() + ".json";
+        string jsonString = File.ReadAllText(path);
+        SerialLevel serialLevel = JsonUtility.FromJson<SerialLevel>(jsonString);
+        currentLevel = serialLevel.GetLevel();
     }
 }

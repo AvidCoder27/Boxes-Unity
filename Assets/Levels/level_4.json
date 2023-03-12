@@ -1,0 +1,36 @@
+{
+    "columns": 7,
+    "floors": 1,
+    "boxes":[
+        {"floor": [
+            {
+                "top": {"open": false},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": true},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": false},
+                "bottom": {"open": false}
+        },
+            {
+                "top": {"open": false, "contents": "star"},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": false},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": true},
+                "bottom": {"open": false}
+            },
+            {
+                "top": {"open": false},
+                "bottom": {"open": false}
+            }
+        ]}
+    ]
+}
