@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Playing\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\GameBuilder.cs" />
     <Compile Include="Assets\Shaders\XrayDuringPreparation.cs" />
+    <Compile Include="Assets\Scripts\Preparation\SerialLevel.cs" />
     <Compile Include="Assets\Scripts\Playing\PlayingLadder.cs" />
     <Compile Include="Assets\Scripts\Playing\Level.cs" />
     <Compile Include="Assets\Scripts\LevelHandler.cs" />
@@ -81,7 +82,6 @@
     <Compile Include="Assets\Scripts\Playing\Star.cs" />
     <Compile Include="Assets\Scripts\Playing\BoxStruct.cs" />
     <Compile Include="Assets\Scripts\Actions.cs" />
-    <Compile Include="Assets\Scripts\Preparation\SerialLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
