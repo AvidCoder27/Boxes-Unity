@@ -120,7 +120,10 @@ public class Box : MonoBehaviour
 
     private void InvertIsOpen()
     {
-        SetOpen(!open);
+        if (lockColor == Key.Colors.Undefined)
+        {
+            SetOpen(!open);
+        }
     }
 
     private void TryInteract(int3 attemptedBoxIndex)
