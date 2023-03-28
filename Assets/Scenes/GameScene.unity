@@ -290,8 +290,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1478174467}
-        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+      - m_Target: {fileID: 2144735683}
+        m_TargetAssemblyTypeName: SettingsHandler, Assembly-CSharp
         m_MethodName: SetSoundVolume
         m_Mode: 0
         m_Arguments:
@@ -6365,8 +6365,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1478174467}
-        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+      - m_Target: {fileID: 2144735683}
+        m_TargetAssemblyTypeName: SettingsHandler, Assembly-CSharp
         m_MethodName: SetMasterVolume
         m_Mode: 0
         m_Arguments:
@@ -8846,8 +8846,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1478174467}
-        m_TargetAssemblyTypeName: AudioHandler, Assembly-CSharp
+      - m_Target: {fileID: 2144735683}
+        m_TargetAssemblyTypeName: SettingsHandler, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 0
         m_Arguments:
@@ -9751,8 +9751,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2144735681}
   - component: {fileID: 2144735682}
+  - component: {fileID: 2144735683}
   m_Layer: 0
-  m_Name: Level Handler
+  m_Name: Level & Settings Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9787,6 +9788,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevelIndex: 0
   maxLevel: 14
+--- !u!114 &2144735683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144735680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9601696016fd34a869a095ae3069d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiMasterVolume: {fileID: 1389229502}
+  _uiMusicVolume: {fileID: 1945381639}
+  _uiSoundVolume: {fileID: 83285694}
 --- !u!1001 &1484482250974425474
 PrefabInstance:
   m_ObjectHideFlags: 0

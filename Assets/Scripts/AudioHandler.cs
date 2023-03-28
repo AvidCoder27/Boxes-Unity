@@ -31,6 +31,10 @@ public class AudioHandler : MonoBehaviour
 
     private void Update()
     {
+        _masterVolume = SettingsHandler.MasterVolume / 20;
+        _musicVolume = SettingsHandler.MusicVolume / 20;
+        _soundVolume = SettingsHandler.SoundVolume / 20;
+
         masterMixer.SetFloat("musicVolume", LinearToDecibal(_musicVolume * _masterVolume));
         masterMixer.SetFloat("soundVolume", LinearToDecibal(_soundVolume * _masterVolume));
     }
@@ -46,31 +50,6 @@ public class AudioHandler : MonoBehaviour
         PlayStageMusic.Play();
         PlayStageMusic.volume = 0;
         StartCoroutine(FadeAudioSource.StartFade(PlayStageMusic, 2, 1));
-    }
-
-    /// <summary>
-    /// Set the master volume
-    /// </summary>
-    /// <param name="volume">volume, from 0-20</param>
-    public void SetMasterVolume(float volume)
-    {
-        _masterVolume = volume / 20;
-    }
-    /// <summary>
-    /// Set the volume for the music
-    /// </summary>
-    /// <param name="volume">volume, from 0-20</param>
-    public void SetMusicVolume(float volume)
-    {
-        _musicVolume = volume / 20;
-    }
-    /// <summary>
-    /// Set the volume for the sound effects
-    /// </summary>
-    /// <param name="volume">volume, from 0-20</param>
-    public void SetSoundVolume(float volume)
-    {
-        _soundVolume = volume / 20;
     }
 
     private float LinearToDecibal(float x)

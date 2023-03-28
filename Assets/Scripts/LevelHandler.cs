@@ -23,7 +23,6 @@ public class LevelHandler : MonoBehaviour
         }
 
         SceneManager.sceneLoaded += (Scene _, LoadSceneMode _) => LoadCurrentLevel();
-        //LoadCurrentLevel();
     }
 
     public static LevelHandler GetInstance() => Instance;

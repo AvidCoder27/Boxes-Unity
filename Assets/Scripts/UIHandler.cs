@@ -113,6 +113,7 @@ public class UIHandler : MonoBehaviour
 
     public void CloseSettings()
     {
+        SettingsHandler.GetInstance().SaveSettings();
         OnCancel = Resume;
         _settingsMenu.SetActive(false);
         _settingsExit.Select();
