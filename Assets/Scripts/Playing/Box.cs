@@ -219,6 +219,24 @@ public class Box : MonoBehaviour
         }
     }
 
+    public bool CanPlayerOpenMe()
+    {
+        // i'm already open
+        if (open) return true;
+
+        bool hasKey = playerMovement.HasKey(lockColor);
+
+        if (allowOpening)
+        {
+            // must have no lock on box, or the player has the key
+            return hasKey;
+        } else
+        {
+            // must have key to box; cannot just open unlocked box
+            return hasKey && lockColor != Key.Colors.Undefined;
+        }
+    }
+
     private void TriggerGameLose()
     {
         Actions.OnGameEnd?.Invoke(Actions.GameEndState.Lose);

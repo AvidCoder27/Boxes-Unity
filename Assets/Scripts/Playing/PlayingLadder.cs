@@ -14,9 +14,13 @@ public class PlayingLadder : Interactable
     private Animator animator;
     private int floorOfTop;
     private int column;
+    private Box containingBox;
 
     private void Awake()
     {
+        // container, Ladder, Box
+        containingBox = transform.parent.parent.parent.GetComponent<Box>();
+
         bottomEntrance = transform.Find("Bottom Entrance");
         topEntrance = transform.Find("Top Entrance");
         animatedParent = transform.Find("Animated Parent");
@@ -63,6 +67,17 @@ public class PlayingLadder : Interactable
 
     public void StartClimbing(Transform player, bool climbingUp)
     {
+        // first, check if player is climbing up because its easiest
+        if (climbingUp)
+        {
+            // if the player can't open the box, then they fail!
+            if (!containingBox.CanPlayerOpenMe())
+            {
+                Debug.Log("I will not let you climb a ladder into a box you cannot open");
+                return;
+            }
+        }
+
         this.player = player;
         if (climbingState == ClimbState.None)
         {
