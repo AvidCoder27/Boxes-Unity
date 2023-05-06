@@ -22,7 +22,18 @@ public class LevelHandler : MonoBehaviour
             Destroy(gameObject); // On reload, singleton already set, so destroy duplicate.
         }
 
+        LoadLevelIndex();
         SceneManager.sceneLoaded += (Scene _, LoadSceneMode _) => LoadCurrentLevel();
+    }
+
+    private void SaveLevelIndex()
+    {
+        PlayerPrefs.SetInt("current_level", currentLevelIndex);
+    }
+
+    private void LoadLevelIndex()
+    {
+        currentLevelIndex = PlayerPrefs.GetInt("current_level", 0);
     }
 
     public static LevelHandler GetInstance() => Instance;
@@ -36,6 +47,7 @@ public class LevelHandler : MonoBehaviour
         {
             case Actions.GameEndState.Win:
                 currentLevelIndex++;
+                SaveLevelIndex();
                 break;
             case Actions.GameEndState.Lose:
                 break;
@@ -47,7 +59,7 @@ public class LevelHandler : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(0); // reload scene now that index is updated
         }
     }
 
