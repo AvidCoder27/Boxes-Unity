@@ -22,7 +22,10 @@ public class LevelHandler : MonoBehaviour
             Destroy(gameObject); // On reload, singleton already set, so destroy duplicate.
         }
 
-        LoadLevelIndex();
+        if (currentLevelIndex == -1)
+        {
+            LoadLevelIndex();
+        }
         SceneManager.sceneLoaded += (Scene _, LoadSceneMode _) => LoadCurrentLevel();
     }
 
