@@ -16,6 +16,9 @@
         <table>
             <tr>
                 <td>
+                    <input type="checkbox" name="allow_opening" id="allow_opening" onclick="generateJSON()" checked="true">
+                    <label for="allow_opening">Does player get boxcutter?</label>
+                    <br>
                     <label for="floors">Floors</label>
                     <input type="number" name="floors" id="floors" min="1" max="15" value="1">
                     <br>
@@ -30,6 +33,41 @@
                 <td>
                     <textarea name="output" id="output" cols="30" rows="10"></textarea>
                 </td>
+            </tr>
+        </table>
+
+        <table class="controls">
+            <tr>
+                <th>Key</th>
+                <th>Tool</th>
+            </tr>
+            <tr>
+                <td>T</td>
+                <td>toggler</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>clear contents</td>
+            </tr>
+            <tr>
+                <td>S</td>
+                <td>star</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>ladder</td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td>inverter</td>
+            </tr>
+            <tr>
+                <td>K</td>
+                <td>key</td>
+            </tr>
+            <tr>
+                <td>L</td>
+                <td>lock</td>
             </tr>
         </table>
     

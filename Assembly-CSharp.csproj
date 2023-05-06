@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\AudioHandler.cs" />
     <Compile Include="Assets\Scripts\AnimatorWatcher.cs" />
     <Compile Include="Assets\Scripts\Playing\Box.cs" />
+    <Compile Include="Assets\Scripts\SettingsHandler.cs" />
     <Compile Include="Assets\Scripts\UIHandler.cs" />
     <Compile Include="Assets\Scripts\Preparation\LadderAccessPoint.cs" />
     <Compile Include="Assets\Scripts\Playing\Collectable.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Assets\Scripts\Playing\Star.cs" />
     <Compile Include="Assets\Scripts\Playing\BoxStruct.cs" />
     <Compile Include="Assets\Scripts\Actions.cs" />
-    <Compile Include="Assets\Scripts\SettingsHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

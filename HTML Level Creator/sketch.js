@@ -26,6 +26,7 @@ const MaxColumns = 31;
 const floorSlider = document.getElementById("floors");
 const columnSlider = document.getElementById("columns");
 const outputArea = document.getElementById("output");
+const allowOpeningCheckbox = document.getElementById("allow_opening");
 const map = [];
 var tool = "toggler";
 
@@ -104,6 +105,7 @@ function generateJSON() {
     const columns = columnSlider.value;
     const floors = floorSlider.value;
     let out = {
+        "allow_opening": allowOpeningCheckbox.checked,
         "columns": int(columns),
         "floors": int(floors),
         "boxes": []

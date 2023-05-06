@@ -75,7 +75,7 @@ public class GameBuilder : MonoBehaviour
 
         Box box = boxGO.GetComponent<Box>();
         box.SetRefs(playingCharacter);
-        box.CopyInAttributes(level.Floors[floor][column][row], new int3(floor, column, row), true);
+        box.CopyInAttributes(level.Floors[floor][column][row], new int3(floor, column, row), level.AllowOpening);
     }
 
     private void SpawnViewingHole(int floor, GameObject prefab)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [Serializable]
 public struct SerialLevel
 {
+    public bool allow_opening;
     public int columns;
     public int floors;
     public List<SerialFloor> boxes;
@@ -24,7 +25,7 @@ public struct SerialLevel
             }
         }
 
-        return new Level(list);
+        return new Level(list, allow_opening);
     }
 }
 

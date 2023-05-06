@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Level
 {
-    private const float PI = Mathf.PI;
     private const float RadiusMultiplier = 3.8f;
     public static readonly float DistanceBetweenFloors = 7f;
 
@@ -14,16 +13,18 @@ public class Level
     public int NumberOfFloors { get; private set; }
     public float Radius { get; private set; }
     public float AngleBetweenColumns { get; private set; }
+    public bool AllowOpening { get; private set; }
 
-    public Level(List<List<BoxStruct[]>> map)
+    public Level(List<List<BoxStruct[]>> map, bool allowOpening)
     {
+        AllowOpening = allowOpening;
         Floors = map;
         NumberOfFloors = map.Count;
         // get the # of columns on the top floor (index 0)
         NumberOfColumns = Floors[0].Count;
 
-        Radius = NumberOfColumns / PI * RadiusMultiplier;
-        AngleBetweenColumns = -2 * PI / NumberOfColumns;
+        Radius = NumberOfColumns / Mathf.PI * RadiusMultiplier;
+        AngleBetweenColumns = -2 * Mathf.PI / NumberOfColumns;
     }
 
     public float2 CalculateCoordinatesForColumn(float column, float distanceFromCircle = 0)

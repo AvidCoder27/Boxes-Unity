@@ -6,3 +6,15 @@ html, body {
 canvas {
   display: block;
 }
+
+.controls {
+    border-radius: 1px;
+    border-style: solid;
+    border-collapse: collapse;
+}
+
+tr, td {
+    border-radius: inherit;
+    border-color: black;
+    border-collapse: inherit;
+}
