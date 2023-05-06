@@ -152,8 +152,6 @@ public class Box : MonoBehaviour
             {
                 if (lockColor != Key.Colors.Undefined)
                 {
-                    // remove lock from box after it is unlocked
-                    lockColor = Key.Colors.Undefined;
                     StartCoroutine(Unlock());
                 }
                 else
@@ -171,8 +169,20 @@ public class Box : MonoBehaviour
         }
         else
         {
-            // unlock the movement if opening is not allowed
-            movementUnlockCallback?.Invoke();
+            // opening is not allowed, but keys override that
+            // so if the box has a lock and the player has the key
+            // then unlock the box
+            // otherwise, it does nothing
+            if (lockColor != Key.Colors.Undefined && playerMovement.HasKey(lockColor))
+            {
+                StartCoroutine(Unlock());
+            }
+            else
+            {
+                // if the player lacks the key
+                // unlock the movement if opening is not allowed
+                movementUnlockCallback?.Invoke();
+            }
         }
     }
 
